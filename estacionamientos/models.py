@@ -4,6 +4,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.forms import ModelForm
 
+class Tarifa(models.Model):
+	tipoTarifa = models.CharField(max_length = 50, blank = True, null = True)
 
 class Estacionamiento(models.Model):
 	# propietario=models.ForeignKey(Propietario)
@@ -20,7 +22,7 @@ class Estacionamiento(models.Model):
 
 	Rif = models.CharField(max_length = 12)
 
-	Tarifa = models.CharField(max_length = 50, blank = True, null = True)
+	Tarifa = models.ForeignKey(Tarifa, default = None)
 	Apertura = models.TimeField(blank = True, null = True)
 	Cierre = models.TimeField(blank = True, null = True)
 	Reservas_Inicio = models.TimeField(blank = True, null = True)

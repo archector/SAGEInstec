@@ -3,6 +3,8 @@
 from django import forms
 from django.core.validators import RegexValidator
 
+class TarifaForm(forms.Form):
+    tipo = forms.CharField(required = True, label = 'Tipo de Tarifa')
 
 class EstacionamientoForm(forms.Form):
 
