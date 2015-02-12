@@ -102,7 +102,8 @@ def reservar(hin, hout, estacionamiento):
 		return 1
 
 
-def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCierre):
+# Modificado el controlador para extender las reservas
+def validarHorarioReserva(ReservaInicio, ReservaFin, DiaInicioReserva, DiaFinalReserva, HorarioApertura, HorarioCierre): 
 
 	if ReservaInicio >= ReservaFin:
 		return (False, 'El horario de apertura debe ser menor al horario de cierre')

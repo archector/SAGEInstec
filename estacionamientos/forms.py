@@ -2,6 +2,7 @@
 
 from django import forms
 from django.core.validators import RegexValidator
+import datetime
 
 
 class EstacionamientoForm(forms.Form):
@@ -63,6 +64,16 @@ class EstacionamientoExtendedForm(forms.Form):
 
     tarifa = forms.CharField(required = True, validators = [tarifa_validator])
 
+
+# Agregando campos de diaInicio y diaFinal para la historia_extension 
 class EstacionamientoReserva(forms.Form):
+    
+#     diaInicio = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
+#                                 label = 'Dia Inicio Reserva')
+#     diaFinal = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
+#                                label = 'Dia Final Reserva')
+    diaInicio = forms.DateField(required = True)
+    diaFin = forms.DateField(required = True)
     inicio = forms.TimeField(label = 'Horario Inicio Reserva')
     final = forms.TimeField(label = 'Horario Final Reserva')
+    
