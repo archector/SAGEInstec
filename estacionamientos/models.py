@@ -6,6 +6,8 @@ from django.forms import ModelForm
 
 class Tarifa(models.Model):
 	tipoTarifa = models.CharField(max_length = 50, blank = True, null = True)
+	def __str__(self):			  # __unicode__ on Python 2
+		return self.tipoTarifa
 
 class Estacionamiento(models.Model):
 	# propietario=models.ForeignKey(Propietario)
