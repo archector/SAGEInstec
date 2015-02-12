@@ -4,4 +4,4 @@ from estacionamientos.models import Estacionamiento, ReservasModel, Tarifa
 
 admin.site.register(Estacionamiento,list_display=('Propietario','Nombre','Rif'))
 admin.site.register(Tarifa, list_display=('tipoTarifa',),search_fields=('Tarifa',))
-admin.site.register(ReservasModel)
+admin.site.register(ReservasModel,list_display=('InicioReserva','FinalReserva','Puesto','Estacionamiento'))

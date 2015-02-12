@@ -31,6 +31,8 @@ class Estacionamiento(models.Model):
 	Reservas_Inicio = models.TimeField(blank = True, null = True)
 	Reservas_Cierre = models.TimeField(blank = True, null = True)
 	NroPuesto = models.IntegerField(blank = True, null = True)
+	def __str__(self):			  # __unicode__ on Python 2
+		return self.Nombre
 
 
 # class ExtendedModel(models.Model):
@@ -56,5 +58,3 @@ class ReservasModel(models.Model):
 	Puesto = models.IntegerField()
 	InicioReserva = models.TimeField()
 	FinalReserva = models.TimeField()
-	def __str__(self):			  # __unicode__ on Python 2
-		return self.InicioReserva
