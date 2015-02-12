@@ -27,29 +27,27 @@ class SimpleTest(unittest.TestCase):
 # 					PRUEBAS ALGORITMO DE MARZULLO
 ######################################################################
 
+	'''Prueba Simple'''
 	def testPruebaSimple(self):
-		self.assertTrue(algoritmo_Marzullo((('08:00','12:00'),('11:00','13:00'),('10:00','12:00'))))
-		
-	def testIngresarReservacionEstacionamientoVacio(self):
-		self.assertTrue(algoritmo_Marzullo(([('08:00','12:00')])))
+		self.assertTrue(algoritmo_Marzullo((('08:00','12:00'),('11:00','13:00'),('10:00','12:00')),('10:00','12:00')))
 		
 	'''Prueba dos intervalos con la misma cantidad de puestos reservados'''
 	def testDosIntervalosMismaCantidadDePuestos(self):
-		self.assertTrue(algoritmo_Marzullo((('08:00','9:00'),('08:00','12:00'),('10:00','12:00'))))
+		self.assertTrue(algoritmo_Marzullo((('08:00','9:00'),('08:00','12:00'),('10:00','12:00')),('10:00','12:00')))
 		
 	'''Prueba para Offset iguales y tipe opuestos'''
 	def testOffsetIgualesTypeOpuestos(self):
-		self.assertTrue(algoritmo_Marzullo((('11:00','15:00'),('08:00','15:00'),('9:00','11:00'),('10:00','14:00'),('11:00','14:00'),('09:00','10:00'),('09:00','13:00'),('12:00','15:00'),('08:00','11:00'),('14:00','15:00'))))
-		
-	'''Caso en que se reserva el mismo puesto mas de 10 veces a la misma hora'''
+		self.assertTrue(algoritmo_Marzullo((('11:00','15:00'),('08:00','15:00'),('9:00','11:00'),('10:00','14:00'),('11:00','14:00'),('09:00','10:00'),('09:00','13:00'),('12:00','15:00'),('08:00','11:00'),('14:00','15:00')),('14:00','15:00')))
+
+	'''Caso en que se reserva el mismo puesto mas de 10 veces a la misma hora'''    
 	def testMaximoDeReservasDeUnPuesto(self):
 		n = []
 		i=0
 		while (i <11):
 			n.append(('08:00','09:00'))
-			i=i+1
-		self.assertFalse(algoritmo_Marzullo(n))
-		
+			i=i+1  
+		self.assertFalse(algoritmo_Marzullo(n,('08:00','09:00')))
+	
 	'''Caso Horas reservadas Cruzadas'''
 	def testHorasCruzadas(self):
 		n = []
@@ -64,7 +62,7 @@ class SimpleTest(unittest.TestCase):
 			n.append(('08:00','9:00'))
 			i=i+1    
 		n.append(('06:00','9:00'))
-		self.assertTrue(algoritmo_Marzullo(n))
+		self.assertTrue(algoritmo_Marzullo(n,('08:00','09:00')))
 		
 	'''Caso de llenar el estacionemiento'''    
 	def testEstacionemientoLleno(self):
@@ -73,7 +71,7 @@ class SimpleTest(unittest.TestCase):
 		while (i <10):
 			n.append(('06:00','18:00'))
 			i=i+1    
-		self.assertTrue(algoritmo_Marzullo(n))
+		self.assertTrue(algoritmo_Marzullo(n,('06:00','18:00')))
 		
 	'''Caso de agregar una reservacion con el estacionamiento lleno'''    
 	def testAgregarUnoConEstacionamientoLleno(self):
@@ -83,7 +81,7 @@ class SimpleTest(unittest.TestCase):
 			n.append(('06:00','18:00'))
 			i=i+1
 		n.append(('06:00','18:00'))    
-		self.assertFalse(algoritmo_Marzullo(n))
+		self.assertFalse(algoritmo_Marzullo(n,('06:00','18:00')))
 
 
 
