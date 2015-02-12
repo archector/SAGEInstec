@@ -25,11 +25,14 @@ class Estacionamiento(models.Model):
 	Rif = models.CharField(max_length = 12)
 
 	Tarifa = models.ForeignKey(Tarifa, default = None)
+	monto_tarifa = models.CharField(max_length = 50, blank = True, null = True)
 	Apertura = models.TimeField(blank = True, null = True)
 	Cierre = models.TimeField(blank = True, null = True)
 	Reservas_Inicio = models.TimeField(blank = True, null = True)
 	Reservas_Cierre = models.TimeField(blank = True, null = True)
 	NroPuesto = models.IntegerField(blank = True, null = True)
+	def __str__(self):			  # __unicode__ on Python 2
+		return self.Nombre
 
 
 # class ExtendedModel(models.Model):

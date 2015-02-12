@@ -159,8 +159,12 @@
         <tr><td>{{estacionamiento.Cierre}}</td></tr>
       {% endif %}
  	  {% if estacionamiento.Tarifa %}
-        <tr><td><b><i class="fa fa-money"></i></i> Tarifa:</b></td></tr>
-        <tr><td>{{estacionamiento.Tarifa}} Bsf.</td></tr>
+        <tr><td><b><i class="fa fa-money"></i></i> Esquema Tarifario:</b></td></tr>
+        <tr><td>{{estacionamiento.Tarifa}}</td></tr>
+      {% endif %}
+      {% if estacionamiento.monto_tarifa %}
+        <tr><td><b><i class="fa fa-money"></i></i> A pagar por hora:</b></td></tr>
+        <tr><td>{{estacionamiento.monto_tarifa}} Bsf.</td></tr>
       {% endif %}
       
       
@@ -192,7 +196,7 @@
 				
 				<SELECT NAME="tarifa" SELECTED>Tarifa
 				    <OPTION VALUE="minutos">Minutos
-				    <OPTION VALUE="hora">Horas
+				    <OPTION VALUE="horas">Horas
 				
 				</SELECT>
 				
