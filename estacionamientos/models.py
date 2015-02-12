@@ -22,7 +22,7 @@ class Estacionamiento(models.Model):
 
 	Rif = models.CharField(max_length = 12)
 
-	Tarifa = models.ForeignKey(Tarifa, default = None)
+	Tarifa = models.ForeignKey(Tarifa, default = None, blank= True, null = True)
 	Apertura = models.TimeField(blank = True, null = True)
 	Cierre = models.TimeField(blank = True, null = True)
 	Reservas_Inicio = models.TimeField(blank = True, null = True)
