@@ -1,5 +1,6 @@
 # Archivo con funciones de control para SAGE
 import datetime
+from math import ceil
 
 # Las Tuplas de cada puesto deben tener los horarios de inicio y de cierre para que
 # pueda funcionar [(7:00,7:00), (19:00,19:00)]
@@ -113,4 +114,29 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	if ReservaInicio < HorarioApertura:
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
 	return (True, '')
+
+def esquemaTarifario1(hin,hout,tarifa):
+	
+	horas_a_pagar = hout - hin                           
+	horas_a_pagar = horas_a_pagar.seconds/3600
+	horas_a_pagar = ceil(horas_a_pagar) 
+	cobro = 0 
+	while horas_a_pagar >  0:        
+		cobro = cobro + tarifa
+		horas_a_pagar = horas_a_pagar -1
+		return cobro
+
+def esquemaTarifario2(hin,hout,tarifa):
+	
+	horas_a_pagar = hout - hin 
+	print(horas_a_pagar)                    
+	horas_a_pagar = horas_a_pagar.seconds/60
+	print(horas_a_pagar) 
+	print (horas_a_pagar)
+	cobro = 0
+	while horas_a_pagar >  0:
+		cobro = cobro + tarifa/60
+		horas_a_pagar = horas_a_pagar -1
+	return cobro
+
 

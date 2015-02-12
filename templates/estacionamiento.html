@@ -164,6 +164,7 @@
       {% endif %}
       
       
+      
         </tbody>
       </table>
     </div><div class="col-md-4">
@@ -186,12 +187,25 @@
               <form action="." method="post" class="form form-vertical">
               {% csrf_token %}
               {% for field in form %}
-                <div class="control-group">
+              {%if field.name = 'tarifa'%}
+              <h>Seleccione Esquema Tarifario</h>
+				
+				<SELECT NAME="tarifa" SELECTED>Tarifa
+				    <OPTION VALUE="minutos">Minutos
+				    <OPTION VALUE="hora">Horas
+				
+				</SELECT>
+				
+              
+              {%else%}
+              	  <div class="control-group">
                   <div class="controls">
                     <input type="text" class="form-control" name="{{field.name}}" placeholder="{{field.label}}" for="id_{{field.name}}"><p>
                     {{ field.errors }}
                   </div>
                 </div> 
+              {%endif%}
+
               {% endfor %}
                 
                 <div class="control-group">
