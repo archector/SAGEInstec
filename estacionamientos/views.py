@@ -152,8 +152,11 @@ def estacionamiento_reserva(request, _id):
                         cobro = esquemaTarifario1(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
                     elif estacion.Tarifa.tipoTarifa == 'minutos':
                         cobro = esquemaTarifario2(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
-                    return render(request, 'templateMensaje.html', {'color':'green', 'mensaje':'Se realizo la reserva exitosamente. Tendra que pagar: %s'%(cobro)})
+                    form = EstacionamientoReserva()
+                    return render(request, 'templateMensaje.html', {'color':'green', 'mensaje':'Se realizo la reserva exitosamente','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre})
                 else:
+                    
+                    
                     return render(request, 'templateMensaje.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario'})
     else:
         form = EstacionamientoReserva()
