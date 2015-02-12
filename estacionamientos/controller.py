@@ -141,26 +141,28 @@ def esquemaTarifario2(hin,hout,tarifa):
 	return cobro
 
 '''Algoritmo de Marzullo'''    
-def algoritmo_Marzullo(intervalos):
+def algoritmo_Marzullo(intervalos,horaReserva):
 	tabla = []
-	
+	ini2 =datetime.datetime.strptime(horaReserva[0], '%H:%M').hour
+	fin2 =datetime.datetime.strptime(horaReserva[1], '%H:%M').hour
+
 	for ini,fin in intervalos:
 		ini =datetime.datetime.strptime(ini, '%H:%M').hour
 		fin =datetime.datetime.strptime(fin, '%H:%M').hour 
-		tabla.append((ini,-1))
-		tabla.append((fin,+1))
+		if (ini < fin2 and fin > ini2):
+			tabla.append((ini,-1))
+			tabla.append((fin,+1))
 		
 	def comparar(x, y):
 		comp = (x[0]>y[0]) - (x[0]<y[0])
 		if comp == 0:
 			comp = -((x[1]>y[1]) - (x[1]<y[1])) # regla para el mismo offset y type opuesto
-			return comp
+		return comp
 	tabla.sort(key = functools.cmp_to_key(comparar))
 		
 	best = 0
 	cnt = 0
 	for i in range(len(tabla) - 1):
-		print(tabla)
 		cnt = cnt - tabla[i][1]
 		if best < cnt:
 			best = cnt
@@ -168,5 +170,4 @@ def algoritmo_Marzullo(intervalos):
 			bestend   = tabla[i+1][0]
 	beststart = datetime.time(beststart)
 	bestend = datetime.time(bestend)
-
 	return ( best <= 10)
