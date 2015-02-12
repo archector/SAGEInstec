@@ -2,9 +2,10 @@
 
 from django import forms
 from django.core.validators import RegexValidator
+from estacionamientos.models import Tarifa
 
-"""class TarifaForm(forms.Form):
-    tipo = forms.CharField(required = True, label = 'Tipo de Tarifa')"""
+class TarifaForm(forms.Form):
+    tipo = forms.CharField(required = True, label = 'Tipo de Tarifa')
 
 class EstacionamientoForm(forms.Form):
 
@@ -42,12 +43,14 @@ class EstacionamientoForm(forms.Form):
                     validators = [
                           RegexValidator(
                                 regex = '^[JVD]-?\d{8}-?\d$',
-                                message = 'Introduzca un RIF con un formato válido.'
+                                message = 'Introduzca un RIF con un formato válido. (J/V/D)-XXXXXXXX-X'
                         )
                     ]
                 )
 
 class EstacionamientoExtendedForm(forms.Form):
+    
+    
 
 
     puestos = forms.IntegerField(min_value = 0, label = 'Número de Puestos')
@@ -63,7 +66,10 @@ class EstacionamientoExtendedForm(forms.Form):
     horario_reserin = forms.TimeField(required = True, label = 'Horario Inicio Reserva')
     horario_reserout = forms.TimeField(required = True, label = 'Horario Fin Reserva')
 
-    tarifa = forms.CharField(required = True, validators = [tarifa_validator])
+    tarifa = forms.ModelChoiceField(widget=forms.Select(attrs={'size':'13', 'onchange':'this.form.action=this.form.submit()'}),queryset=Tarifa.objects.all())
+    
+    papa = forms.Select()
+    
 
 class EstacionamientoReserva(forms.Form):
     inicio = forms.TimeField(label = 'Horario Inicio Reserva')
