@@ -116,23 +116,27 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	return (True, '')
 
 def esquemaTarifario1(hin,hout,tarifa):
-	horain = hin.hour + hin.minute/60
-	horaout = hout.hour + hout.minute/60
-	horas_a_pagar= horaout - horain
-	horas_a_pagar = ceil(horas_a_pagar)
-	cobro = 0
-	while horas_a_pagar> 0:
+	
+	horas_a_pagar = hout - hin                           
+	horas_a_pagar = horas_a_pagar.seconds/3600
+	horas_a_pagar = ceil(horas_a_pagar) 
+	cobro = 0 
+	while horas_a_pagar >  0:        
 		cobro = cobro + tarifa
-		horas_a_pagar = horas_a_pagar - 1
-	return cobro
+		horas_a_pagar = horas_a_pagar -1
+		return cobro
+
 def esquemaTarifario2(hin,hout,tarifa):
-	horain = hin.hour*60 + hin.minute
-	horaout = hout.hour*60 + hout.minute
-	horas_a_pagar= horaout - horain
+	
+	horas_a_pagar = hout - hin 
+	print(horas_a_pagar)                    
+	horas_a_pagar = horas_a_pagar.seconds/60
+	print(horas_a_pagar) 
+	print (horas_a_pagar)
 	cobro = 0
-	while horas_a_pagar> 0:
+	while horas_a_pagar >  0:
 		cobro = cobro + tarifa/60
-		horas_a_pagar = horas_a_pagar - 1
+		horas_a_pagar = horas_a_pagar -1
 	return cobro
 
 

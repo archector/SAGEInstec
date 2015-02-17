@@ -163,7 +163,7 @@
         <tr><td>{{estacionamiento.Tarifa}}</td></tr>
       {% endif %}
       {% if estacionamiento.monto_tarifa %}
-        <tr><td><b><i class="fa fa-dollar"></i></i> A pagar por hora:</b></td></tr>
+        <tr><td><b><i class="fa fa-money"></i></i> A pagar por hora:</b></td></tr>
         <tr><td>{{estacionamiento.monto_tarifa}} Bsf.</td></tr>
       {% endif %}
       
@@ -192,18 +192,16 @@
               {% csrf_token %}
               {% for field in form %}
               {%if field.name = 'tarifa'%}
-              <hr>
-              <h4>Esquema Tarifario</h4>
+              <h>Seleccione Esquema Tarifario</h>
 				
-				<SELECT size="1" NAME="tarifa" style="width: 222px; height:35px" >Tarifa
-				    <OPTION VALUE="none" SELECTED>------
+				<SELECT NAME="tarifa" SELECTED>Tarifa
 				    <OPTION VALUE="minutos">Minutos
 				    <OPTION VALUE="horas">Horas
-				</SELECT><br>
-			
+				
+				</SELECT>
+				
               
               {%else%}
-              <br>
               	  <div class="control-group">
                   <div class="controls">
                     <input type="text" class="form-control" name="{{field.name}}" placeholder="{{field.label}}" for="id_{{field.name}}"><p>
@@ -218,7 +216,7 @@
                   <label>
                   </label>
                   <div class="controls">
-                    <button type="submit" class="btn btn-primary" style="width: 222px; height:35px">
+                    <button type="submit" class="btn btn-primary">
                       Parametrizar Estacionamiento
                     </button>
                   </div>
