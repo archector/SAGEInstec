@@ -68,12 +68,12 @@ class EstacionamientoExtendedForm(forms.Form):
 # Agregando campos de diaInicio y diaFinal para la historia_extension 
 class EstacionamientoReserva(forms.Form):
     
-#     diaInicio = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
-#                                 label = 'Dia Inicio Reserva')
-#     diaFinal = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
-#                                label = 'Dia Final Reserva')
-    diaInicio = forms.DateField(required = True)
-    diaFin = forms.DateField(required = True)
+     diaInicio = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
+                                 label = 'Dia Inicio Reserva')
+     diaFinal = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
+                                label = 'Dia Final Reserva')
+#     diaInicio = forms.DateField(initial=datetime.date.today, required = True)
+#     diaFin = forms.DateField(initial=datetime.date.today ,required = True)
     inicio = forms.TimeField(label = 'Horario Inicio Reserva')
     final = forms.TimeField(label = 'Horario Final Reserva')
     
