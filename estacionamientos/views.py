@@ -2,7 +2,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
-
+from django.shortcuts import redirect
 from estacionamientos.controller import *
 from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
 from estacionamientos.forms import EstacionamientoForm
@@ -162,4 +162,8 @@ def estacionamiento_reserva(request, _id):
         form = EstacionamientoReserva()
 
     return render(request, 'estacionamientoReserva.html', {'form': form, 'estacionamiento': estacion})
+
+# Redirecciona los request de / a /estacionamientos
+def index(request):
+    return redirect('/estacionamientos')
 
