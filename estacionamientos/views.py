@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.shortcuts import redirect
 from estacionamientos.controller import *
-from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
+from estacionamientos.forms import EstacionamientoExtendedForm
 from estacionamientos.forms import EstacionamientoForm
 from estacionamientos.forms import EstacionamientoReserva
 from estacionamientos.models import Estacionamiento, ReservasModel
@@ -148,15 +148,8 @@ def estacionamiento_reserva(request, _id):
                                         FinalReserva = final_reserva
                                     )
                     reservaFinal.save()
-                    if estacion.Tarifa.tipoTarifa == 'horas':
-                        cobro = esquemaTarifario1(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
-                    elif estacion.Tarifa.tipoTarifa == 'minutos':
-                        cobro = esquemaTarifario2(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
-                    form = EstacionamientoReserva()
-                    return render(request, 'templateMensaje.html', {'color':'green', 'mensaje':'Se realizo la reserva exitosamente','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre})
+                    return render(request, 'templateMensaje.html', {'color':'green', 'mensaje':'Se realizo la reserva exitosamente'})
                 else:
-                    
-                    
                     return render(request, 'templateMensaje.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario'})
     else:
         form = EstacionamientoReserva()
