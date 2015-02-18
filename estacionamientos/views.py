@@ -8,6 +8,7 @@ from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
 from estacionamientos.forms import EstacionamientoForm
 from estacionamientos.forms import EstacionamientoReserva
 from estacionamientos.models import Estacionamiento, ReservasModel
+from django.core.context_processors import request
 
 
 listaReserva = []
@@ -134,32 +135,57 @@ def estacionamiento_reserva(request, _id):
 
                 # Si no es valido devolvemos el request
                 if not m_validado[0]:
-                    return render(request, 'templateMensaje.html', {'color':'red', 'mensaje': m_validado[1]})
+                    return render(request, 'pagos.html', {'color':'red', 'mensaje': m_validado[1]})
 
                 # Si esta en un rango valido, procedemos a buscar en la lista
                 # el lugar a insertar
                 x = buscar(inicio_reserva, final_reserva, listaReserva)
                 if x[2] == True :
                     reservar(inicio_reserva, final_reserva, listaReserva)
+                    if estacion.Tarifa.tipoTarifa == 'horas':
+                        cobro = esquemaTarifario1(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        cobro=("{:.2f}".format(cobro))
+                    elif estacion.Tarifa.tipoTarifa == 'minutos':
+                        cobro = esquemaTarifario2(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        cobro=("{:.2f}".format(cobro))
                     reservaFinal = ReservasModel(
                                         Estacionamiento = estacion,
                                         Puesto = x[0],
                                         InicioReserva = inicio_reserva,
-                                        FinalReserva = final_reserva
+                                        FinalReserva = final_reserva,
+                                        Costo = cobro
                                     )
                     reservaFinal.save()
-                    if estacion.Tarifa.tipoTarifa == 'horas':
-                        cobro = esquemaTarifario1(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
-                    elif estacion.Tarifa.tipoTarifa == 'minutos':
-                        cobro = esquemaTarifario2(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                    
                     form = EstacionamientoReserva()
-                    return render(request, 'templateMensaje.html', {'color':'green', 'mensaje':'Se realizo la reserva exitosamente','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre})
+                    return render(request, 'pagos.html', {'color':'green', 'mensaje':'Hay disponibilidad en el horario seleccionado','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre,'puesto':reservaFinal.Puesto,'tarifa':estacion.monto_tarifa})
                 else:
                     
                     
-                    return render(request, 'templateMensaje.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario'})
+                    return render(request, 'pagos.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario'})
     else:
         form = EstacionamientoReserva()
 
-    return render(request, 'estacionamientoReserva.html', {'form': form, 'estacionamiento': estacion})
+    return render(request, 'pagos.html', {'form': form, 'estacionamiento': estacion})
 
+def estacionamiento_pagos(request, _id):
+    _id = int(_id)
+    # Verificamos que el objeto exista antes de continuar
+    try:
+        reserv = ReservasModel.objects.latest("id")
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+
+    
+    return render(request, 'pagos.html',{'reserva': reserv})
+
+def eliminar_reserva_view(request, _id):
+    _id = int(_id)
+    
+    try:
+        reserv = ReservasModel.objects.latest("id")
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+    reserv.delete()
+    
+    return render(request, 'eliminandoreserva.html',{'reserva': reserv})

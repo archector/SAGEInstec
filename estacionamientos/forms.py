@@ -73,3 +73,16 @@ class EstacionamientoExtendedForm(forms.Form):
 class EstacionamientoReserva(forms.Form):
     inicio = forms.TimeField(label = 'Horario Inicio Reserva')
     final = forms.TimeField(label = 'Horario Final Reserva')
+
+"""class EstacionamientoPago(forms.Form):
+    codigo_validator = RegexValidator(
+                            regex = '^([0-9]+(\.[0-9]+)?)$',
+                            message = 'Sólo debe contener 3 dígitos.'
+                        )
+    numero_validator = RegexValidator(
+                            regex = '^([0-9]+(\.[0-9]+)?)$',
+                            message = 'Debe contener 16 dígitos.'
+                        )
+    numero_tarjeta = forms.CharField(requiered=True,label = 'Numero de tarjeta',vlidators=[numero_validator])
+    codigo_tarjeta = forms.CharField(required=True,label = 'Codivo validador',validators=[codigo_validator])
+"""
