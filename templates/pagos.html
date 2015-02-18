@@ -1,0 +1,344 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es"><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <meta charset="utf-8">
+    <title>
+      SAGE
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/base.css'%}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/ProgressBar.css'%}" rel="stylesheet">
+    <link href="{% static 'css/pago.css'%}" rel="stylesheet">
+
+   </head>
+   
+   
+
+    <!-- Header -->
+    <body><div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-toggle">
+            </span>
+          </button>
+          <div class="navbar-brand" href="#">
+            SAGE
+          </div>
+        </div>
+        <div class="navbar-collapse collapse">
+
+        </div>
+      </div>
+      <!-- /container -->
+    </div>
+    <!-- /Header -->
+
+    <!-- Main -->
+    <div class="container">
+
+      <!-- upper section -->
+      <div class="row">
+        <div class="col-sm-2">
+          <!-- left -->
+          <h3>
+            <i class="glyphicon glyphicon-briefcase">
+            </i>
+            Menú
+          </h3>
+          <hr>
+          
+          <ul class="nav nav-stacked">
+            <li>
+              <a href=".">
+                <i class="fa fa-bus"></i>
+                Estacionamientos
+              </a>
+               <a href="./reserva">
+	  						<span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a reservas
+					</a>
+            </li>
+          </ul>
+
+ <!--           <ul class="nav nav-stacked">
+            <li>
+              <a href="./hola">
+                <i class="fa fa-bus"></i>
+                blabla
+              </a>
+            </li>
+          </ul> -->
+
+
+          
+          <hr>
+          
+        </div>
+        <!-- /span-3 -->
+<div class="col-sm-10">
+        
+      <!-- column 2 --> 
+       <h3><i class="fa fa-bus"></i> Estacionamientos / Reserva / Pagos</h3>  
+            
+       <hr>
+      
+     <div class="row">
+
+   	 
+   	 <div class="col-md-6">
+   	 	 <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">
+                   <b><h3 class="titulo">Detalles de la reserva</b></h3>		
+              </div>
+            </div>
+            <div class="panel-body">
+          <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered" id="tabla">
+            <thead>
+            	<tr>
+                <th><i class="fa fa-clock-o"></i> Horario de reserva</th>
+                <th></th>
+                
+            	</tr>
+            </thead>
+            <tbody>
+            
+              <tr>
+                
+                <td class="tablaizq">Entrada</td>
+                <td class="tabladerecha">{{ini}}</td>
+                
+              </tr>
+              
+              
+              <tr>
+                
+                <td class="tablaizq">Salida</td>
+                <td class="tabladerecha">{{fin}}</td>
+                
+              </tr>
+ 
+            </tbody>
+          </table>
+ 
+          <table class="table table-bordered" id="tabla">
+            <thead>
+            	<tr>
+                <th><i class="fa fa-car"></i> Datos del Estacionamiento</th>
+                <th></th>
+                
+            	</tr>
+            </thead>
+            <tbody>
+            
+              <tr>
+                
+                <td class="tablaizq">Nombre</td>
+                <td class="tabladerecha">{{nomb}}</td>
+                
+              </tr>
+              
+              
+              <tr>
+                
+                <td class="tablaizq">Puesto asignado</td>
+                <td class="tabladerecha">{{puesto}}</td>
+                
+              </tr>
+ 
+            </tbody>
+          </table>
+ 
+ 
+			<table class="table table-bordered" id="tabla">
+				<thead>
+				<tr>
+				<th><i class="fa fa-money"></i> Detalle de Pago</th>
+				<th></th>
+				
+				</tr>
+				</thead>
+				<tbody>
+				
+				  <tr>
+				
+				<td class="tablaizq">Tarifa por hora</td>
+				<td class="tabladerecha">{{tarifa}} Bs</td>
+				   
+				  </tr> 
+				</tbody>
+			</table>
+			
+			<table class="table table-bordered tablaTotal">
+				<thead>
+				<tr>
+				<th class="tablaizq">TOTAL A PAGAR</th>
+				<th class="tabladerecha">{{monto}} Bs</th>
+				</tr>
+				
+				</thead>
+		
+			</table>
+
+    </div>
+   			 </div> <!--cerrando panel boddy--> 
+   			 
+   		 </div>  <!--cerrando panel completo--> 
+   	
+   	 </div>
+   	 <a href="./eliminandoreserva">
+		  <button type = "reset" class="btn btn-danger cancelar" id="cancel" style="width: 200px; height:35px"><i class="fa fa-remove"></i> Cancelar reserva</button>        
+    	</a>
+           <button class="btn btn-primary" id="prepagar" style="width: 200px; height:35px;" onclick="mostrarPagos()"> Pagar reserva <i class="fa fa-arrow-circle-right"></i></button>
+                    
+</div>
+
+<div class="col-md-6" id="pagos" style="display:none">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">
+                   <b><h3 class="titulo">SAGE Pagos</b></h3>		
+				
+
+              </div>
+            </div>
+            <div class="panel-body">
+            	<div class="control-group">
+            	 <div class="controls">
+			            <table class="table table-striped">
+					        <tbody>
+					         <tr><td><b> Tipo Tarjeta</td></tr>
+					        	<tr><td>
+						        	<form action="" method="POST" onSubmit="return validar();">
+						        	{% csrf_token %}
+										<div class="row">	
+											<div class="col-md-4">							        	
+								        		<input type="radio" name="tarjetas" value="tvista" id="vista" onclick="ocultarError3()"> <img src="{% static 'css/vista.png'%}" width="60%"/>
+								        	</div>
+								        	<div class="col-md-4">							        	
+								        		<input type="radio" name="tarjetas" value="tmister" id="mister" onclick="ocultarError3()"><img src="{% static 'css/mister.png'%}" width="60%"  />
+								        	</div>
+								        	<div class="col-md-4">							        	
+							        			<input type="radio" name="tarjetas" value="txpress" id="xpress" onclick="ocultarError3()"><img src="{% static 'css/xpress.png'%}" width="60%"  />
+							        		</div>
+							        	</div>
+							        	<div class="row">
+							        	 <div class="alert alert-danger error3" id="error3" role="alert" style="display: none"><strong> * Debe elegir un tipo de tarjeta</strong></div>
+						        
+								        	</div>
+					       		 </td></tr>
+					       		 
+					            <tr><td><b><i class="fa fa-credit-card"></i> Numero tarjeta</b></td></tr>
+			            			<tr><td><input type="text" class="form-control" id="cardnumber" style="width:150px" onclick="ocultarError()"><div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca un numero de tarjeta válido</strong>
+     								 </div></td></tr>	     	
+						       			 <tr><td><b><i class="fa fa-key"></i> Código validador </b></td></tr> 
+						      				  <tr><td><input type="text"  id="cvv" class="form-control" style="width: 50px" onclick="ocultarError2()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="20%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
+					 	
+					 </table> <!--cerrando tabla-->     			
+	   			 </div> <!--cerrando panel boddy--> 
+		   	 </div>
+		   	</div>
+   		 </div>  <!--cerrando panel completo--> 
+		 
+		</form>
+
+            <button class="btn btn-success" id="boton_pago" style="width: 200px; height:35px" onclick="validar()">Realizar pago <i class="fa fa-check-circle"> </i></button>
+                    
+     	<div id="progresBarContainer" class="progressBarContainerClass" style= 'display:none';>
+        	<div id="progresBarFill" class="progress-bar progress-bar-striped">Realizando pago
+        	</div>
+    	</div>
+		
+		<h id="mensaje" style="display: none">Listooooooooo</h>
+		<h id="mensaje" style="display: none">Listooooooooo</h>
+			
+   	 </div> <!--cerrando col-med-6 --> 
+</div> <!--cerrando col--> 
+
+        
+
+
+
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js'%}"></script>
+  	<script type="text/javascript" src="{% static 'js/ProgressBar.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/Validator.js'%}"></script>  
+  
+
+	<script type="text/javascript">
+		function mostrar(){
+		document.getElementById('error1').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarBarra(){
+		document.getElementById('progresBarContainer').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarPagos(){
+		document.getElementById('prepagar').style.display = 'none';
+		document.getElementById('pagos').style.display = 'block';
+		document.getElementById('cancel').style.display = 'none';
+		}
+	
+	</script>
+
+
+		
+	<script type="text/javascript">
+		function mostrar2(){
+		document.getElementById('error2').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrar3(){
+		document.getElementById('error3').style.display = 'block';}
+		
+	</script>	
+	
+	<script type="text/javascript">
+		function ocultarError(){
+		document.getElementById('error1').style.display = 'none';}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarError2(){
+		document.getElementById('error2').style.display = 'none';}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarError3(){
+		document.getElementById('error3').style.display = 'none';}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrar_mensaje(){
+		document.getElementById('mensaje').style.display = 'block';}
+	</script>
+	
+	<script type="text/javascript">
+	 function setValue() {
+            
+            var progressBar = new ProgressBar("progresBarContainer", "progresBarFill", 0, 100);
+            var currentValue = 100;
+            var progressWidth = progressBar.GetWidth(currentValue);
+            
+            mostrarBarra();
+            progressBar.fillElement.animate({ width: progressWidth }, 100, null);
+            setTimeout(function(){ mostrar_mensaje(); }, 1000);
+            
+        }
+	</script>
+
+</body>
+</html>
