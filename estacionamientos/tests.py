@@ -23,7 +23,69 @@ class SimpleTest(unittest.TestCase):
 		response = self.client.get('/estacionamientos/')
 		self.assertEqual(response.status_code, 200)
 
-
+###################################################################
+#                    ALGORITMO MARZULLO
+###################################################################
+	'''Caso de agregar una reservacion con el estacionamiento vacio'''    
+	def testAgregarConEstacionamientoVacio(self):
+		n = []    
+		self.assertTrue(algoritmo_Marzullo(n,('06:00','18:00'),10)[0])
+		
+	'''Caso de agregar una reservacion con el estacionamiento lleno'''    
+	def testAgregarUnoConEstacionamientoLleno(self):
+		n = []
+		i=0
+		while (i <10):
+			n.append(('06:00','18:00'))
+			i=i+1   
+		self.assertFalse(algoritmo_Marzullo(n,('06:00','18:00'),10)[0])
+	
+	'''Prueba dos intervalos con la misma cantidad de puestos reservados'''
+	def testDosIntervalosMismaCantidadDePuestos(self):	
+		self.assertTrue(algoritmo_Marzullo((('08:00','9:00'),('08:00','12:00'),('10:00','12:00')),('10:00','12:00'),10)[0]) 
+		
+	'''Caso de llenar el estacionemiento'''    
+	def testEstacionemientoLleno(self):
+		n = []
+		i=0
+		while (i <9):
+			n.append(('06:00','18:00'))
+			i=i+1    
+		self.assertTrue(algoritmo_Marzullo(n,('06:00','18:00'),10)[0])
+		
+	'''Caso Horas reservadas Cruzadas'''
+	def testHorasCruzadas(self):
+		n = []
+		i=0
+		while (i <9):	
+			n.append(('06:00','7:00'))
+			i=i+1 
+		i=0 
+		while (i <9):
+			n.append(('07:00','8:00'))
+			i=i+1
+		i=0
+		while (i <9):
+			n.append(('08:00','9:00'))
+			i=i+1    
+		self.assertTrue(algoritmo_Marzullo(n,('06:00','09:00'),10)[0])
+		
+	'''Caso en que se reserva el mismo puesto mas de 10 veces a la misma hora'''    
+	def testMaximoDeReservasDeUnPuesto(self):
+		n = []
+		i=0
+		while (i <10):
+			n.append(('08:00','09:00'))
+			i=i+1  
+		self.assertFalse(algoritmo_Marzullo(n,('08:00','09:00'),10)[0])
+		
+	'''Prueba para Offset iguales y tipe opuestos'''
+	def testOffsetIgualesTypeOpuestos(self):
+		self.assertTrue(algoritmo_Marzullo((('11:00','15:00'),('08:00','15:00'),('9:00','11:00'),('10:00','14:00'),('11:00','14:00'),('09:00','10:00'),('09:00','13:00'),('12:00','15:00'),('08:00','11:00'),('14:00','15:00')),('14:00','15:00'),10)[0])
+	
+	'''Prueba Simple'''
+	def testPruebaSimple(self):
+		self.assertTrue(algoritmo_Marzullo((('08:00','12:00'),('11:00','13:00'),('10:00','12:00')),('10:00','12:00'),10)[0]) 
 
 ###################################################################
 #                    ESTACIONAMIENTO_ALL FORM
