@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from estacionamientos.controller import *
 from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
@@ -73,6 +73,7 @@ def estacionamiento_detail(request, _id):
                 hora_out = form.cleaned_data['horarioout']
                 reserva_in = form.cleaned_data['horario_reserin']
                 reserva_out = form.cleaned_data['horario_reserout']
+                
 
                 m_validado = HorarioEstacionamiento(hora_in, hora_out, reserva_in, reserva_out)
                 if not m_validado[0]:
@@ -130,8 +131,12 @@ def estacionamiento_reserva(request, _id):
                 inicio_reserva = form.cleaned_data['inicio']
                 final_reserva = form.cleaned_data['final']
 
+                #Agregadas validaciones nuevas al formulario EstacionameintoReserva
+                dia_inicio_reserva = form.cleaned_data['diaInicio']
+                dia_final_reserva = form.cleaned_data['diaFin']
+
                 # Validamos los horarios con los horario de salida y entrada
-                m_validado = validarHorarioReserva(inicio_reserva, final_reserva, estacion.Reservas_Inicio, estacion.Reservas_Cierre)
+                m_validado = validarHorarioReserva(inicio_reserva, final_reserva, dia_inicio_reserva, dia_final_reserva, estacion.Reservas_Inicio,estacion.Reservas_Cierre)
 
                 # Si no es valido devolvemos el request
                 if not m_validado[0]:
@@ -189,3 +194,8 @@ def eliminar_reserva_view(request, _id):
     reserv.delete()
     
     return render(request, 'eliminandoreserva.html',{'reserva': reserv})
+
+
+# Redirecciona los request de / a /estacionamientos
+def index(request):
+    return redirect('/estacionamientos')

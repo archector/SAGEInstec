@@ -58,4 +58,6 @@ class ReservasModel(models.Model):
 	Puesto = models.IntegerField()
 	InicioReserva = models.TimeField()
 	FinalReserva = models.TimeField()
+	DiaInicioReserva = models.DateField(default = None)
+	DiaFinalReserva = models.DateField(default = None)
 	Costo = models.CharField(max_length = 20, default = None, blank=True, null=True)
