@@ -192,9 +192,9 @@
    		 </div>  <!--cerrando panel completo--> 
    	
    	 </div>
-   	 <a href="./">
-		  <button type = "reset" class="btn btn-danger cancelar" id="cancel" style="width: 200px; height:35px"><i class="fa fa-remove"></i> Cancelar reserva</button>        
-    	</a>
+   	 
+		  <button type = "reset" class="btn btn-danger cancelar" id="cancel" style="width: 200px; height:35px" onclick="mostrarAlerta()"><i class="fa fa-remove"></i> Cancelar reserva</button>        
+    
            <button class="btn btn-primary" id="prepagar" style="width: 200px; height:35px;" onclick="mostrarPagos()"> Pagar reserva <i class="fa fa-arrow-circle-right"></i></button>
                     
 </div>
@@ -255,8 +255,8 @@
    	 
 
 </div> <!--cerrando col--> 
-<div class="col-md-8 panel_pago">
- 	<div class="panel panel-default" id="panel_pago" style="display:none">       
+<div class="col-md-8 panel_p">
+ 	<div class="panel panel-success" id="panel_pago" style="display:none">       
  		<div class="panel-heading">
               <div class="panel-title">
                    <b><h3 class="tituloPago">Procesando pago</b></h3>				
@@ -265,7 +265,24 @@
      	<div id="progresBarContainer" class="progressBarContainerClass" style= 'display:block';>
         	<div id="progresBarFill" class="progress-bar progress-bar-striped"></div>
     	</div>
-	    <a href="."><button class="btn btn-success listo" id="mensaje" style="display: none" align="center" onclick="habilitar()">LISTO <i class="fa fa-check-circle"> </i></button></a>
+    	<div id="mensaje" style="display: none">
+    		<h4 align="center">La reserva se ha completado satisfactoriamente</h4>
+	    	<a href="."><button class="btn btn-success listo"  align="center" onclick="habilitar()">LISTO <i class="fa fa-check-circle"> </i></button></a>
+		</div>
+	</div>	       
+</div>
+
+
+<div class="col-md-8 panel_p">
+ 	<div class="panel panel-danger" id="panel_alerta" style="display:none">       
+ 		<div class="panel-heading">
+              <div class="panel-title">
+                   <b><h3 class="tituloPago">Cancelar reserva</b></h3>				
+        	  </div>
+        </div>	
+    		<h4 class="alertmsj"><b>¿Está seguro que desea cancelar su reserva?</h4></b>
+	    	<a href="./"><button class="btn btn-default yes"  align="center">SI</button></a>
+			<button class="btn btn-default no"  align="center" onclick="ocultarAlerta()" >NO</button>
 		
 	</div>	       
 </div>
@@ -346,6 +363,24 @@
 		document.getElementById('mensaje').style.display = 'block';}
 	</script>
 	
+	<script type="text/javascript">
+		function mostrarAlerta(){
+		document.getElementById('panel_alerta').style.display = 'block';
+		document.getElementById('cancel').style.display = 'none';
+		document.getElementById('prepagar').style.display = 'none';
+		}
+		
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarAlerta(){
+		document.getElementById('panel_alerta').style.display = 'none';
+		document.getElementById('cancel').style.display = 'block';
+		document.getElementById('prepagar').style.display = 'block';
+		}
+		
+	</script>
+		
 	<script type="text/javascript">
 	 function setValue() {
             

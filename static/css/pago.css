@@ -5,13 +5,42 @@
    
 }
 
-.panel_pago {
+.panel_p {
   
    position:relative;
    margin-left:50px;   
-   margin-top:-50px;   
+   margin-top:-450px;   
+  
    
 }  
+.alertmsj {
+   color:#A94442;
+   position:relative;
+   margin-left:100px;
+   margin-bottom:20px;  
+   width:480px;   
+   
+}  
+
+
+.yes {
+  
+   position:relative;
+   margin-left:200px;
+   margin-bottom:20px;  
+   width:80px;   
+   
+}  
+
+
+.no {
+   margin-left:20px;
+   position:relative;
+   margin-bottom:20px; 
+   width:80px;   
+   
+}  
+
 
 
 .equis {
@@ -92,7 +121,7 @@
    margin-bottom:15px;
    margin-top:15px;
    margin-left:200px;
-   font-size:14px;  
+   font-size:18px;  
 }
 .tituloPago{
    
