@@ -51,12 +51,18 @@
    
 }  
 
-.cancelar {
+.cancel {
   
    position:relative;
-   margin-left:25px;
-      
+   margin-left:60px;
+}
 
+
+.prepagar {
+  
+   position:relative;
+   margin-left:240px;
+   
 }
 
 .cvv {
@@ -121,7 +127,7 @@
    margin-bottom:15px;
    margin-top:15px;
    margin-left:200px;
-   font-size:14px;  
+   font-size:18px;  
 }
 .tituloPago{
    

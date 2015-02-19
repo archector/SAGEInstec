@@ -51,11 +51,18 @@
    
 }  
 
-.cancelar {
+#cancel {
   
    position:relative;
-   margin-left:25px;
-      
+   margin-left:20px;
+}
+
+
+#prepagar {
+  
+   position:relative;
+   margin-left:240px;
+   margin-top:-57px;
 
 }
 
