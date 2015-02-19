@@ -87,8 +87,8 @@
        <hr>
       
      <div class="row">
-
-   	 
+     
+  
    	 <div class="col-md-6">
    	 	 <div class="panel panel-default">
             <div class="panel-heading">
@@ -192,7 +192,7 @@
    		 </div>  <!--cerrando panel completo--> 
    	
    	 </div>
-   	 <a href="./eliminandoreserva">
+   	 <a href="./">
 		  <button type = "reset" class="btn btn-danger cancelar" id="cancel" style="width: 200px; height:35px"><i class="fa fa-remove"></i> Cancelar reserva</button>        
     	</a>
            <button class="btn btn-primary" id="prepagar" style="width: 200px; height:35px;" onclick="mostrarPagos()"> Pagar reserva <i class="fa fa-arrow-circle-right"></i></button>
@@ -215,7 +215,7 @@
 					        <tbody>
 					         <tr><td><b> Tipo Tarjeta</td></tr>
 					        	<tr><td>
-						        	<form action="" method="POST" onSubmit="return validar();">
+						        	<form action="" id="formulario" method="POST" onSubmit="return validar();">
 						        	{% csrf_token %}
 										<div class="row">	
 											<div class="col-md-4">							        	
@@ -247,24 +247,29 @@
    		 </div>  <!--cerrando panel completo--> 
 		 
 		</form>
-
-            <button class="btn btn-success" id="boton_pago" style="width: 200px; height:35px" onclick="validar()">Realizar pago <i class="fa fa-check-circle"> </i></button>
-                    
-     	<div id="progresBarContainer" class="progressBarContainerClass" style= 'display:none';>
-        	<div id="progresBarFill" class="progress-bar progress-bar-striped">Realizando pago
-        	</div>
-    	</div>
 		
-		<h id="mensaje" style="display: none">Listooooooooo</h>
-		<h id="mensaje" style="display: none">Listooooooooo</h>
-			
+	            <button class="btn btn-warning" id="boton_pago" style="width: 200px; height:35px" onclick="validar()","mostrarPanel()">Realizar pago </button>
+	      
+	
    	 </div> <!--cerrando col-med-6 --> 
+   	 
+
 </div> <!--cerrando col--> 
-
-        
-
-
-
+<div class="col-md-8 panel_pago">
+ 	<div class="panel panel-default" id="panel_pago" style="display:none">       
+ 		<div class="panel-heading">
+              <div class="panel-title">
+                   <b><h3 class="tituloPago">Procesando pago</b></h3>				
+        	  </div>
+        </div>	       
+     	<div id="progresBarContainer" class="progressBarContainerClass" style= 'display:block';>
+        	<div id="progresBarFill" class="progress-bar progress-bar-striped"></div>
+    	</div>
+	    <a href="."><button class="btn btn-success listo" id="mensaje" style="display: none" align="center" onclick="habilitar()">LISTO <i class="fa fa-check-circle"> </i></button></a>
+		
+	</div>	       
+</div>
+	
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js'%}"></script>
   	<script type="text/javascript" src="{% static 'js/ProgressBar.js'%}"></script>
@@ -274,6 +279,12 @@
 	<script type="text/javascript">
 		function mostrar(){
 		document.getElementById('error1').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarPanel(){
+		document.getElementById('panel_pago').style.display = 'block';
 		}
 	</script>
 	
@@ -292,7 +303,16 @@
 	
 	</script>
 
-
+	<script type="text/javascript">
+		function habilitar(){
+			cardnumber.disabled=true;
+            cvv.disabled=true;
+            boton_pago.disabled=true;
+            vista.disabled=true;
+            mister.disabled=true;
+            xpress.disabled=true;
+		}
+	</script>		
 		
 	<script type="text/javascript">
 		function mostrar2(){
@@ -333,7 +353,14 @@
             var currentValue = 100;
             var progressWidth = progressBar.GetWidth(currentValue);
             
+            cardnumber.disabled=true;
+            cvv.disabled=true;
+            boton_pago.disabled=true;
+            vista.disabled=true;
+            mister.disabled=true;
+            xpress.disabled=true;
             mostrarBarra();
+            mostrarPanel();
             progressBar.fillElement.animate({ width: progressWidth }, 100, null);
             setTimeout(function(){ mostrar_mensaje(); }, 1000);
             

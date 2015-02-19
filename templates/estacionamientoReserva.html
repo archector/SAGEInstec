@@ -193,6 +193,15 @@
                   </div>
                 </div> 
               {% endfor %}
+              {% if color = "red" %}
+             
+               <div class="alert alert-danger" id="panerror" role="alert" style="display:block">
+               		<a href="#"><i class="fa fa-remove" style="color: #A94442" onclick="ocultare()"></a></i><br>
+ 					<b>Error:</b>{{mensaje}}
+ 					
+				</div>
+                
+              {% endif %}
                 
                 <div class="control-group">
                   <label>
@@ -232,6 +241,12 @@
 
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+    
+   	<script type="text/javascript">
+		function ocultare(){
+		document.getElementById('panerror').style.display = 'none';
+		}
+	</script>
 
 </body>
 

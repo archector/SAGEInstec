@@ -135,7 +135,7 @@ def estacionamiento_reserva(request, _id):
 
                 # Si no es valido devolvemos el request
                 if not m_validado[0]:
-                    return render(request, 'pagos.html', {'color':'red', 'mensaje': m_validado[1]})
+                    return render(request, 'estacionamientoReserva.html', {'form': form, 'estacionamiento': estacion,'color':'red', 'mensaje': m_validado[1]})
 
                 # Si esta en un rango valido, procedemos a buscar en la lista
                 # el lugar a insertar
@@ -159,14 +159,12 @@ def estacionamiento_reserva(request, _id):
                     
                     form = EstacionamientoReserva()
                     return render(request, 'pagos.html', {'color':'green', 'mensaje':'Hay disponibilidad en el horario seleccionado','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre,'puesto':reservaFinal.Puesto,'tarifa':estacion.monto_tarifa})
-                else:
-                    
-                    
-                    return render(request, 'pagos.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario'})
+                else:             
+                    return render(request, 'estacionamientoReserva.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario'})
     else:
         form = EstacionamientoReserva()
 
-    return render(request, 'pagos.html', {'form': form, 'estacionamiento': estacion})
+    return render(request, 'estacionamientoReserva.html', {'form': form, 'estacionamiento': estacion})
 
 def estacionamiento_pagos(request, _id):
     _id = int(_id)
