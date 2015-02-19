@@ -145,11 +145,11 @@ def estacionamiento_reserva(request, _id):
                 if x[2] == True :
                     reservar(inicio_reserva, final_reserva, listaReserva)
                     if estacion.Tarifa.tipoTarifa == 'horas':
-                        cobro = esquemaTarifario1(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
-                        cobro=("{:.2f}".format(cobro))
+                        cobro = esquemaTarifarioHoras(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        #cobro=("{:.2f}".format(cobro))
                     elif estacion.Tarifa.tipoTarifa == 'minutos':
-                        cobro = esquemaTarifario2(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
-                        cobro=("{:.2f}".format(cobro))
+                        cobro = esquemaTarifarioMinutos(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        #cobro=("{:.2f}".format(cobro))
                     reservaFinal = ReservasModel(
                                         Estacionamiento = estacion,
                                         Puesto = x[0],
