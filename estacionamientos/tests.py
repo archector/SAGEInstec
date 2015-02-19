@@ -496,6 +496,63 @@ class SimpleFormTestCase(TestCase):
 								'final':None}
 		form = EstacionamientoReserva(data = form_data)
 		self.assertEqual(form.is_valid(), False)
+		
+###################################################################
+# ESTACIONAMIENTO_PAGOS_FORM
+###################################################################
+	
+	#malicia
+	def test_Form_Vacio(self):
+		form_data = {}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+		
+	#normal
+	def test_Form_Primer_Campo_Vacio(self):
+		form_data = {'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#normal	
+	def test_Form_Segundo_Campo_Vacio(self):
+		form_data = {'num_tarjeta':"1234567890123456"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#normal	
+	def test_Form_Campos_Tipos_Invalidos(self):
+		form_data = {'num_tarjeta':"wertyui",
+					'codigo_val':'ertyui'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#borde	
+	def test_Form_TiposCorrectos_LongitudInvalida(self):
+		form_data = {'num_tarjeta':"123345678",
+					'codigo_val':'123456'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#borde
+	def test_Form_PrimerCampoValido(self):
+		form_data = {'num_tarjeta':"1234567890123456",
+					'codigo_val':'123456'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+
+	#borde
+	def test_Form_SegundoCampoValido(self):
+		form_data = {'num_tarjeta':"qwertyui",
+					'codigo_val':'123'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+
+	#malicia
+	def test_Form_CamposMixtos(self):
+		form_data = {'num_tarjeta':"123456789012345b",
+					'codigo_val':'12v'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
 
 ###################################################################
 # PRUEBAS DE FUNCIONES DEL CONTROLADOR

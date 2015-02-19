@@ -90,6 +90,8 @@
      
   
    	 <div class="col-md-6">
+   	 <div class="alert alert-success" role="alert" id="disponible" style="display: block"><b>Reserva disponible:</b> Hay puestos vacios para la hora pedida </div>
+  
    	 	 <div class="panel panel-default">
             <div class="panel-heading">
               <div class="panel-title">
@@ -238,7 +240,7 @@
 			            			<tr><td><input type="text" class="form-control" id="cardnumber" style="width:150px" onclick="ocultarError()"><div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca un numero de tarjeta válido</strong>
      								 </div></td></tr>	     	
 						       			 <tr><td><b><i class="fa fa-key"></i> Código validador </b></td></tr> 
-						      				  <tr><td><input type="text"  id="cvv" class="form-control" style="width: 50px" onclick="ocultarError2()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="20%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
+						      				  <tr><td><input type="text"  id="cvv" class="form-control" style="width: 50px" onclick="ocultarError2()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="35%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
 					 	
 					 </table> <!--cerrando tabla-->     			
 	   			 </div> <!--cerrando panel boddy--> 
@@ -316,6 +318,8 @@
 		document.getElementById('prepagar').style.display = 'none';
 		document.getElementById('pagos').style.display = 'block';
 		document.getElementById('cancel').style.display = 'none';
+		document.getElementById('disponible').style.display = 'none';
+		
 		}
 	
 	</script>
@@ -365,8 +369,10 @@
 	
 	<script type="text/javascript">
 		function mostrarAlerta(){
+		
 		document.getElementById('panel_alerta').style.display = 'block';
 		document.getElementById('cancel').style.display = 'none';
+		document.getElementById('disponible').style.display = 'none';
 		document.getElementById('prepagar').style.display = 'none';
 		}
 		
@@ -375,8 +381,8 @@
 	<script type="text/javascript">
 		function ocultarAlerta(){
 		document.getElementById('panel_alerta').style.display = 'none';
-		document.getElementById('cancel').style.display = 'block';
 		document.getElementById('prepagar').style.display = 'block';
+		document.getElementById('cancel').style.display = 'block';
 		}
 		
 	</script>

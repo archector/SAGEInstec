@@ -7,6 +7,8 @@ from estacionamientos.controller import *
 from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
 from estacionamientos.forms import EstacionamientoForm
 from estacionamientos.forms import EstacionamientoReserva
+from estacionamientos.forms import EstacionamientoPago
+
 from estacionamientos.models import Estacionamiento, ReservasModel
 from django.core.context_processors import request
 
@@ -174,8 +176,9 @@ def estacionamiento_pagos(request, _id):
     except ObjectDoesNotExist:
         return render(request, '404.html')
 
-    
-    return render(request, 'pagos.html',{'reserva': reserv})
+    form = EstacionamientoPago()
+
+    return render(request, 'pagos.html',{'reserva': reserv,'form':form})
 
 def eliminar_reserva_view(request, _id):
     _id = int(_id)

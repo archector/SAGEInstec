@@ -16,7 +16,7 @@ if((txpress==false) && (tvista==false) && (tmister==false)){
 		return false;
 		
 	}
-	else if( !(/^\d{16}$/.test(number)) ) {
+	else if( !(^\d{16}$.test(number)) ) {
 	  	mostrar();
 	  	return false;
 	}
@@ -37,7 +37,7 @@ if((txpress==false) && (tvista==false) && (tmister==false)){
 	}
 		
 	setValue();
-	return true;
+	return true;	
 }
 
 

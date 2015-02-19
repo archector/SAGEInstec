@@ -49,10 +49,6 @@ class EstacionamientoForm(forms.Form):
                 )
 
 class EstacionamientoExtendedForm(forms.Form):
-    
-    
-
-
     puestos = forms.IntegerField(min_value = 0, label = 'Número de Puestos')
 
     tarifa_validator = RegexValidator(
@@ -73,4 +69,17 @@ class EstacionamientoExtendedForm(forms.Form):
 class EstacionamientoReserva(forms.Form):
     inicio = forms.TimeField(required = True,label = 'Horario Inicio Reserva')
     final = forms.TimeField(required = True,label = 'Horario Final Reserva')
+   
+class EstacionamientoPago(forms.Form):
+    num_validator = RegexValidator(
+                            regex = '^(\d{16})$',
+                        )
+    
+    cvv_validator = RegexValidator(
+                            regex = '^(\d{3}$)',
+                        )
+    
+    num_tarjeta = forms.CharField(required = True, validators=[num_validator])
+    codigo_val = forms.CharField(required = True,validators=[cvv_validator])
+   
     
