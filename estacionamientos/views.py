@@ -140,12 +140,14 @@ def estacionamiento_reserva(request, _id):
 
                 # Validamos los horarios con los horarios y los dias de salida y entrada
                 m_validado = validarHorarioReserva(inicio_reserva, final_reserva, dia_inicio_reserva, dia_final_reserva, estacion.Reservas_Inicio,estacion.Reservas_Cierre)
+                
 
                 # Si no es valido devolvemos el request
                 if not m_validado[0]:
-                    return render(request, 'templateMensaje.html', {'color':'red', 'mensaje': m_validado[1]})
-#                 else
-#                     return render(request, 'pagos.html', {'color':'red', 'mensaje': m_validado[1]})
+                    #return render(request, 'templateMensaje.html', {'color':'red', 'mensaje': m_validado[1]})
+#                 
+                    #return render(request, 'pagos.html', {'color':'red', 'mensaje': m_validado[1]})
+                    return render(request, 'pagos.html', {'color':'red', 'mensaje': "por que no funcionaaa"})
 
                 # Si esta en un rango valido, procedemos a buscar en la lista
                 # el lugar a insertar
