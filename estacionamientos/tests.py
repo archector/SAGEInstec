@@ -28,64 +28,93 @@ class SimpleTest(unittest.TestCase):
 ###################################################################
 	'''Caso de agregar una reservacion con el estacionamiento vacio'''    
 	def testAgregarConEstacionamientoVacio(self):
-		n = []    
-		self.assertTrue(algoritmo_Marzullo(n,('06:00','18:00'),10)[0])
+		n = []
+		HoraInicio = datetime.time(hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime.time(hour = 18, minute = 0, second = 0)
+		self.assertTrue(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
 		
 	'''Caso de agregar una reservacion con el estacionamiento lleno'''    
 	def testAgregarUnoConEstacionamientoLleno(self):
 		n = []
 		i=0
+		HoraInicio = datetime.time(hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime.time(hour = 18, minute = 0, second = 0)
 		while (i <10):
-			n.append(('06:00','18:00'))
+			n.append((HoraInicio,HoraFinal))
 			i=i+1   
-		self.assertFalse(algoritmo_Marzullo(n,('06:00','18:00'),10)[0])
+		self.assertFalse(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
 	
 	'''Prueba dos intervalos con la misma cantidad de puestos reservados'''
 	def testDosIntervalosMismaCantidadDePuestos(self):	
-		self.assertTrue(algoritmo_Marzullo((('08:00','9:00'),('08:00','12:00'),('10:00','12:00')),('10:00','12:00'),10)[0]) 
+		Hora1 = datetime.time(hour = 8, minute = 0, second = 0)
+		Hora2 = datetime.time(hour = 9, minute = 0, second = 0)
+		Hora3 = datetime.time(hour = 10, minute = 0, second = 0)
+		Hora4 = datetime.time(hour = 12, minute = 0, second = 0)
+		self.assertTrue(algoritmo_Marzullo(((Hora1,Hora2),(Hora1,Hora4),(Hora3,Hora4)),(Hora3,Hora4),10)[0]) 
 		
 	'''Caso de llenar el estacionemiento'''    
 	def testEstacionemientoLleno(self):
 		n = []
 		i=0
+		HoraInicio = datetime.time(hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime.time(hour = 18, minute = 0, second = 0)
 		while (i <9):
-			n.append(('06:00','18:00'))
+			n.append((HoraInicio,HoraFinal))
 			i=i+1    
-		self.assertTrue(algoritmo_Marzullo(n,('06:00','18:00'),10)[0])
+		self.assertTrue(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
 		
 	'''Caso Horas reservadas Cruzadas'''
 	def testHorasCruzadas(self):
 		n = []
 		i=0
+		Hora1 = datetime.time(hour = 6, minute = 0, second = 0)
+		Hora2 = datetime.time(hour = 7, minute = 0, second = 0)
+		Hora3 = datetime.time(hour = 8, minute = 0, second = 0)
+		Hora4 = datetime.time(hour = 9, minute = 0, second = 0)
 		while (i <9):	
-			n.append(('06:00','7:00'))
+			n.append((Hora1,Hora2))
 			i=i+1 
 		i=0 
 		while (i <9):
-			n.append(('07:00','8:00'))
+			n.append((Hora2,Hora3))
 			i=i+1
 		i=0
 		while (i <9):
-			n.append(('08:00','9:00'))
+			n.append((Hora3,Hora4))
 			i=i+1    
-		self.assertTrue(algoritmo_Marzullo(n,('06:00','09:00'),10)[0])
+		self.assertTrue(algoritmo_Marzullo(n,(Hora1,Hora4),10)[0])
 		
 	'''Caso en que se reserva el mismo puesto mas de 10 veces a la misma hora'''    
 	def testMaximoDeReservasDeUnPuesto(self):
 		n = []
 		i=0
+		HoraInicio = datetime.time(hour = 8, minute = 0, second = 0)
+		HoraFinal = datetime.time(hour = 9, minute = 0, second = 0)
 		while (i <10):
-			n.append(('08:00','09:00'))
+			n.append((HoraInicio,HoraFinal))
 			i=i+1  
-		self.assertFalse(algoritmo_Marzullo(n,('08:00','09:00'),10)[0])
+		self.assertFalse(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
 		
 	'''Prueba para Offset iguales y tipe opuestos'''
 	def testOffsetIgualesTypeOpuestos(self):
-		self.assertTrue(algoritmo_Marzullo((('11:00','15:00'),('08:00','15:00'),('9:00','11:00'),('10:00','14:00'),('11:00','14:00'),('09:00','10:00'),('09:00','13:00'),('12:00','15:00'),('08:00','11:00'),('14:00','15:00')),('14:00','15:00'),10)[0])
+		Hora1 = datetime.time(hour = 8, minute = 0, second = 0)
+		Hora2 = datetime.time(hour = 9, minute = 0, second = 0)
+		Hora3 = datetime.time(hour = 10, minute = 0, second = 0)
+		Hora4 = datetime.time(hour = 11, minute = 0, second = 0)
+		Hora5 = datetime.time(hour = 12, minute = 0, second = 0)
+		Hora6 = datetime.time(hour = 13, minute = 0, second = 0)
+		Hora7 = datetime.time(hour = 14, minute = 0, second = 0)
+		Hora8 = datetime.time(hour = 15, minute = 0, second = 0)
+		self.assertTrue(algoritmo_Marzullo(((Hora4,Hora8),(Hora1,Hora8),(Hora2,Hora4),(Hora3,Hora7),(Hora4,Hora7),(Hora2,Hora3),(Hora2,Hora6),(Hora5,Hora8),(Hora1,Hora4),(Hora7,Hora8)),(Hora7,Hora8),10)[0])
 	
 	'''Prueba Simple'''
 	def testPruebaSimple(self):
-		self.assertTrue(algoritmo_Marzullo((('08:00','12:00'),('11:00','13:00'),('10:00','12:00')),('10:00','12:00'),10)[0]) 
+		Hora1 = datetime.time(hour = 8, minute = 0, second = 0)
+		Hora2 = datetime.time(hour = 10, minute = 0, second = 0)
+		Hora3 = datetime.time(hour = 11, minute = 0, second = 0)
+		Hora4 = datetime.time(hour = 12, minute = 0, second = 0)
+		Hora5 = datetime.time(hour = 13, minute = 0, second = 0)
+		self.assertTrue(algoritmo_Marzullo(((Hora1,Hora4),(Hora3,Hora5),(Hora2,Hora4)),(Hora2,Hora4),10)[0]) 
 
 ###################################################################
 #                    ESTACIONAMIENTO_ALL FORM
