@@ -30,80 +30,6 @@ def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin):
 	return (True, '')
 
 
-# busca un puesta en el estacionamiento
-def buscar(hin, hout, estacionamiento):
-	if not isinstance(estacionamiento, list):
-		return (-1, -1, False)
-	if len(estacionamiento) == 0:
-		return (-1, -1, False)
-	if not isinstance(hin, datetime.time) or not isinstance(hout, datetime.time):
-		return (-1, -1, False)
-	for i in range(len(estacionamiento)):
-		posicion = busquedaBin(hin, hout, estacionamiento[i])
-		if posicion[1] == True:
-			return (i, posicion[0], posicion[1])
-	return (-1, -1, False)
-
-def binaria(valor, inicio, fin, lista):
-	if inicio == fin:
-		return inicio
-	centro = (inicio + fin) // 2
-	if lista[centro][0] > valor:
-		return binaria(valor, inicio, centro, lista)
-	if lista[centro][0] < valor:
-		return binaria(valor, centro + 1, fin, lista)
-	return centro
-
-# Busca en una lista ordenada la posicion en la que una nueva tupla
-# puede ser insertado, y ademas devuelve un booleano que dice si la
-# tupla puede ser insertada, es decir que sus valores no solapen alguno
-# ya existente.
-# Precondición: la lista debe tener ya la mayor y menor posible tupla
-def busquedaBin(hin, hout, listaTuplas):
-	# ln = len(listaTuplas)
-	if not isinstance(listaTuplas, list):
-		return (0, False)
-	if len(listaTuplas) == 0:
-		return (0, True)
-	if not isinstance(hin, datetime.time) or not isinstance(hout, datetime.time):
-		return (0, False)
-	index = binaria(hin, 0, len(listaTuplas), listaTuplas)
-	if index == 0:
-		index = index + 1
-	if listaTuplas[index][0] >= hout and listaTuplas[index - 1][1] <= hin:
-		return (index, True)
-	else:
-		return (index, False)
-
-# inserta ordenadamente por hora de inicio
-def insertarReserva(hin, hout, puesto, listaReserva):
-	# no verifica precondicion, se supone que se hace buscar antes para ver si se puede agregar
-	if not isinstance(listaReserva, list):
-		return None
-	if len(listaReserva) == 0:
-		return listaReserva
-	if not isinstance(hin, datetime.time) or not isinstance(hout, datetime.time):
-		return listaReserva
-	tupla = (hin, hout)
-	listaReserva.insert(puesto, tupla)
-	# estacionamiento[puesto].sort()
-	return listaReserva
-
-def reservar(hin, hout, estacionamiento):
-	if not isinstance(estacionamiento, list):
-		return 1
-	if len(estacionamiento) == 0:
-		return 1
-	if not isinstance(hin, datetime.time) or not isinstance(hout, datetime.time):
-		return 1
-	puesto = buscar(hin, hout, estacionamiento)
-	if puesto[2] != False:
-		estacionamiento[puesto[0]] = insertarReserva(hin, hout, puesto[1], estacionamiento[puesto[0]])
-		return estacionamiento
-	else:
-		return 1
-
-
 def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCierre):
 
 	if ReservaInicio >= ReservaFin:
@@ -116,6 +42,7 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
 	return (True, '')
 
+
 def esquemaTarifario1(hin,hout,tarifa):
 	horain = hin.hour + hin.minute/60
 	horaout = hout.hour + hout.minute/60
@@ -126,6 +53,8 @@ def esquemaTarifario1(hin,hout,tarifa):
 		cobro = cobro + tarifa
 		horas_a_pagar = horas_a_pagar - 1
 	return cobro
+
+
 def esquemaTarifario2(hin,hout,tarifa):
 	horain = hin.hour*60 + hin.minute
 	horaout = hout.hour*60 + hout.minute
@@ -136,15 +65,16 @@ def esquemaTarifario2(hin,hout,tarifa):
 		horas_a_pagar = horas_a_pagar - 1
 	return cobro
 
+
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	tabla = []
-	ini2 =datetime.datetime.strptime(horaReserva[0], '%H:%M').hour
-	fin2 =datetime.datetime.strptime(horaReserva[1], '%H:%M').hour
+	ini2 =horaReserva[0].hour
+	fin2 =horaReserva[1].hour
 
 	for ini,fin in intervalos:
-		ini =datetime.datetime.strptime(ini, '%H:%M').hour
-		fin =datetime.datetime.strptime(fin, '%H:%M').hour 
+		ini =ini.hour
+		fin =fin.hour 
 		if (ini < fin2 and fin > ini2):
 			tabla.append((ini,-1))
 			tabla.append((fin,+1))
