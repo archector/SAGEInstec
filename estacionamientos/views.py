@@ -107,15 +107,13 @@ def estacionamiento_reserva(request, _id):
     # valores predefinidos
     if len(listaReserva) < 1:
 
-        Puestos = ReservasModel.objects.filter(Estacionamiento = estacion).values_list('Puesto', 'InicioReserva', 'FinalReserva')
-        elem1 = (estacion.Apertura, estacion.Apertura)
-        elem2 = (estacion.Cierre, estacion.Cierre)
-        listaReserva = [[elem1, elem2] for _ in range(estacion.NroPuesto)]
+        Puestos = ReservasModel.objects.filter(Estacionamiento = estacion).values_list('InicioReserva', 'FinalReserva')
+        #elem1 = (estacion.Apertura, estacion.Apertura)
+        #elem2 = (estacion.Cierre, estacion.Cierre)
+        #listaReserva = [[elem1, elem2] for _ in range(estacion.NroPuesto)]
 
         for obj in Puestos:
-            puesto = busquedaBin(obj[1], obj[2], listaReserva[obj[0]])
-            listaReserva[obj[0]] = insertarReserva(obj[1], obj[2], puesto[0], listaReserva[obj[0]])
-
+            listaReserva.append((obj[0],obj[1]))
 
     # Si se hace un GET renderizamos los estacionamientos con su formulario
     if request.method == 'GET':
@@ -129,6 +127,7 @@ def estacionamiento_reserva(request, _id):
             if form.is_valid():
                 inicio_reserva = form.cleaned_data['inicio']
                 final_reserva = form.cleaned_data['final']
+                horaReserva = (inicio_reserva,final_reserva)
 
                 # Validamos los horarios con los horario de salida y entrada
                 m_validado = validarHorarioReserva(inicio_reserva, final_reserva, estacion.Reservas_Inicio, estacion.Reservas_Cierre)
@@ -139,9 +138,9 @@ def estacionamiento_reserva(request, _id):
 
                 # Si esta en un rango valido, procedemos a buscar en la lista
                 # el lugar a insertar
-                x = buscar(inicio_reserva, final_reserva, listaReserva)
-                if x[2] == True :
-                    reservar(inicio_reserva, final_reserva, listaReserva)
+                reserva = algoritmo_Marzullo(listaReserva, horaReserva, estacion.NroPuesto)
+                if reserva[0] :
+                    listaReserva.append(horaReserva)
                     if estacion.Tarifa.tipoTarifa == 'horas':
                         cobro = esquemaTarifario1(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
                         cobro=("{:.2f}".format(cobro))
@@ -150,7 +149,7 @@ def estacionamiento_reserva(request, _id):
                         cobro=("{:.2f}".format(cobro))
                     reservaFinal = ReservasModel(
                                         Estacionamiento = estacion,
-                                        Puesto = x[0],
+                                        Puesto = reserva[1],
                                         InicioReserva = inicio_reserva,
                                         FinalReserva = final_reserva,
                                         Costo = cobro
