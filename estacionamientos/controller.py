@@ -1,5 +1,6 @@
 # Archivo con funciones de control para SAGE
 import datetime
+from datetime import datetime,timezone
 import functools
 from math import ceil
 from decimal import *
@@ -32,14 +33,21 @@ def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin):
 
 
 def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCierre):
-
+	
+	horaActual = datetime.now(timezone.utc)
+	intervaloIni =(ReservaInicio - horaActual).total_seconds()/3600
+	intervaloFin =(ReservaFin - horaActual).total_seconds()/3600
+	if intervaloIni > 168:
+		return (False, 'La fecha para iniciar la reserva debe ser menor a 7 dias')
+	if intervaloFin > 168:
+		return (False, 'La fecha para culminar la reserva debe ser menor a 7 dias')
 	if ReservaInicio >= ReservaFin:
 		return (False, 'El horario de apertura debe ser menor al horario de cierre')
 	if ReservaFin.hour - ReservaInicio.hour < 1:
 		return (False, 'El tiempo de reserva debe ser al menos de 1 hora')
-	if ReservaFin > HorarioCierre:
+	if ReservaFin.time() > HorarioCierre:
 		return (False, 'El horario de fin de reserva debe estar en un horario válido')
-	if ReservaInicio < HorarioApertura:
+	if ReservaInicio.time() < HorarioApertura:
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
 	return (True, '')
 
@@ -98,6 +106,6 @@ def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 			best = cnt
 			beststart = tabla[i][0]
 			bestend   = tabla[i+1][0]
-	beststart = datetime.time(beststart)
-	bestend = datetime.time(bestend)
+	#beststart = datetime.time(beststart)
+	#bestend = datetime.time(bestend)
 	return ( best < capacidad,best)
