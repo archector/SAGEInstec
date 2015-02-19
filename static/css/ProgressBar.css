@@ -13,3 +13,20 @@
 #progresBarFill{
  background-color:#5CB85C;
 }
+
+#progresBarFill2{
+ background-color:#B22222;
+}
+
+.progressBarContainerClass2
+{
+ margin-left:0px;
+ height: 30px;
+ width: 748px;
+ background-color:#5CB85C;
+ margin-top:15px;
+ background: -webkit-gradient(linear, center top, center bottom, color-stop(0.4, #D8D6D5), color-stop(1.2, #999999));
+ background: -moz-linear-gradient(top, #D8D6D5 20%, #999999 80%);
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D8D6D5', endColorstr='#999999');
+}
+

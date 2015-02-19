@@ -9,3 +9,11 @@
  background: -moz-linear-gradient(top, #D8D6D5 20%, #999999 80%);
  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D8D6D5', endColorstr='#999999');
 }
+
+#progresBarFill{
+ background-color:#5CB85C;
+}
+
+#progresBarFill2{
+ background-color:#B22222;
+}
