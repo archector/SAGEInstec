@@ -114,6 +114,8 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, DiaInicioReserva, DiaFinalR
 		return (False, 'El horario de inicio de reserva debe estar en un horario válido')
 	if ReservaInicio < HorarioApertura:
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
+	if DiaInicioReserva < datetime.datetime.today():
+		return (False, 'El dia de inicio de la reserva no puede ser menor que hoy')
 	return (True, '')
 
 def esquemaTarifario1(hin,hout,tarifa):

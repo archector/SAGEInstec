@@ -34,7 +34,7 @@ class Estacionamiento(models.Model):
 	def __str__(self):			  # __unicode__ on Python 2
 		return self.Nombre
 
-
+	
 # class ExtendedModel(models.Model):
 # 	Estacionamiento = models.ForeignKey(Estacionamiento, primary_key = True)
 
@@ -58,6 +58,6 @@ class ReservasModel(models.Model):
 	Puesto = models.IntegerField()
 	InicioReserva = models.TimeField()
 	FinalReserva = models.TimeField()
-	DiaInicioReserva = models.DateField(default = None)
-	DiaFinalReserva = models.DateField(default = None)
+	DiaInicioReserva = models.DateField(default = None, auto_now_add=True)
+	DiaFinalReserva = models.DateField(default = None, auto_now_add=True)
 	Costo = models.CharField(max_length = 20, default = None, blank=True, null=True)

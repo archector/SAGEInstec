@@ -74,8 +74,11 @@ def estacionamiento_detail(request, _id):
                 reserva_in = form.cleaned_data['horario_reserin']
                 reserva_out = form.cleaned_data['horario_reserout']
                 
+                #Agregadas validaciones nuevas al formulario EstacionameintoReserva
+                dia_inicio_reserva = form.cleaned_data['diaInicio']
+                dia_final_reserva = form.cleaned_data['diaFin']
 
-                m_validado = HorarioEstacionamiento(hora_in, hora_out, reserva_in, reserva_out)
+                m_validado = HorarioEstacionamiento(hora_in, hora_out, dia_inicio_reserva, dia_final_reserva, reserva_in, reserva_out)
                 if not m_validado[0]:
                     return render(request, 'templateMensaje.html', {'color':'red', 'mensaje': m_validado[1]})
 
@@ -135,12 +138,14 @@ def estacionamiento_reserva(request, _id):
                 dia_inicio_reserva = form.cleaned_data['diaInicio']
                 dia_final_reserva = form.cleaned_data['diaFin']
 
-                # Validamos los horarios con los horario de salida y entrada
+                # Validamos los horarios con los horarios y los dias de salida y entrada
                 m_validado = validarHorarioReserva(inicio_reserva, final_reserva, dia_inicio_reserva, dia_final_reserva, estacion.Reservas_Inicio,estacion.Reservas_Cierre)
 
                 # Si no es valido devolvemos el request
                 if not m_validado[0]:
-                    return render(request, 'pagos.html', {'color':'red', 'mensaje': m_validado[1]})
+                    return render(request, 'templateMensaje.html', {'color':'red', 'mensaje': m_validado[1]})
+#                 else
+#                     return render(request, 'pagos.html', {'color':'red', 'mensaje': m_validado[1]})
 
                 # Si esta en un rango valido, procedemos a buscar en la lista
                 # el lugar a insertar

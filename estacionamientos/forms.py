@@ -51,9 +51,6 @@ class EstacionamientoForm(forms.Form):
 
 class EstacionamientoExtendedForm(forms.Form):
     
-    
-
-
     puestos = forms.IntegerField(min_value = 0, label = 'Número de Puestos')
 
     tarifa_validator = RegexValidator(
@@ -72,12 +69,26 @@ class EstacionamientoExtendedForm(forms.Form):
     
 
 class EstacionamientoReserva(forms.Form):
+    
+#     diaInicio_validator = RegexValidator(   
+#                             input_formats = ['%d/%m/%Y', '%m/%d/%y'] # 2/3/2014 y 2/3/14 son validos 
+#                         )
+#     
+#     diaFinal_validator = RegexValidator(
+#                             input_formats = ['%d/%m/%Y', '%m/%d/%y'] # 2/3/2014 y 2/3/14 son validos
+#                         )
+    
     inicio = forms.TimeField(label = 'Horario Inicio Reserva')
     final = forms.TimeField(label = 'Horario Final Reserva')
-    diaInicio = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
-                                 label = 'Dia Inicio Reserva')
-    diaFinal = forms.DateField(required = True, initial=datetime.date.today, input_formats='%d/%m/%Y', 
-                                label = 'Dia Final Reserva')
+    diaInicio = forms.DateField(required = True, initial=datetime.date.today, 
+                                label = 'Dia Inicio Reserva',
+                                input_formats = ['%d/%m/%Y', '%m/%d/%y'] # 2/3/2014 y 2/3/14 son validos 
+                                )
+    diaFinal = forms.DateField(required = True, initial=datetime.date.today, 
+                               label = 'Dia Final Reserva',
+                               input_formats = ['%d/%m/%Y', '%m/%d/%y'] # 2/3/2014 y 2/3/14 son validos 
+                               )
+    
 
 """class EstacionamientoPago(forms.Form):
     codigo_validator = RegexValidator(
