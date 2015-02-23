@@ -81,5 +81,7 @@ class EstacionamientoPago(forms.Form):
     
     num_tarjeta = forms.CharField(required = True, validators=[num_validator])
     codigo_val = forms.CharField(required = True,validators=[cvv_validator])
-   
+    nombre = forms.CharField(required = True)
+    apellido = forms.CharField(required = True)
+    cedula = forms.CharField(required = True)
     

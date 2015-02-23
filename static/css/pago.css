@@ -69,8 +69,8 @@
 .cvv {
   
    position:relative;
-   margin-left:60px;
-   margin-top:-50px;   
+   margin-left:0px;
+   margin-top:0px;   
    text-align:left;
 }
 
@@ -100,9 +100,8 @@
    width:230px;
    height:10;
    position:relative;
-   margin-left:160px;
    margin-bottom:2px;
-   margin-top:-45px;  
+   margin-top:15px;  
 }
 
 .error3{

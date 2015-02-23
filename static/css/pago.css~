@@ -51,25 +51,26 @@
    
 }  
 
-.cancel {
+#cancel {
   
    position:relative;
-   margin-left:60px;
+   margin-left:20px;
 }
 
 
-.prepagar {
+#prepagar {
   
    position:relative;
    margin-left:240px;
-   
+   margin-top:-57px;
+
 }
 
 .cvv {
   
    position:relative;
-   margin-left:60px;
-   margin-top:-50px;   
+   margin-left:20px;
+   margin-top:-20px;   
    text-align:left;
 }
 
@@ -99,9 +100,8 @@
    width:230px;
    height:10;
    position:relative;
-   margin-left:160px;
    margin-bottom:2px;
-   margin-top:-45px;  
+   margin-top:15px;  
 }
 
 .error3{

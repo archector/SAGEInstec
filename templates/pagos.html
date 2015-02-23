@@ -237,10 +237,10 @@
 					       		 </td></tr>
 					       		 
 					            <tr><td><b><i class="fa fa-credit-card"></i> Numero tarjeta</b></td></tr>
-			            			<tr><td><input type="text" class="form-control" id="cardnumber" style="width:150px" onclick="ocultarError()"><div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca un numero de tarjeta válido</strong>
+			            			<tr><td><input type="text" id="cardnumber" style="width:150px" onblur="validar_numero()" onclick="ocultarError(),ocultarError2(),validar_tipo()"><div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca un numero de tarjeta válido</strong>
      								 </div></td></tr>	     	
 						       			 <tr><td><b><i class="fa fa-key"></i> Código validador </b></td></tr> 
-						      				  <tr><td><input type="text"  id="cvv" class="form-control" style="width: 50px" onclick="ocultarError2()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="35%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
+						      				  <tr><td><input type="text"  id="cvv"  onblur="validar_cvv()" style="width: 50px" onclick="ocultarError2(),ocultarError()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="35%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
 					 	
 					 </table> <!--cerrando tabla-->     			
 	   			 </div> <!--cerrando panel boddy--> 
@@ -250,7 +250,7 @@
 		 
 		</form>
 		
-	            <button class="btn btn-warning" id="boton_pago" style="width: 200px; height:35px" onclick="validar()","mostrarPanel()">Realizar pago </button>
+	            <button class="btn btn-warning" id="boton_pago" style="width: 200px; height:35px" onclick="validar_todo()","mostrarPanel()">Realizar pago </button>
 	      
 	
    	 </div> <!--cerrando col-med-6 --> 
@@ -288,7 +288,9 @@
 		
 	</div>	       
 </div>
-	
+
+<span class="label label-default" >{{num}}</span>
+
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js'%}"></script>
   	<script type="text/javascript" src="{% static 'js/ProgressBar.js'%}"></script>
@@ -365,6 +367,17 @@
 	<script type="text/javascript">
 		function mostrar_mensaje(){
 		document.getElementById('mensaje').style.display = 'block';}
+	</script>
+	
+	<script>
+		
+		function sumar(valor)
+		{
+		var total;
+		total = parseInt(valor.value)+parseInt(1);
+		document.getElementById('result2').value=total;
+		document.getElementById('result').value=document.getElementById('result2').value;
+		}
 	</script>
 	
 	<script type="text/javascript">

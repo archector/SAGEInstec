@@ -159,7 +159,7 @@ def estacionamiento_reserva(request, _id):
                     reservaFinal.save()
                     
                     form = EstacionamientoReserva()
-                    return render(request, 'pagos.html', {'color':'green', 'mensaje':'Hay disponibilidad en el horario seleccionado','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre,'puesto':reservaFinal.Puesto,'tarifa':estacion.monto_tarifa})
+                    return render(request, 'pagos.html', {'color':'green', 'mensaje':'Hay disponibilidad en el horario seleccionado','ini': inicio_reserva, 'fin':final_reserva,'monto':cobro,'nomb':estacion.Nombre,'puesto':reservaFinal.Puesto,'tarifa':estacion.monto_tarifa, 'num':reservaFinal.id})
                 else:             
                     return render(request, 'estacionamientoReserva.html', {'color':'red', 'mensaje':'No hay un puesto disponible para ese horario','form': form, 'estacionamiento': estacion})
     else:
