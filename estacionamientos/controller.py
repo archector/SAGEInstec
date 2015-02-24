@@ -4,6 +4,9 @@ from datetime import datetime,timezone
 import functools
 from math import ceil
 from decimal import *
+CANT_HORAS_SIETE_DIAS = 168
+CANT_SEGUNDOS_HORA = 3600
+
 
 # Las Tuplas de cada puesto deben tener los horarios de inicio y de cierre para que
 # pueda funcionar [(7:00,7:00), (19:00,19:00)]
@@ -33,13 +36,13 @@ def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin):
 
 
 def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCierre):
-	
 	horaActual = datetime.now(timezone.utc)
-	intervaloIni =(ReservaInicio - horaActual).total_seconds()/3600
-	intervaloFin =(ReservaFin - horaActual).total_seconds()/3600
-	if intervaloIni > 168:
+	intervaloIni =(ReservaInicio - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
+	intervaloFin =(ReservaFin - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
+
+	if intervaloIni > CANT_HORAS_SIETE_DIAS:
 		return (False, 'La fecha para iniciar la reserva debe ser menor a 7 dias')
-	if intervaloFin > 168:
+	if intervaloFin > CANT_HORAS_SIETE_DIAS:
 		return (False, 'La fecha para culminar la reserva debe ser menor a 7 dias')
 	if ReservaInicio >= ReservaFin:
 		return (False, 'El horario de apertura debe ser menor al horario de cierre')
@@ -55,7 +58,7 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 def esquemaTarifarioHoras(hin,hout,tarifa):
 	#horain = hin.hour + hin.minute/60
 	#horaout = hout.hour + hout.minute/60
-	horas_a_pagar= (hout - hin).total_seconds()/3600
+	horas_a_pagar= (hout - hin).total_seconds()/CANT_SEGUNDOS_HORA
 	horas_a_pagar = ceil(horas_a_pagar)
 	cobro = 0
 	while horas_a_pagar> 0:
