@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from datetime import time
+from datetime import time, timezone, timedelta
 from django.test import Client
 from django.test import TestCase
 import unittest
-
 from estacionamientos.controller import *
 from estacionamientos.forms import *
 from estacionamientos.forms import *
@@ -582,7 +581,9 @@ class SimpleFormTestCase(TestCase):
 
 	# normal
 	def test_EstacionamientoReserva_TodosCamposBien(self):
-		form_data = {'inicio':time(6, 0), 'final':time(12, 0)}
+		ini = datetime.now()
+		fin = ini + timedelta(days=+1)
+		form_data = {'inicio':ini, 'final':fin}
 		form = EstacionamientoReserva(data = form_data)
 		self.assertEqual(form.is_valid(), True)
 
@@ -683,8 +684,8 @@ class SimpleFormTestCase(TestCase):
 
 	# normal
 	def test_HorarioReservaValido(self):
-		ReservaInicio = time(hour = 13, minute = 0, second = 0)
-		ReservaFin = time(hour = 15, minute = 0, second = 0)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 0, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -692,8 +693,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_InicioReservacion_Mayor_FinalReservacion(self):
-		ReservaInicio = time(hour = 13, minute = 0, second = 0)
-		ReservaFin = time(hour = 12, minute = 59, second = 59)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 12, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -701,8 +702,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_TiempoTotalMenor1h(self):
-		ReservaInicio = time(hour = 13, minute = 0, second = 0)
-		ReservaFin = time(hour = 13, minute = 59, second = 59)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 13, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -711,8 +712,8 @@ class SimpleFormTestCase(TestCase):
 	# caso borde
 	#############################ACTUALIZADO#####################################
 	def test_HorarioReservaInvalido_ReservaFinal_Mayor_HorarioCierre(self):
-		ReservaInicio = time(hour = 13, minute = 0, second = 0)
-		ReservaFin = time(hour = 18, minute = 0, second = 1)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 18, minute = 0, second = 1, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -720,8 +721,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_ReservaInicial_Menor_HorarioApertura(self):
-		ReservaInicio = time(hour = 11, minute = 59, second = 59)
-		ReservaFin = time(hour = 15, minute = 0, second = 1)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 11, minute = 59, second = 59, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 1, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -729,6 +730,8 @@ class SimpleFormTestCase(TestCase):
 
 	# malicia
 	def test_Reservacion_CamposVacios(self):
-		form_data = {'inicio':time(6, 0), 'final':time(12, 0)}
+		ini = datetime.now()
+		fin = ini + timedelta(days=+1)
+		form_data = {'inicio':ini, 'final':fin}
 		form = EstacionamientoReserva(data = form_data)
 		self.assertEqual(form.is_valid(), True)

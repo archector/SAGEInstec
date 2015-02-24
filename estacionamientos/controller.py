@@ -40,6 +40,8 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	intervaloIni =(ReservaInicio - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
 	intervaloFin =(ReservaFin - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
 
+	#if ReservaInicio < datetime.now(timezone.utc):
+	#	return (False, 'La fecha de la reserva no puede ser anterior a la actual')
 	if intervaloIni > CANT_HORAS_SIETE_DIAS:
 		return (False, 'La fecha para iniciar la reserva debe ser menor a 7 dias')
 	if intervaloFin > CANT_HORAS_SIETE_DIAS:
@@ -58,6 +60,7 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 def esquemaTarifarioHoras(hin,hout,tarifa):
 	#horain = hin.hour + hin.minute/60
 	#horaout = hout.hour + hout.minute/60
+	#horas_a_pagar = horaout - horain
 	horas_a_pagar= (hout - hin).total_seconds()/CANT_SEGUNDOS_HORA
 	horas_a_pagar = ceil(horas_a_pagar)
 	cobro = 0
