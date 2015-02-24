@@ -43,7 +43,7 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 		return (False, 'La fecha para culminar la reserva debe ser menor a 7 dias')
 	if ReservaInicio >= ReservaFin:
 		return (False, 'El horario de apertura debe ser menor al horario de cierre')
-	if ReservaFin.hour - ReservaInicio.hour < 1:
+	if (ReservaFin.hour - ReservaInicio.hour < 1) and (ReservaFin.day == ReservaInicio.day):
 		return (False, 'El tiempo de reserva debe ser al menos de 1 hora')
 	if ReservaFin.time() > HorarioCierre:
 		return (False, 'El horario de fin de reserva debe estar en un horario válido')
@@ -53,9 +53,9 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 
 
 def esquemaTarifarioHoras(hin,hout,tarifa):
-	horain = hin.hour + hin.minute/60
-	horaout = hout.hour + hout.minute/60
-	horas_a_pagar= horaout - horain
+	#horain = hin.hour + hin.minute/60
+	#horaout = hout.hour + hout.minute/60
+	horas_a_pagar= (hout - hin).total_seconds()/3600
 	horas_a_pagar = ceil(horas_a_pagar)
 	cobro = 0
 	while horas_a_pagar> 0:
