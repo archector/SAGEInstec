@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+	# -*- coding: utf-8 -*-
 
 import datetime
 from datetime import time, timezone, timedelta
@@ -94,6 +94,18 @@ class SimpleTest(unittest.TestCase):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1  
 		self.assertFalse(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
+
+
+	# def testReservaMultiplesDias(self):
+	# 	n = []
+	# 	i = 0
+	# 	HoraInicio = datetime.now()
+	# 	HoraFinal = datetime.now() + timedelta(days=1)
+	# 	while (i<5):
+	# 		n.append((HoraInicio,HoraFinal))
+	# 		i=i+1
+	# 	self.assertFalse(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),11)[0])
+
 		
 	'''Prueba para Offset iguales y tipe opuestos'''
 	def testOffsetIgualesTypeOpuestos(self):

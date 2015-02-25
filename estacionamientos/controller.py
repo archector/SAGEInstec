@@ -40,8 +40,8 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	intervaloIni =(ReservaInicio - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
 	intervaloFin =(ReservaFin - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
 
-	#if ReservaInicio < datetime.now(timezone.utc):
-	#	return (False, 'La fecha de la reserva no puede ser anterior a la actual')
+	# if ReservaInicio < datetime.now(timezone.utc):
+	# 	return (False, 'La fecha de la reserva no puede ser anterior a la actual')
 	if intervaloIni > CANT_HORAS_SIETE_DIAS:
 		return (False, 'La fecha para iniciar la reserva debe ser menor a 7 dias')
 	if intervaloFin > CANT_HORAS_SIETE_DIAS:
