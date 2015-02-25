@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Archivo con funciones de control para SAGE
 import datetime
 import functools
