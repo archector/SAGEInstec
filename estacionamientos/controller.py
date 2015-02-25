@@ -2,7 +2,7 @@
 # Archivo con funciones de control para SAGE
 import datetime
 import functools
-from math import ceil
+from math import ceil,floor
 from decimal import *
 CANT_MINUTOS_SIETE_DIAS=10080
 CANT_HORAS_SIETE_DIAS = 168
@@ -83,7 +83,33 @@ def esquemaTarifarioMinutos(hin,hout,tarifa):
 	cobro = Decimal(cobro)
 	return cobro
 
-
+def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
+	horas_a_pagar = hout - hin
+	print(horas_a_pagar,type(horas_a_pagar))
+	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
+	horas_a_pagar = floor(horas_a_pagar)
+	print(horas_a_pagar,type(horas_a_pagar))
+	#horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
+	if (hin.minute - hout.minute) == 0:
+		fraccion =0
+	elif (hin.minute < hout.minute):
+		fraccion = hout.minute - hin.minute
+	elif hin.minute > hout.minute:
+		fraccion = 60 - (hin.minute - hout.minute)
+		horas_a_pagar= horas_a_pagar - 1
+		
+	cobro = 0
+	while horas_a_pagar > 0:
+		cobro = cobro + tarifa
+		horas_a_pagar = horas_a_pagar - 1
+	if 0<fraccion <= 30:
+		cobro = cobro + tarifa/2
+	if 30<fraccion<=59:
+		cobro = cobro + tarifa
+	
+	cobro=("{:.2f}".format(cobro))
+	cobro = Decimal(cobro)	
+	return cobro
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	tabla = []
