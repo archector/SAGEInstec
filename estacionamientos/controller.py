@@ -1,12 +1,11 @@
 # Archivo con funciones de control para SAGE
 import datetime
-from datetime import datetime,timezone
 import functools
 from math import ceil
 from decimal import *
+CANT_MINUTOS_SIETE_DIAS=10080
 CANT_HORAS_SIETE_DIAS = 168
 CANT_SEGUNDOS_HORA = 3600
-
 
 # Las Tuplas de cada puesto deben tener los horarios de inicio y de cierre para que
 # pueda funcionar [(7:00,7:00), (19:00,19:00)]
@@ -36,24 +35,23 @@ def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin):
 
 
 def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCierre):
-	horaActual = datetime.now(timezone.utc)
-	intervaloIni =(ReservaInicio - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
-	intervaloFin =(ReservaFin - horaActual).total_seconds()/CANT_SEGUNDOS_HORA
-
-	#if ReservaInicio < datetime.now(timezone.utc):
-	#	return (False, 'La fecha de la reserva no puede ser anterior a la actual')
-	if intervaloIni > CANT_HORAS_SIETE_DIAS:
-		return (False, 'La fecha para iniciar la reserva debe ser menor a 7 dias')
-	if intervaloFin > CANT_HORAS_SIETE_DIAS:
-		return (False, 'La fecha para culminar la reserva debe ser menor a 7 dias')
-	if ReservaInicio >= ReservaFin:
-		return (False, 'El horario de apertura debe ser menor al horario de cierre')
-	if (ReservaFin.hour - ReservaInicio.hour < 1) and (ReservaFin.day == ReservaInicio.day):
+	
+	FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
+	if (ReservaFin.replace(tzinfo=None)<FECHA_FIJA) or ReservaInicio.replace(tzinfo=None)<FECHA_FIJA:
+		return (False, 'La fecha de reserva no puede estar fuera del rango')
+	'''valida si la reserva sobrepasa los 7 dias desde la fecha fija'''
+	if (ReservaFin.replace(tzinfo=None)-FECHA_FIJA).total_seconds()/60 > CANT_MINUTOS_SIETE_DIAS:
+		return (False, 'La fecha de reserva no puede ser mayor a 7 dias')
+	'''Valida si la reserva tiene al menos 1 hora'''
+	if (ReservaFin.hour - ReservaInicio.hour < 1) and (ReservaFin.day - ReservaInicio.day == 0):
 		return (False, 'El tiempo de reserva debe ser al menos de 1 hora')
-	if ReservaFin.time() > HorarioCierre:
+	if ReservaFin.hour/60 + ReservaFin.minute > HorarioCierre.hour/60 +HorarioCierre.minute and (ReservaFin.day == ReservaInicio.day ):
 		return (False, 'El horario de fin de reserva debe estar en un horario válido')
-	if ReservaInicio.time() < HorarioApertura:
+	if ReservaInicio.hour/60 + ReservaInicio.minute < HorarioApertura.hour/60 +HorarioApertura.minute and (ReservaFin.day == ReservaInicio.day):
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
+	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and (ReservaFin.day > ReservaInicio.day ):
+		return (False, 'No puede reservar por mas de un dia, ya que el estacionamiento no trabaja 24 horas')
+	
 	return (True, '')
 
 
@@ -88,12 +86,17 @@ def esquemaTarifarioMinutos(hin,hout,tarifa):
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	tabla = []
-	ini2 =horaReserva[0].hour
-	fin2 =horaReserva[1].hour
+	FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
+	ini2 = horaReserva[0].replace(tzinfo=None)-FECHA_FIJA
+	fin2 = horaReserva[1].replace(tzinfo=None)-FECHA_FIJA
+	ini2 =ini2.total_seconds()/60
+	fin2 =fin2.total_seconds()/60
 
 	for ini,fin in intervalos:
-		ini =ini.hour
-		fin =fin.hour 
+		ini =ini.replace(tzinfo=None) - FECHA_FIJA
+		fin =fin.replace(tzinfo=None) - FECHA_FIJA 
+		ini =ini.total_seconds()/60
+		fin =fin.total_seconds()/60  
 		if (ini < fin2 and fin > ini2):
 			tabla.append((ini,-1))
 			tabla.append((fin,+1))
