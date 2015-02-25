@@ -45,11 +45,11 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	'''Valida si la reserva tiene al menos 1 hora'''
 	if (ReservaFin.hour - ReservaInicio.hour < 1) and (ReservaFin.day - ReservaInicio.day == 0):
 		return (False, 'El tiempo de reserva debe ser al menos de 1 hora')
-	if ReservaFin.hour/60 + ReservaFin.minute > HorarioCierre.hour/60 +HorarioCierre.minute and (ReservaFin.day == ReservaInicio.day ):
+	if (ReservaFin.hour*60 + ReservaFin.minute > HorarioCierre.hour*60 +HorarioCierre.minute) and (ReservaFin.day - ReservaInicio.day ==0):
 		return (False, 'El horario de fin de reserva debe estar en un horario válido')
-	if ReservaInicio.hour/60 + ReservaInicio.minute < HorarioApertura.hour/60 +HorarioApertura.minute and (ReservaFin.day == ReservaInicio.day):
+	if ReservaInicio.hour*60 + ReservaInicio.minute < HorarioApertura.hour*60 +HorarioApertura.minute and (ReservaFin.day - ReservaInicio.day==0):
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
-	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and (ReservaFin.day > ReservaInicio.day ):
+	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and (ReservaFin.day - ReservaInicio.day >1 ):
 		return (False, 'No puede reservar por mas de un dia, ya que el estacionamiento no trabaja 24 horas')
 	
 	return (True, '')
