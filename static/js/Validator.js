@@ -18,6 +18,77 @@ function validar_numero(){
 	return true;	
 }
 
+	
+
+function validar_cedula(){
+	var ci = document.getElementById("cedula").value;
+	var indice = document.getElementById("tipo_ci").selectedIndex;
+
+	if (indice == null || indice == 0){
+		mostrar_e7();  		
+		return false;
+	}
+	else if (ci == ""){
+		mostrar_e6();
+		document.getElementById("cedula").select();
+	        document.getElementById("cedula").focus();
+		return false;
+		
+	}
+	else if( !(/^\d{8}$/.test(ci)) ) {
+		document.getElementById("cedula").select();
+	        document.getElementById("cedula").focus();			  	
+		mostrar_e6();
+	  	return false;
+	}
+
+		
+
+
+	return true;	
+}
+
+
+function validar_nombres(){
+	var nomb = document.getElementById("nombres").value.trim();
+	
+	if (nomb == ""){
+		mostrar_e4();
+		document.getElementById("nombres").select();
+	        document.getElementById("nombres").focus();
+		return false;
+		
+	}
+	else if( !(/^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$/.test(nomb)) ) {
+		document.getElementById("nombres").select();
+	        document.getElementById("nombres").focus();			  	
+		mostrar_e4();
+	  	return false;
+	}
+	
+	return true;	
+}
+
+function validar_apellidos(){
+	var ape = document.getElementById("apellidos").value;
+	
+	if (ape == ""){
+		mostrar_e5();
+		document.getElementById("apellidos").select();
+	        document.getElementById("apellidos").focus();
+		return false;
+		
+	}
+	else if( !(/^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$/.test(ape)) ) {
+		document.getElementById("apellidos").select();
+	        document.getElementById("apellidos").focus();			  	
+		mostrar_e5();
+	  	return false;
+	}
+	
+	return true;	
+}
+
 
 function validar_cvv(){
 	
@@ -60,7 +131,7 @@ function validar_tipo(){
 	var txpress = document.getElementById("xpress").checked;
 
 	
-if((txpress==false) && (tvista==false) && (tmister==false)){
+	if((txpress==false) && (tvista==false) && (tmister==false)){
 		mostrar3();
 		return false;	
 	}
@@ -74,8 +145,59 @@ function validar_todo(){
 	var tvista = document.getElementById("vista").checked;
 	var tmister = document.getElementById("mister").checked;
 	var txpress = document.getElementById("xpress").checked;
+	var indice = document.getElementById("tipo_ci").selectedIndex;
+	var nomb = document.getElementById("nombres").value;
+	var ape = document.getElementById("apellidos").value;
+	var ci = document.getElementById("cedula").value;
+	var indice = document.getElementById("tipo_ci").selectedIndex;
+	
+	if (nomb == ""){
+		mostrar_e4();
+		document.getElementById("nombres").select();
+	        document.getElementById("nombres").focus();
+		return false;
+		
+	}
+	else if( !(/^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$/.test(nomb)) ) {
+		document.getElementById("nombres").select();
+	        document.getElementById("nombres").focus();			  	
+		mostrar_e4();
+	  	return false;
+	}
+	
+	else if (ape == ""){
+		mostrar_e5();
+		document.getElementById("apellidos").select();
+	        document.getElementById("apellidos").focus();
+		return false;
+		
+	}
+	else if( !(/^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$/.test(ape)) ) {
+		document.getElementById("apellidos").select();
+	        document.getElementById("apellidos").focus();			  	
+		mostrar_e5();
+	  	return false;
+	}
 
-	if((txpress==false) && (tvista==false) && (tmister==false)){
+	else if (indice == null || indice == 0){
+		mostrar_e7();  		
+		return false;
+	}
+	else if (ci == ""){
+		mostrar_e6();
+		document.getElementById("cedula").select();
+	        document.getElementById("cedula").focus();
+		return false;
+		
+	}
+	else if( !(/^\d{8}$/.test(ci)) ) {
+		document.getElementById("cedula").select();
+	        document.getElementById("cedula").focus();			  	
+		mostrar_e6();
+	  	return false;
+	}
+
+	else if((txpress==false) && (tvista==false) && (tmister==false)){
 		mostrar3();
 		return false;	
 	}
@@ -107,6 +229,11 @@ function validar_todo(){
 		mostrar2();
 	        document.getElementById("cvv").focus();
 		return false;	
+	}
+	
+	else if (indice == null || indice == 0){
+		mostrar_e7();  		
+		return false;
 	}
 		
 	setValue();

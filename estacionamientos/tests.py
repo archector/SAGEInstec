@@ -618,58 +618,295 @@ class SimpleFormTestCase(TestCase):
 ###################################################################
 	
 	#malicia
-	def test_Form_Vacio(self):
+	def test_Form_Campos_Vacios(self):
 		form_data = {}
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
 		
-	#normal
-	def test_Form_Primer_Campo_Vacio(self):
-		form_data = {'codigo_val':"123"}
-		form = EstacionamientoPago(data = form_data)
-		self.assertEqual(form.is_valid(), False)
-	
-	#normal	
-	def test_Form_Segundo_Campo_Vacio(self):
-		form_data = {'num_tarjeta':"1234567890123456"}
-		form = EstacionamientoPago(data = form_data)
-		self.assertEqual(form.is_valid(), False)
-	
-	#normal	
-	def test_Form_Campos_Tipos_Invalidos(self):
-		form_data = {'num_tarjeta':"wertyui",
-					'codigo_val':'ertyui'}
+	#borde
+	def test_Form_Nombre_Vacio(self):
+		form_data = {'apellido':"zeait",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
 	
 	#borde	
-	def test_Form_TiposCorrectos_LongitudInvalida(self):
-		form_data = {'num_tarjeta':"123345678",
-					'codigo_val':'123456'}
+	def test_Form_Apellido_Vacio(self):
+		form_data = {'nombre':"daniel",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
 	
 	#borde
-	def test_Form_PrimerCampoValido(self):
+	def test_Form_Cedula_Vacio(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#borde	
+	def test_Form_NumTarjeta_Vacio(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'cedula':"19294080",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#borde	
+	def test_Form_CVV_Vacio(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_DosCampos_Vacios_12(self):
+		form_data = {'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_DosCampos_Vacios_13(self):
+		form_data = {'apellido':"Zeait",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_DosCampos_Vacios_14(self):
+		form_data = {'apellido':"Zeait",
+					'cedula':"19294080",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD		
+	def test_Form_DosCampos_Vacios_15(self):
+		form_data = {'apellido':"Zeait",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+			
+	#TDD
+	def test_Form_DosCampos_Vacios_23(self):
+		form_data = {'nombre':"Daniel",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_DosCampos_Vacios_24(self):
+		form_data = {'nombre':"Daniel",
+					'cedula':"19294080",
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_DosCampos_Vacios_25(self):
+		form_data = {'nombre':"Daniel",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_DosCampos_Vacios_34(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_DosCampos_Vacios_35(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'num_tarjeta':"1234567890123456"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_DosCampos_Vacios_45(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'cedula':"19294080",
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_TresCampos_Vacios_123(self):
 		form_data = {'num_tarjeta':"1234567890123456",
-					'codigo_val':'123456'}
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_TresCampos_Vacios_124(self):
+		form_data = {
+					'cedula':"19294080",
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_DosCampos_Vacios_125(self):
+		form_data = {
+					'num_tarjeta':"1234567890123456",
+					'cedula':"19294080",
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+		
+	#TDD
+	def test_Form_TresCampos_Vacios_234(self):
+		form_data = {'nombre':"Daniel",
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_TresCampos_Vacios_235(self):
+		form_data = {'nombre':"Daniel",
+					'num_tarjeta':"1234567890123456"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD	
+	def test_Form_TresCampos_Vacios_345(self):
+		form_data = {
+					'nombre':"Daniel",
+					'apellido':"Zeait",
+					}
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
 
+	#TDD
+	def test_Form_CuatroCampos_Vacios_1234(self):
+		form_data = {
+					'codigo_val':"123"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+
+	#TDD
+	def test_Form_CuatroCampos_Vacios_1235(self):
+		form_data = {
+					'num_tarjeta':"1234567890123456"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_CuatroCampos_Vacios_2345(self):
+		form_data = {
+					'nombre':"Daniel"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_CuatroCampos_Vacios_1345(self):
+		form_data = {
+					'apellido':"Zeait"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_CuatroCampos_Vacios_1245(self):
+		form_data = {
+					'cedula':"19294080"
+					}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+		
+	#Malicia	
+	def test_Form_Campos_Todos_Invalidos(self):
+		form_data = {'nombre':"Daniel1234",
+					'apellido':"Zeait1234",
+					'cedula':'fghkjhu',
+					'num_tarjeta':"wertyui",
+					'codigo_val':'ertyui'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
 	#borde
-	def test_Form_SegundoCampoValido(self):
-		form_data = {'num_tarjeta':"qwertyui",
+	def test_Form_Nombre_Invalido(self):
+		form_data = {'nombre':"Daniel1234",
+					'apellido':"Zeait",
+					'cedula':'19294080',
+					'num_tarjeta':"1234567890123456",
 					'codigo_val':'123'}
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
-
-	#malicia
-	def test_Form_CamposMixtos(self):
-		form_data = {'num_tarjeta':"123456789012345b",
-					'codigo_val':'12v'}
+	
+	#borde
+	def test_Form_Apellido_Invalido(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait123",
+					'cedula':'19294080',
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':'123'}
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
-
+	
+	#borde
+	def test_Form_Cedula_Invalida(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Zeait",
+					'cedula':'19294080a',
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':'123'}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#borde
+	def test_Form_NumTarjeta_Invalida(self):
+		form_data = {'nombre':"daniel",
+					'apellido':"zeait",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456q",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#borde
+	def test_Form_Cvv_Invalido(self):
+		form_data = {'nombre':"daniel",
+					'apellido':"zeait",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"1x3a"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+			
 ###################################################################
 # PRUEBAS DE FUNCIONES DEL CONTROLADOR
 ###################################################################

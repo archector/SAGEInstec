@@ -79,9 +79,21 @@ class EstacionamientoPago(forms.Form):
                             regex = '^(\d{3}$)',
                         )
     
+    cedula_validator = RegexValidator(
+                            regex = '^(\d{8}$)',
+                        )
+    
+    nombre_validator = RegexValidator(
+                            regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$',
+                        )
+ 
+    apellido_validator = RegexValidator(
+                            regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$',
+                        )
+    
     num_tarjeta = forms.CharField(required = True, validators=[num_validator])
     codigo_val = forms.CharField(required = True,validators=[cvv_validator])
-    nombre = forms.CharField(required = True)
-    apellido = forms.CharField(required = True)
-    cedula = forms.CharField(required = True)
+    nombre = forms.CharField(required = True,validators=[nombre_validator])
+    apellido = forms.CharField(required = True,validators=[apellido_validator])
+    cedula = forms.CharField(required = True,validators=[cedula_validator])
     

@@ -210,16 +210,36 @@
 
               </div>
             </div>
+            <form action="" id="formulario" method="POST" onSubmit="return validar();">
+	        	{% csrf_token %}
             <div class="panel-body">
             	<div class="control-group">
             	 <div class="controls">
 			            <table class="table table-striped">
 					        <tbody>
+					        <tr><td><b><i class="fa fa-user"></i> Nombres del titular</b></td></tr>
+			            			<tr><td><input type="text" id="nombres" style="width:150px" onblur="validar_nombres()" onkeypress="ocultar_e4()" onclick="ocultar_e4()"><div class="alert alert-danger error_datos" id="error_nom" role="alert" style="display: none"><strong> * Introduzca nombre(s) válido(s)</strong>
+     							 	</td></tr>
+ 							 <tr><td><b><i class="fa fa-user"></i> Apellidos del titular</b></td></tr>
+			            			<tr><td><input type="text" id="apellidos" style="width:150px" onblur="validar_apellidos()" onkeypress="ocultar_e5()"onclick="ocultar_e5()"><div class="alert alert-danger error_datos" id="error_ape" role="alert" style="display: none"><strong> * Introduzca apellido(s) válido(s)</strong>
+     							 	</td></tr>
+     						 <tr><td><b><i class="fa fa-user"></i> Cédula del titular</b></td></tr>
+     						 <tr><td>
+			            		
+			            			<select id="tipo_ci" name="tipo_ci" style="width: 40px" onclick="ocultar_e7()" >
+					    				 <option value="">--</option>
+	  									 <option value="1">V</option>
+	  									 <option value="2">E</option>
+									</select> -
+			            			<input type="text" id="cedula" style="width:98px" onblur="validar_cedula()" onkeypress="ocultar_e6(),ocultar_e7()" onclick="ocultar_e6(),ocultar_e7()">
+			            			<div class="alert alert-danger error_datos" id="error_ci" role="alert" style="display: none"><strong> * Introduzca un numero de cedula válida</strong></div>
+     								<div class="alert alert-danger error_tipos" id="tipos" role="alert" style="display: none"><strong> * Introduzca un tipo de cedula</strong></div> 
+     							
+     						 </td></tr>
 					         <tr><td><b> Tipo Tarjeta</td></tr>
 					        	<tr><td>
-						        	<form action="" id="formulario" method="POST" onSubmit="return validar();">
-						        	{% csrf_token %}
-										<div class="row">	
+										<div class="row">
+												
 											<div class="col-md-4">							        	
 								        		<input type="radio" name="tarjetas" value="tvista" id="vista" onclick="ocultarError3()"> <img src="{% static 'css/vista.png'%}" width="60%"/>
 								        	</div>
@@ -237,10 +257,10 @@
 					       		 </td></tr>
 					       		 
 					            <tr><td><b><i class="fa fa-credit-card"></i> Numero tarjeta</b></td></tr>
-			            			<tr><td><input type="text" id="cardnumber" style="width:150px" onblur="validar_numero()" onclick="ocultarError(),ocultarError2(),validar_tipo()"><div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca un numero de tarjeta válido</strong>
-     								 </div></td></tr>	     	
+			            			<tr><td><input type="text" id="cardnumber" style="width:150px" onblur="validar_numero()" onkeypress="ocultarError()" onclick="ocultarError(),validar_tipo()"><div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca un numero de tarjeta válido</strong>
+     								 </td></tr>	     	
 						       			 <tr><td><b><i class="fa fa-key"></i> Código validador </b></td></tr> 
-						      				  <tr><td><input type="text"  id="cvv"  onblur="validar_cvv()" style="width: 50px" onclick="ocultarError2(),ocultarError()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="35%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
+						      				  <tr><td><input type="text"  id="cvv"  onblur="validar_cvv()" style="width: 50px"  onkeypress="ocultarError2()" onclick="ocultarError2()"><img class="cvv" src="{% static 'css/cvv.png'%}" width="35%" hspace="10px"/><div class="alert alert-danger error2" id="error2" role="alert" style="display: none"><strong> * Introduzca un CVV válido</strong>	</td></tr>				     
 					 	
 					 </table> <!--cerrando tabla-->     			
 	   			 </div> <!--cerrando panel boddy--> 
@@ -264,12 +284,16 @@
                    <b><h3 class="tituloPago">Procesando pago</b></h3>				
         	  </div>
         </div>	       
-     	<div id="progresBarContainer" class="progressBarContainerClass" style= 'display:block';>
+     	<div id="progresBarContainer" class="progressBarContainerClass" style= 'display:none';>
         	<div id="progresBarFill" class="progress-bar progress-bar-striped"></div>
     	</div>
     	<div id="mensaje" style="display: none">
     		<h4 align="center">La reserva se ha completado satisfactoriamente</h4>
-	    	<a href="."><button class="btn btn-success listo"  align="center" onclick="habilitar()">LISTO <i class="fa fa-check-circle"> </i></button></a>
+    		<h3 align="center">Transacción Nro {{num}}</h3>
+    		
+    		
+	    	<a href="."><button class="btn btn-success listo"  align="center" onclick="habilitar()">Terminar <i class="fa fa-check-circle"> </i></button></a>
+			<a href="."><button class="btn btn-success recibo"  align="center" onclick="habilitar()">Ver recibo <i class="fa fa-search"> </i></button></a>
 		</div>
 	</div>	       
 </div>
@@ -289,14 +313,12 @@
 	</div>	       
 </div>
 
-<span class="label label-default" >{{num}}</span>
 
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js'%}"></script>
   	<script type="text/javascript" src="{% static 'js/ProgressBar.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/Validator.js'%}"></script>  
   
-
 	<script type="text/javascript">
 		function mostrar(){
 		document.getElementById('error1').style.display = 'block';
@@ -316,6 +338,55 @@
 	</script>
 	
 	<script type="text/javascript">
+		function mostrar_e4(){
+		document.getElementById('error_nom').style.display = 'block';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function ocultar_e4(){
+		document.getElementById('error_nom').style.display = 'none';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function mostrar_e5(){
+		document.getElementById('error_ape').style.display = 'block';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function ocultar_e5(){
+		document.getElementById('error_ape').style.display = 'none';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function mostrar_e6(){
+		document.getElementById('error_ci').style.display = 'block';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function ocultar_e6(){
+		document.getElementById('error_ci').style.display = 'none';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function mostrar_e7(){
+		document.getElementById('tipos').style.display = 'block';
+		}
+	</script>	
+	
+	<script type="text/javascript">
+		function ocultar_e7(){
+		document.getElementById('tipos').style.display = 'none';
+		}
+	</script>		
+	
+	
+	<script type="text/javascript">
 		function mostrarPagos(){
 		document.getElementById('prepagar').style.display = 'none';
 		document.getElementById('pagos').style.display = 'block';
@@ -328,12 +399,16 @@
 
 	<script type="text/javascript">
 		function habilitar(){
-			cardnumber.disabled=true;
-            cvv.disabled=true;
-            boton_pago.disabled=true;
-            vista.disabled=true;
-            mister.disabled=true;
-            xpress.disabled=true;
+			cardnumber.disabled=false;
+            cvv.disabled=false;
+            boton_pago.disabled=false;
+            vista.disabled=false;
+            mister.disabled=false;
+            xpress.disabled=false;
+            nombres.disabled=false;
+            apellidos.disabled=false;
+            cedula.disabled=false;
+            tipo_ci.disabled=false; 
 		}
 	</script>		
 		
@@ -413,6 +488,10 @@
             vista.disabled=true;
             mister.disabled=true;
             xpress.disabled=true;
+            nombres.disabled=true;
+            apellidos.disabled=true;
+            cedula.disabled=true;
+            tipo_ci.disabled=true;    
             mostrarBarra();
             mostrarPanel();
             progressBar.fillElement.animate({ width: progressWidth }, 100, null);
