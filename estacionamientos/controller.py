@@ -71,8 +71,8 @@ def esquemaTarifarioMinutos(hin,hout,tarifa):
 	return cobro
 
 def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
-	horas_a_pagar = hout - hin
-	horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
+	horas_a_pagar = hout.hour - hin.hour
+	#horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
 	
 	if (hin.minute - hout.minute) == 0:
 		fraccion =0
