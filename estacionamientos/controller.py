@@ -70,6 +70,31 @@ def esquemaTarifarioMinutos(hin,hout,tarifa):
 	cobro = Decimal(cobro)
 	return cobro
 
+def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
+	horas_a_pagar = hout.hour - hin.hour
+	if (hin.minute - hout.minute) == 0:
+		fraccion =0
+		
+	elif (hin.minute < hout.minute):
+		fraccion = hout.minute - hin.minute
+		
+	elif hin.minute > hout.minute:
+		fraccion = 60 - (hin.minute - hout.minute)
+		horas_a_pagar= horas_a_pagar - 1
+	
+	cobro = 0
+	while horas_a_pagar > 0:
+		cobro = cobro +tarifa
+		horas_a_pagar = horas_a_pagar - 1
+	
+	if fraccion <= 30:
+		cobro = cobro + tarifa/2
+		
+	if 30<fraccion<=59:
+		cobro = cobro + tarifa
+		
+	return cobro
+
 
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
