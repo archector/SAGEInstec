@@ -72,23 +72,21 @@ def esquemaTarifarioHoras(hin,hout,tarifa):
 
 
 def esquemaTarifarioMinutos(hin,hout,tarifa):
-	horain = hin.hour*60 + hin.minute
-	horaout = hout.hour*60 + hout.minute
-	horas_a_pagar= horaout - horain
+	horas_a_pagar = hout - hin
+	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
+	minutos_a_pagar = horas_a_pagar*60
 	cobro = 0
-	while horas_a_pagar> 0:
+	while minutos_a_pagar> 0:
 		cobro = cobro + tarifa/60
-		horas_a_pagar = horas_a_pagar - 1
+		minutos_a_pagar = minutos_a_pagar - 1
 	cobro=("{:.2f}".format(cobro))
 	cobro = Decimal(cobro)
 	return cobro
 
 def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
 	horas_a_pagar = hout - hin
-	print(horas_a_pagar,type(horas_a_pagar))
 	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
 	horas_a_pagar = floor(horas_a_pagar)
-	print(horas_a_pagar,type(horas_a_pagar))
 	#horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
 	if (hin.minute - hout.minute) == 0:
 		fraccion =0
