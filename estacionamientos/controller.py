@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 # Archivo con funciones de control para SAGE
 import datetime
 import functools
-from math import ceil
+from math import ceil,floor
 from decimal import *
 CANT_MINUTOS_SIETE_DIAS=10080
 CANT_HORAS_SIETE_DIAS = 168
@@ -45,11 +46,11 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	'''Valida si la reserva tiene al menos 1 hora'''
 	if (ReservaFin.hour - ReservaInicio.hour < 1) and (ReservaFin.day - ReservaInicio.day == 0):
 		return (False, 'El tiempo de reserva debe ser al menos de 1 hora')
-	if ReservaFin.hour/60 + ReservaFin.minute > HorarioCierre.hour/60 +HorarioCierre.minute and (ReservaFin.day == ReservaInicio.day ):
+	if (ReservaFin.hour*60 + ReservaFin.minute > HorarioCierre.hour*60 +HorarioCierre.minute) and (ReservaFin.day - ReservaInicio.day ==0):
 		return (False, 'El horario de fin de reserva debe estar en un horario válido')
-	if ReservaInicio.hour/60 + ReservaInicio.minute < HorarioApertura.hour/60 +HorarioApertura.minute and (ReservaFin.day == ReservaInicio.day):
+	if ReservaInicio.hour*60 + ReservaInicio.minute < HorarioApertura.hour*60 +HorarioApertura.minute and (ReservaFin.day - ReservaInicio.day==0):
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
-	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and (ReservaFin.day > ReservaInicio.day ):
+	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and (ReservaFin.day - ReservaInicio.day >1 ):
 		return (False, 'No puede reservar por mas de un dia, ya que el estacionamiento no trabaja 24 horas')
 	
 	return (True, '')
@@ -71,18 +72,42 @@ def esquemaTarifarioHoras(hin,hout,tarifa):
 
 
 def esquemaTarifarioMinutos(hin,hout,tarifa):
-	horain = hin.hour*60 + hin.minute
-	horaout = hout.hour*60 + hout.minute
-	horas_a_pagar= horaout - horain
+	horas_a_pagar = hout - hin
+	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
+	minutos_a_pagar = horas_a_pagar*60
 	cobro = 0
-	while horas_a_pagar> 0:
+	while minutos_a_pagar> 0:
 		cobro = cobro + tarifa/60
-		horas_a_pagar = horas_a_pagar - 1
+		minutos_a_pagar = minutos_a_pagar - 1
 	cobro=("{:.2f}".format(cobro))
 	cobro = Decimal(cobro)
 	return cobro
 
-
+def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
+	horas_a_pagar = hout - hin
+	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
+	horas_a_pagar = floor(horas_a_pagar)
+	#horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
+	if (hin.minute - hout.minute) == 0:
+		fraccion =0
+	elif (hin.minute < hout.minute):
+		fraccion = hout.minute - hin.minute
+	elif hin.minute > hout.minute:
+		fraccion = 60 - (hin.minute - hout.minute)
+		horas_a_pagar= horas_a_pagar - 1
+		
+	cobro = 0
+	while horas_a_pagar > 0:
+		cobro = cobro + tarifa
+		horas_a_pagar = horas_a_pagar - 1
+	if 0<fraccion <= 30:
+		cobro = cobro + tarifa/2
+	if 30<fraccion<=59:
+		cobro = cobro + tarifa
+	
+	cobro=("{:.2f}".format(cobro))
+	cobro = Decimal(cobro)	
+	return cobro
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	tabla = []
