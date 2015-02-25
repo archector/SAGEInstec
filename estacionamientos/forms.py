@@ -84,11 +84,11 @@ class EstacionamientoPago(forms.Form):
                         )
     
     nombre_validator = RegexValidator(
-                            regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$',
+                            regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚäëïöüÄËÏÖÜ ]+$',
                         )
  
     apellido_validator = RegexValidator(
-                            regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚ ]+$',
+                            regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚäëïöüÄËÏÖÜ ]+$',
                         )
     
     num_tarjeta = forms.CharField(required = True, validators=[num_validator])

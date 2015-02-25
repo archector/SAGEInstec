@@ -906,6 +906,133 @@ class SimpleFormTestCase(TestCase):
 		form = EstacionamientoPago(data = form_data)
 		self.assertEqual(form.is_valid(), False)
 	
+	#TDD
+	def test_Form_DosNombres(self):
+		form_data = {'nombre':"Daniel Elias",
+					'apellido':"zeait",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#TDD	
+	def test_Form_DosApellidos(self):
+		form_data = {'nombre':"Daniel",
+					'apellido':"Pelayo Useche",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+
+	#TDD	
+	def test_Form_DosNombres_DosApellidos(self):
+		form_data = {'nombre':"Daniel Alejandro",
+					'apellido':"Pelayo Useche",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+
+	#borde	
+	def test_Form_NombresEspeciales_Acentos(self):
+		form_data = {'nombre':"José",
+					'apellido':"Alvarado",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+
+	#borde	
+	def test_Form_NombresEspeciales_Eñe(self):
+		form_data = {'nombre':"Iñaqui",
+					'apellido':"Alvarado",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+		
+	
+	#TDD	
+	def test_Form_DosNombresEspeciales_Acentos(self):
+		form_data = {'nombre':"Martín José",
+					'apellido':"Alvarado",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+			
+	#malicia	
+	def test_Form_Nombres_Muy_Especiales(self):
+		form_data = {'nombre':"María José del Carmen ",
+					'apellido':"Alvarado",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+		
+	#malicia	
+	def test_Form_Apellidos_Especiales1(self):
+		form_data = {'nombre':" Daniel",
+					'apellido':"Álvarez",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#malicia	
+	def test_Form_Apellidos_Especiales2(self):
+		form_data = {'nombre':" Daniel",
+					'apellido':"Nuñez",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#malicia	
+	def test_Form_Apellidos_Especiales3(self):
+		form_data = {'nombre':" Daniel",
+					'apellido':"Álvarez Nuñez",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	def test_Form_Apellidos_Especiales4(self):
+		form_data = {'nombre':" Daniel",
+					'apellido':"Álvarez De Jesús",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+		
+	def test_Form_NombresApellidos_Especiales(self):
+		form_data = {'nombre':" Iñaqui José",
+					'apellido':"Álvarez De Jesús",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+		
+	def test_Form_NombresApellidos_Especiales2(self):
+		form_data = {'nombre':" Iñaqui Thomás José",
+					'apellido':"Zúñiga Römer",
+					'cedula':"19294080",
+					'num_tarjeta':"1234567890123456",
+					'codigo_val':"123"}
+		form = EstacionamientoPago(data = form_data)
+		self.assertEqual(form.is_valid(), True)
 			
 ###################################################################
 # PRUEBAS DE FUNCIONES DEL CONTROLADOR
