@@ -56,6 +56,6 @@ class Estacionamiento(models.Model):
 class ReservasModel(models.Model):
 	Estacionamiento = models.ForeignKey(Estacionamiento)
 	Puesto = models.IntegerField()
-	InicioReserva = models.TimeField(blank=True,null=True)
-	FinalReserva = models.TimeField(blank=True,null=True)
+	InicioReserva = models.DateTimeField(default = None)
+	FinalReserva = models.DateTimeField(default = None)
 	Costo = models.CharField(max_length = 20, default = None, blank=True, null=True)

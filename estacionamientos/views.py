@@ -148,6 +148,8 @@ def estacionamiento_reserva(request, _id):
                         #cobro=("{:.2f}".format(cobro))
                     elif estacion.Tarifa.tipoTarifa == 'minutos':
                         cobro = esquemaTarifarioMinutos(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                    elif estacion.Tarifa.tipoTarifa == 'horaFraccion':
+                        cobro = esquemaTarifarioHoraFraccion(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
                         #cobro=("{:.2f}".format(cobro))
                     reservaFinal = ReservasModel(
                                         Estacionamiento = estacion,

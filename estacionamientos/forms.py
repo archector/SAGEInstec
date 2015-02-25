@@ -3,6 +3,7 @@
 from django import forms
 from django.core.validators import RegexValidator
 from estacionamientos.models import Tarifa
+from django.forms.widgets import *
 
 class TarifaForm(forms.Form):
     tipo = forms.CharField(required = True, label = 'Tipo de Tarifa')
@@ -67,8 +68,8 @@ class EstacionamientoExtendedForm(forms.Form):
     
 
 class EstacionamientoReserva(forms.Form):
-    inicio = forms.TimeField(required = True,label = 'Horario Inicio Reserva')
-    final = forms.TimeField(required = True,label = 'Horario Final Reserva')
+    inicio = forms.DateTimeField(required = True,label = 'Inicio Reserva')
+    final = forms.DateTimeField(required = True,label = 'Final Reserva')
    
 class EstacionamientoPago(forms.Form):
     num_validator = RegexValidator(
