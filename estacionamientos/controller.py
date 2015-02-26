@@ -7,6 +7,12 @@ from decimal import *
 CANT_MINUTOS_SIETE_DIAS=10080
 CANT_HORAS_SIETE_DIAS = 168
 CANT_SEGUNDOS_HORA = 3600
+#FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
+FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0)
+
+
+
+
 
 # Las Tuplas de cada puesto deben tener los horarios de inicio y de cierre para que
 # pueda funcionar [(7:00,7:00), (19:00,19:00)]
@@ -111,7 +117,6 @@ def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	tabla = []
-	FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
 	ini2 = horaReserva[0].replace(tzinfo=None)-FECHA_FIJA
 	fin2 = horaReserva[1].replace(tzinfo=None)-FECHA_FIJA
 	ini2 =ini2.total_seconds()/60
