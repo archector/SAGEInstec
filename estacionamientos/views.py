@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from estacionamientos.controller import *
 from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
@@ -191,3 +191,8 @@ def eliminar_reserva_view(request, _id):
     reserv.delete()
     
     return render(request, 'eliminandoreserva.html',{'reserva': reserv})
+
+
+# Redirecciona los request de / a /estacionamientos
+def index(request):
+    return redirect('/estacionamientos')

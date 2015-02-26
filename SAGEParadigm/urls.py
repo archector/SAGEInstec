@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'SAGEPhoenix.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^$', 'estacionamientos.views.index', name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^estacionamientos/',include('estacionamientos.urls')),
 )
