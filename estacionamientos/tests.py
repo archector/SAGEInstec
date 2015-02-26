@@ -1133,4 +1133,111 @@ class SimpleFormTestCase(TestCase):
 		HoraApertura1 = time(0,0)
 		HoraCierre1 = time(4,20)
 		x = validarHorarioReserva(ReservaInicio1,ReservaFin1,HoraApertura1,HoraCierre1)
+		
+# Esquemas tarifarios, Pruebas unitarias
+#Se realizaran pruebas para probar el buen funcionamiento de los diferentes esquemas
+#tarifarios que se ofrecen.
+
+	def test_esquemaTarifarioHoras_horaExacta(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,0)
+		tarifa = 2
+		x = esquemaTarifarioHoras(hin,hout,tarifa)
+		self.assertEqual(x, 2)
+	def test_esquemaTarifarioHoras_horaYfraccion_A(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,1)
+		tarifa = 2
+		x = esquemaTarifarioHoras(hin,hout,tarifa)
+		self.assertEqual(x, 4)
+	def test_esquemaTarifarioHoras_horaYfraccion_B(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,59)
+		tarifa = 2
+		x = esquemaTarifarioHoras(hin,hout,tarifa)
+		self.assertEqual(x, 4)
+	def test_esquemaTarifarioHoras_mismaHora(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,6,0)
+		tarifa = 2
+		x = esquemaTarifarioHoras(hin,hout,tarifa)
+		self.assertEqual(x, 0)
+	def test_esquemaTarifarioMinutos_horaExacta(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,0)
+		tarifa = 2
+		x = esquemaTarifarioMinutos(hin,hout,tarifa)
+		self.assertEqual(x, 2)
+	def test_esquemaTarifarioMinutos_horaYfraccion_A(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,1)
+		tarifa = 2
+		x = esquemaTarifarioMinutos(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(2.033333333)))
+	def test_esquemaTarifarioMinutos_horaYfraccion_B(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,59)
+		tarifa = 2
+		x = esquemaTarifarioMinutos(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(3.97)))
+	def test_esquemaTarifarioMinutos_mismaHora(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,6,0)
+		tarifa = 2
+		x = esquemaTarifarioMinutos(hin,hout,tarifa)
+		self.assertEqual(x, 0)
+	def test_esquemaTarifarioHoraFraccion_horaExacta(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,0)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, 2)
+	def test_esquemaTarifarioHoraFraccion_horaYfraccion_MenorQueTreinta_A(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,1)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(3)))
+	def test_esquemaTarifarioHoraFraccion_HoraFraccion_MenorQueTreinta_B(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,29)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(3)))
+	def test_esquemaTarifarioHoraFraccion_HoraFraccion_IgualTreinta(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,30)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(3)))
+	def test_esquemaTarifarioHoraFraccion_horaYfraccion_MayorQueTreinta_A(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,31)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(4)))
+	def test_esquemaTarifarioHoraFraccion_HoraFraccion_MayorQueTreinta_B(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,59)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, Decimal("{:.2f}".format(4)))
+	def test_esquemaTarifarioHoraFraccion_mismaHora(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,6,0)
+		tarifa = 2
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertEqual(x, 0)
+		
+#Prueba para verificar que los costos se manejan con el tipo DECIMAL
+#Lo unico que se maneja de dinero hasta ahora, es el cobro de las reservas
+#y esto lo devuelve las funciones de los esquemas.
+#Se comprobara que el tipo que devuelve la funcion es una instancia de la clase
+#Decimal
+	def test_Costo_es_Decimal(self):#Frontera
+		hin = datetime.datetime(2000,4,13,6,0)
+		hout = datetime.datetime(2000,4,13,7,25)
+		tarifa = 2.47
+		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		self.assertIsInstance(x, Decimal)
 
