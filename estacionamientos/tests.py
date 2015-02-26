@@ -1,7 +1,6 @@
 	# -*- coding: utf-8 -*-
 
-import datetime
-from datetime import time, timezone, timedelta
+from datetime import time, timezone, timedelta, datetime
 from django.test import Client
 from django.test import TestCase
 import unittest
@@ -29,16 +28,16 @@ class SimpleTest(unittest.TestCase):
 	'''Caso de agregar una reservacion con el estacionamiento vacio'''    
 	def testAgregarConEstacionamientoVacio(self):
 		n = []
-		HoraInicio = time(hour = 6, minute = 0, second = 0)
-		HoraFinal = time(hour = 18, minute = 0, second = 0)
+		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
 		
 	'''Caso de agregar una reservacion con el estacionamiento lleno'''    
 	def testAgregarUnoConEstacionamientoLleno(self):
 		n = []
 		i=0
-		HoraInicio = time(hour = 6, minute = 0, second = 0)
-		HoraFinal = time(hour = 18, minute = 0, second = 0)
+		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
 		while (i <10):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1   
@@ -46,18 +45,18 @@ class SimpleTest(unittest.TestCase):
 	
 	'''Prueba dos intervalos con la misma cantidad de puestos reservados'''
 	def testDosIntervalosMismaCantidadDePuestos(self):	
-		Hora1 = time(hour = 8, minute = 0, second = 0)
-		Hora2 = time(hour = 9, minute = 0, second = 0)
-		Hora3 = time(hour = 10, minute = 0, second = 0)
-		Hora4 = time(hour = 12, minute = 0, second = 0)
+		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
+		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
+		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(((Hora1,Hora2),(Hora1,Hora4),(Hora3,Hora4)),(Hora3,Hora4),10)[0]) 
 		
 	'''Caso de llenar el estacionemiento'''    
 	def testEstacionemientoLleno(self):
 		n = []
 		i=0
-		HoraInicio = time(hour = 6, minute = 0, second = 0)
-		HoraFinal = time(hour = 18, minute = 0, second = 0)
+		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
 		while (i <9):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1    
@@ -67,10 +66,10 @@ class SimpleTest(unittest.TestCase):
 	def testHorasCruzadas(self):
 		n = []
 		i=0
-		Hora1 = time(hour = 6, minute = 0, second = 0)
-		Hora2 = time(hour = 7, minute = 0, second = 0)
-		Hora3 = time(hour = 8, minute = 0, second = 0)
-		Hora4 = time(hour = 9, minute = 0, second = 0)
+		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 7, minute = 0, second = 0)
+		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
 		while (i <9):	
 			n.append((Hora1,Hora2))
 			i=i+1 
@@ -88,8 +87,8 @@ class SimpleTest(unittest.TestCase):
 	def testMaximoDeReservasDeUnPuesto(self):
 		n = []
 		i=0
-		HoraInicio = time(hour = 8, minute = 0, second = 0)
-		HoraFinal = time(hour = 9, minute = 0, second = 0)
+		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
 		while (i <10):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1  
@@ -109,23 +108,23 @@ class SimpleTest(unittest.TestCase):
 		
 	'''Prueba para Offset iguales y tipe opuestos'''
 	def testOffsetIgualesTypeOpuestos(self):
-		Hora1 = time(hour = 8, minute = 0, second = 0)
-		Hora2 = time(hour = 9, minute = 0, second = 0)
-		Hora3 = time(hour = 10, minute = 0, second = 0)
-		Hora4 = time(hour = 11, minute = 0, second = 0)
-		Hora5 = time(hour = 12, minute = 0, second = 0)
-		Hora6 = time(hour = 13, minute = 0, second = 0)
-		Hora7 = time(hour = 14, minute = 0, second = 0)
-		Hora8 = time(hour = 15, minute = 0, second = 0)
+		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
+		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
+		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 11, minute = 0, second = 0)
+		Hora5 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
+		Hora6 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 13, minute = 0, second = 0)
+		Hora7 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 14, minute = 0, second = 0)
+		Hora8 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 15, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(((Hora4,Hora8),(Hora1,Hora8),(Hora2,Hora4),(Hora3,Hora7),(Hora4,Hora7),(Hora2,Hora3),(Hora2,Hora6),(Hora5,Hora8),(Hora1,Hora4),(Hora7,Hora8)),(Hora7,Hora8),10)[0])
 	
 	'''Prueba Simple'''
 	def testPruebaSimple(self):
-		Hora1 = time(hour = 8, minute = 0, second = 0)
-		Hora2 = time(hour = 10, minute = 0, second = 0)
-		Hora3 = time(hour = 11, minute = 0, second = 0)
-		Hora4 = time(hour = 12, minute = 0, second = 0)
-		Hora5 = time(hour = 13, minute = 0, second = 0)
+		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
+		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 11, minute = 0, second = 0)
+		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
+		Hora5 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 13, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(((Hora1,Hora4),(Hora3,Hora5),(Hora2,Hora4)),(Hora2,Hora4),10)[0]) 
 
 ###################################################################
@@ -593,7 +592,7 @@ class SimpleFormTestCase(TestCase):
 
 	# normal
 	def test_EstacionamientoReserva_TodosCamposBien(self):
-		ini = datetime.now()
+		ini = datetime.datetime.now()
 		fin = ini + timedelta(days=+1)
 		form_data = {'inicio':ini, 'final':fin}
 		form = EstacionamientoReserva(data = form_data)
@@ -1060,8 +1059,8 @@ class SimpleFormTestCase(TestCase):
 
 	# normal
 	def test_HorarioReservaValido(self):
-		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 0, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1069,8 +1068,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_InicioReservacion_Mayor_FinalReservacion(self):
-		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 12, minute = 59, second = 59, tzinfo = timezone.utc)
+		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 25, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1078,8 +1077,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_TiempoTotalMenor1h(self):
-		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 13, minute = 59, second = 59, tzinfo = timezone.utc)
+		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 13, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1088,8 +1087,8 @@ class SimpleFormTestCase(TestCase):
 	# caso borde
 	#############################ACTUALIZADO#####################################
 	def test_HorarioReservaInvalido_ReservaFinal_Mayor_HorarioCierre(self):
-		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 18, minute = 0, second = 1, tzinfo = timezone.utc)
+		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 19, minute = 0, second = 1, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1097,8 +1096,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_ReservaInicial_Menor_HorarioApertura(self):
-		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 11, minute = 59, second = 59, tzinfo = timezone.utc)
-		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 1, tzinfo = timezone.utc)
+		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 11, minute = 59, second = 59, tzinfo = timezone.utc)
+		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 1, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1106,8 +1105,17 @@ class SimpleFormTestCase(TestCase):
 
 	# malicia
 	def test_Reservacion_CamposVacios(self):
-		ini = datetime.now()
+		ini = datetime.datetime.now()
 		fin = ini + timedelta(days=+1)
 		form_data = {'inicio':ini, 'final':fin}
 		form = EstacionamientoReserva(data = form_data)
 		self.assertEqual(form.is_valid(), True)
+
+###################################################################
+# PRUEBAS DE EXTENSION DE LA RESERVA
+###################################################################
+
+	# borde
+	def test_Reservacion_24horas(self):
+		ini = datetime.datetime.now()
+		#fin = 
