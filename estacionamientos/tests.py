@@ -1116,6 +1116,10 @@ class SimpleFormTestCase(TestCase):
 ###################################################################
 
 	# borde
-	def test_Reservacion_24horas(self):
-		ini = datetime.datetime.now()
-		#fin = 
+	def test_ReservacionMayor7Dias(self):
+		ReservaInicio = datetime.datetime.now()
+		ReservaFin = ReservaInicio + timedelta(days=7,minutes=1)
+		HoraApertura = time(0,1)
+		HoraCierre = time(4,20)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x,(False,'La fecha de reserva no puede ser mayor a 7 dias'))
