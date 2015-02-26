@@ -1121,19 +1121,68 @@ class SimpleFormTestCase(TestCase):
 	# borde
 	def test_ReservacionMayor7Dias(self):
 		ReservaInicio = datetime.datetime.now()
-		ReservaFin = ReservaInicio + timedelta(days=7,minutes=1)
+		ReservaFin = ReservaInicio + timedelta(days=7,seconds=1)
 		HoraApertura = time(0,0)
 		HoraCierre = time(4,20)
 		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
 		self.assertEqual(x,(False,'La fecha de reserva no puede ser mayor a 7 dias'))
 
-	def test_montoCobroMultiplesDias(self):
-		ReservaInicio1 = datetime.datetime.now()
-		ReservaFin1 = ReservaInicio1 + timedelta(days=1)
-		HoraApertura1 = time(0,0)
-		HoraCierre1 = time(4,20)
-		x = validarHorarioReserva(ReservaInicio1,ReservaFin1,HoraApertura1,HoraCierre1)
-		
+	# borde
+	def test_ReservacionSieteDiasExactos(self):
+		CANT_MINUTOS_SIETE_DIAS=10080
+		ReservaInicio = datetime.datetime(year=2015,month=2,day=25, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		HoraApertura = time(4,20)
+		HoraCierre = time(16,20)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x, (True, ''))
+
+	# borde
+	def test_ReservacionUnDiaExacto(self):
+		ReservaInicio = datetime.datetime(year=2015,month=2,day=25, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days = 1)
+		HoraApertura = time(4,20)
+		HoraCierre = time(16,20)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x, (True, ''))		
+
+	# esquina
+	def test_ReservacionNula(self):
+		ReservaInicio = datetime.datetime(year=2015,month=2,day=25, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio
+		HoraApertura = time(4,20)
+		HoraCierre = time(16,20)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x, (False, 'El tiempo de reserva debe ser al menos de 1 hora'))		
+
+	# esquina
+	def test_ReservacionMuyGrande(self):
+		ReservaInicio = datetime.datetime(year=2015,month=2,day=25, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=100)
+		HoraApertura = time(4,20)
+		HoraCierre = time(16,20)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x, (False, 'La fecha de reserva no puede ser mayor a 7 dias'))	
+
+	# esquina
+	def test_ReservacionIntermediaEstacionamiento24h(self):
+		ReservaInicio = datetime.datetime(year=2015,month=2,day=25, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=3,seconds=1)
+		HoraApertura = time(0,0)
+		HoraCierre = time(0,0)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x, (True, ''))
+
+	# esquina
+	def test_ReservacionIntermediaEstacionamientoMenos24h(self):
+		ReservaInicio = datetime.datetime(year=2015,month=2,day=25, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=3,seconds=1)
+		HoraApertura = time(4,20)
+		HoraCierre = time(16,20)
+		x = validarHorarioReserva(ReservaInicio,ReservaFin,HoraApertura,HoraCierre)
+		self.assertEqual(x, (False, 'No puede reservar por mas de un dia, ya que el estacionamiento no trabaja 24 horas'))
+
+
 # Esquemas tarifarios, Pruebas unitarias
 #Se realizaran pruebas para probar el buen funcionamiento de los diferentes esquemas
 #tarifarios que se ofrecen.
