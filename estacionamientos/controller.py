@@ -8,7 +8,7 @@ CANT_MINUTOS_SIETE_DIAS=10080
 CANT_HORAS_SIETE_DIAS = 168
 CANT_SEGUNDOS_HORA = 3600
 #FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
-FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0)
+FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0).replace(tzinfo=None)
 
 
 
@@ -43,7 +43,6 @@ def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin):
 
 def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCierre):
 	
-	FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
 	if (ReservaFin.replace(tzinfo=None)<FECHA_FIJA) or ReservaInicio.replace(tzinfo=None)<FECHA_FIJA:
 		return (False, 'La fecha de reserva no puede estar fuera del rango')
 	'''valida si la reserva sobrepasa los 7 dias desde la fecha fija'''
