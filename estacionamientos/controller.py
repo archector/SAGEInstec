@@ -8,7 +8,7 @@ CANT_MINUTOS_SIETE_DIAS=10080
 CANT_HORAS_SIETE_DIAS = 168
 CANT_SEGUNDOS_HORA = 3600
 #FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
-FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0).replace(tzinfo=None)
+FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0)
 
 
 
@@ -55,7 +55,7 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 		return (False, 'El horario de fin de reserva debe estar en un horario válido')
 	if ReservaInicio.hour*60 + ReservaInicio.minute < HorarioApertura.hour*60 +HorarioApertura.minute and (ReservaFin.day - ReservaInicio.day==0):
 		return (False, 'El horario de cierre de reserva debe estar en un horario válido')
-	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and (ReservaFin.day - ReservaInicio.day >1 ):
+	if not(HorarioCierre==datetime.time(0,0)) and not(HorarioCierre==datetime.time(23,59)) and ((ReservaFin.day - ReservaInicio.day >0 ) or (not(ReservaFin.month ==ReservaInicio.month))):
 		return (False, 'No puede reservar por mas de un dia, ya que el estacionamiento no trabaja 24 horas')
 	
 	return (True, '')
