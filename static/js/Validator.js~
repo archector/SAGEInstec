@@ -35,7 +35,7 @@ function validar_cedula(){
 		return false;
 		
 	}
-	else if( !(/^\d{8}$/.test(ci)) ) {
+	else if( !(/^\d{5,8}$/.test(ci)) ) {
 		document.getElementById("cedula").select();
 	        document.getElementById("cedula").focus();			  	
 		mostrar_e6();
@@ -235,7 +235,7 @@ function validar_todo(){
 		mostrar_e7();  		
 		return false;
 	}
-	disable();
+	
 	mostrarConfirmacion();
 	return true;	
 }

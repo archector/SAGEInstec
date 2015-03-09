@@ -85,7 +85,7 @@ class EstacionamientoRif(forms.Form):
 
 class EstacionamientoCi(forms.Form):
     ci_validator = RegexValidator(
-                        regex = "^\d{8}$",
+                        regex = "^\d{5,9}$",
                         message = 'Introduzca una cédula con un formato válido.'
                     )
 
