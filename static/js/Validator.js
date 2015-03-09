@@ -235,8 +235,8 @@ function validar_todo(){
 		mostrar_e7();  		
 		return false;
 	}
-		
-	setValue();
+	
+	mostrarConfirmacion();
 	return true;	
 }
 

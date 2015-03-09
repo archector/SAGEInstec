@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Sum
 from django.shortcuts import render, redirect
-
+from decimal import Decimal
 from estacionamientos.controller import *
 from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
 from estacionamientos.forms import EstacionamientoForm
 from estacionamientos.forms import EstacionamientoReserva
 from estacionamientos.forms import EstacionamientoPago
-
-from estacionamientos.models import Estacionamiento, ReservasModel
+from estacionamientos.forms import EstacionamientoRif
+from estacionamientos.forms import EstacionamientoCi
+from estacionamientos.models import Estacionamiento, ReservasModel , RecibosModel
 from django.core.context_processors import request
-
+from django.template import Context
 
 listaReserva = []
 
@@ -44,7 +46,8 @@ def estacionamientos_all(request):
                         Telefono_2 = form.cleaned_data['telefono_2'],
                         Telefono_3 = form.cleaned_data['telefono_3'],
                         Email_1 = form.cleaned_data['email_1'],
-                        Email_2 = form.cleaned_data['email_2']
+                        Email_2 = form.cleaned_data['email_2'],
+                        Ingresos = 0
                 )
                 obj.save()
                 # Recargamos los estacionamientos ya que acabamos de agregar
@@ -144,12 +147,12 @@ def estacionamiento_reserva(request, _id):
                 if reserva[0] :
                     listaReserva.append(horaReserva)
                     if estacion.Tarifa.tipoTarifa == 'horas':
-                        cobro = esquemaTarifarioHoras(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        cobro = esquemaTarifarioHoras(inicio_reserva, final_reserva, estacion.monto_tarifa)
                         #cobro=("{:.2f}".format(cobro))
                     elif estacion.Tarifa.tipoTarifa == 'minutos':
-                        cobro = esquemaTarifarioMinutos(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        cobro = esquemaTarifarioMinutos(inicio_reserva, final_reserva, estacion.monto_tarifa)
                     elif estacion.Tarifa.tipoTarifa == 'horaFraccion':
-                        cobro = esquemaTarifarioHoraFraccion(inicio_reserva, final_reserva, int(estacion.monto_tarifa))
+                        cobro = esquemaTarifarioHoraFraccion(inicio_reserva, final_reserva, estacion.monto_tarifa)
                         #cobro=("{:.2f}".format(cobro))
                     reservaFinal = ReservasModel(
                                         Estacionamiento = estacion,
@@ -176,10 +179,37 @@ def estacionamiento_pagos(request, _id):
         reserv = ReservasModel.objects.latest("id")
     except ObjectDoesNotExist:
         return render(request, '404.html')
+    
+    # Si se hace un POST a esta vista implica que se quiere agregar un nuevo
+    # recibo de pago
+    recibos = RecibosModel.objects.all()
+    if request.method == 'POST':
+            # Creamos un formulario con los datos que recibimos
+            form = EstacionamientoPago(request.POST)
 
-    form = EstacionamientoPago()
+            # Si el formulario es valido, entonces creamos un objeto con
+            # el constructor del modelo
+            if form.is_valid():
+                obj = RecibosModel(
+                        NumeroTransaccion=reserv.id,
+                        Cedula = form.cleaned_data['cedula'],
+                        Nombre = form.cleaned_data['nombre'],
+                        Apellido = form.cleaned_data['apellido'],
+                        NumeroTarjeta = form.cleaned_data['num_tarjeta'],
+                        FechaPago = datetime.datetime.now(),
+                        InicioReserva = reserv.InicioReserva,
+                        FinalReserva = reserv.FinalReserva,
+                        Costo = reserv.Costo,
+                )
+                
+                obj.save()
+                # Recargamos los recibos ya que acabamos de agregar
+                recibos = RecibosModel.objects.all()
+    # Si no es un POST es un GET, y mandamos un formulario vacio
+    else:
+        form = EstacionamientoPago()
 
-    return render(request, 'pagos.html',{'reserva': reserv,'form':form})
+    return render(request, 'pagos.html',{'reserva': reserv,'form':form,'recibos':recibos})
 
 def eliminar_reserva_view(request, _id):
     _id = int(_id)
@@ -192,7 +222,157 @@ def eliminar_reserva_view(request, _id):
     
     return render(request, 'eliminandoreserva.html',{'reserva': reserv})
 
+def pago_confirm(request, _id):
+    _id = int(_id)
+    # Verificamos que el objeto exista antes de continuar
+    try:
+        reserv = ReservasModel.objects.latest("id")
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+    
+    recibos = RecibosModel.objects.all()
+    
+    if request.method == 'POST':
+            # Creamos un formulario con los datos que recibimos
+            form = EstacionamientoPago(request.POST)
+
+            # Si el formulario es valido, entonces creamos un objeto con
+            # el constructor del modelo
+            if form.is_valid():
+                obj = RecibosModel(
+                        NumeroTransaccion=reserv.id,
+                        Cedula = form.cleaned_data['cedula'],
+                        Nombre = form.cleaned_data['nombre'],
+                        Apellido = form.cleaned_data['apellido'],
+                        NumeroTarjeta = form.cleaned_data['num_tarjeta'],
+                        FechaPago = datetime.datetime.now(),
+                        InicioReserva = reserv.InicioReserva,
+                        FinalReserva = reserv.FinalReserva,
+                        Costo = Decimal(reserv.Costo),
+                        RifEstacionamiento=reserv.Estacionamiento.Rif,
+                        NombreEstacionamiento=reserv.Estacionamiento.Nombre,
+                        TelEstacionamiento=reserv.Estacionamiento.Telefono_1,
+                        
+                )
+                obj.save()
+                e = Estacionamiento.objects.get(Rif=reserv.Estacionamiento.Rif,Nombre=reserv.Estacionamiento.Nombre)
+                e.Ingresos =e.Ingresos+ Decimal(reserv.Costo)
+                e.save(update_fields=['Ingresos'])
+                # Recargamos los recibos ya que acabamos de agregar
+                recibos = RecibosModel.objects.all()
+                
+    # Si no es un POST es un GET, y mandamos un formulario vacio
+    else:
+        form = EstacionamientoPago()
+
+    return render(request, 'pagoconfirm.html',{'reserva': reserv,'form':form,'recibos':recibos})
+
+
+def recibo_pago(request, _id):
+    _id = int(_id)
+    # Verificamos que el objeto exista antes de continuar
+    try:
+        recibo = RecibosModel.objects.latest("id")
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+    
+    form = EstacionamientoPago()
+    
+    return render(request, 'recibo.html',{'recibo': recibo,'form':form})
+
+def form_pago(request, _id):
+    _id = int(_id)
+    # Verificamos que el objeto exista antes de continuar
+    try:
+        reserv = ReservasModel.objects.latest("id")
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+    
+    recibos = RecibosModel.objects.all()
+    if request.method == 'POST':
+            # Creamos un formulario con los datos que recibimos
+            form = EstacionamientoPago(request.POST)
+
+            # Si el formulario es valido, entonces creamos un objeto con
+            # el constructor del modelo
+            if form.is_valid():
+                obj = RecibosModel(
+                        NumeroTransaccion=reserv.id,
+                        Cedula = form.cleaned_data['cedula'],
+                        Nombre = form.cleaned_data['nombre'],
+                        Apellido = form.cleaned_data['apellido'],
+                        NumeroTarjeta = form.cleaned_data['num_tarjeta'],
+                        FechaPago = datetime.datetime.now(),
+                        InicioReserva = reserv.InicioReserva,
+                        FinalReserva = reserv.FinalReserva,
+                        Costo = reserv.Costo,
+                        
+                        
+                )
+                obj.save()
+                # Recargamos los recibos ya que acabamos de agregar
+                recibos = RecibosModel.objects.all()
+    # Si no es un POST es un GET, y mandamos un formulario vacio
+    else:
+        form = EstacionamientoPago()
+
+    return render(request, 'pagosform.html',{'reserva': reserv,'form':form,'recibos':recibos})
+
 
 # Redirecciona los request de / a /estacionamientos
 def index(request):
     return redirect('/estacionamientos')
+
+def reporte_ingresos(request):
+    form = EstacionamientoRif() 
+    n =0
+    if request.method == 'POST':
+            # Creamos un formulario con los datos que recibimos
+            form = EstacionamientoRif(request.POST)
+            
+            # Si el formulario es valido, entonces creamos un objeto con
+            # el constructor del modelo
+            if form.is_valid():
+                # Recargamos los recibos ya que acabamos de agregar
+                
+                rif = form.cleaned_data['rif']
+                est = Estacionamiento.objects.filter(Rif=rif)
+                total =est.aggregate(sum=Sum('Ingresos'))
+                if (len(est) == 0):
+                    n=1
+                return render(request, 'reporteingresos.html',{'form':form,'rif':rif,'est':est,'total':total,'n':n})
+    # Si no es un POST es un GET, y mandamos un formulario vacio
+    else:
+        form = EstacionamientoRif()
+     
+    return render(request, 'reporteingresos.html',{'form':form})
+
+def reporte_reservas(request):
+    form = EstacionamientoCi() 
+    n =0
+    nombre=""   
+    if request.method == 'POST':
+            # Creamos un formulario con los datos que recibimos
+            form = EstacionamientoCi(request.POST)
+            
+            # Si el formulario es valido, entonces creamos un objeto con
+            # el constructor del modelo
+            if form.is_valid():
+                # Recargamos los recibos ya que acabamos de agregar
+                
+                ci = form.cleaned_data['ci']
+                recibos = RecibosModel.objects.filter(Cedula=ci).order_by('FechaPago')
+                total =recibos.aggregate(sum=Sum('Costo'))
+                
+                numero = RecibosModel.objects.filter(Cedula=ci).count()
+                if (len(recibos) == 0):
+                    n=1
+                else:
+                    n=2
+                    nombre=recibos[0].Nombre
+                return render(request, 'reportereservas.html',{'form':form,'nombre':nombre,'num':numero,'ci':ci,'recibo':recibos,'total':total,'n':n})
+    # Si no es un POST es un GET, y mandamos un formulario vacio
+    else:
+        form = EstacionamientoCi()
+     
+    return render(request, 'reportereservas.html',{'form':form})

@@ -70,7 +70,28 @@ class EstacionamientoExtendedForm(forms.Form):
 class EstacionamientoReserva(forms.Form):
     inicio = forms.DateTimeField(required = True,label = 'Inicio Reserva')
     final = forms.DateTimeField(required = True,label = 'Final Reserva')
-   
+
+class EstacionamientoRif(forms.Form):
+    rif = forms.CharField(
+                    required = True,
+                    label = "RIF: J-12345678-0",
+                    validators = [
+                          RegexValidator(
+                                regex = '^[JVD]-?\d{8}-?\d$',
+                                message = 'Introduzca un RIF con un formato válido. (J/V/D)-XXXXXXXX-X'
+                        )
+                    ]
+                )
+
+class EstacionamientoCi(forms.Form):
+    ci_validator = RegexValidator(
+                        regex = "^\d{8}$",
+                        message = 'Introduzca una cédula con un formato válido.'
+                    )
+
+    ci = forms.CharField(required = True,label = "Ej: 12345678",validators = [ci_validator])
+    
+
 class EstacionamientoPago(forms.Form):
     num_validator = RegexValidator(
                             regex = '^(\d{16})$',
@@ -92,9 +113,9 @@ class EstacionamientoPago(forms.Form):
                             regex = '^[a-zA-ZáéíóúñÑÁÉÍÓÚäëïöüÄËÏÖÜ ]+$',
                         )
     
-    num_tarjeta = forms.CharField(required = True, validators=[num_validator])
-    codigo_val = forms.CharField(required = True,validators=[cvv_validator])
     nombre = forms.CharField(required = True,validators=[nombre_validator])
     apellido = forms.CharField(required = True,validators=[apellido_validator])
     cedula = forms.CharField(required = True,validators=[cedula_validator])
+    num_tarjeta = forms.CharField(required = True, validators=[num_validator])
+    codigo_val = forms.CharField(required = True,validators=[cvv_validator])
     

@@ -14,7 +14,7 @@
     
    </head>
 
- <body>
+ <body >
         
         <!-- Header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -186,8 +186,6 @@
             </div>
             <div class="panel-body">
 
-      
-              
               <form action="." method="post" class="form form-vertical">
               {% csrf_token %}
               {% for field in form %}
@@ -196,22 +194,46 @@
               <h4>Esquema Tarifario</h4>
 				
 				<SELECT size="1" NAME="tarifa" style="width: 222px; height:35px" >Tarifa
-				    <OPTION VALUE="none" SELECTED>------
+				    <OPTION VALUE="none" SELECTED>{{estacionamiento.Tarifa}}
 				    <OPTION VALUE="minutos">Minutos
 				    <OPTION VALUE="horas">Horas
 				    <OPTION VALUE="horaFraccion">Hora y Fraccion
 				</SELECT><br>
 			
               
-              {%else%}
+              {%endif%}
+              
               <br>
+              
               	  <div class="control-group">
                   <div class="controls">
-                    <input type="text" class="form-control" name="{{field.name}}" placeholder="{{field.label}}" for="id_{{field.name}}"><p>
-                    {{ field.errors }}
+                    {%if field.name = 'puestos'%}
+              			<input type="text" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'monto_tarifa'%}
+              			<input type="text" class="form-control" placeholder="{{field.label}}" id="monto" name="{{field.name}}" for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'horarioout'%}
+              			<input type="text" class="form-control" placeholder="{{field.label}}" name="{{field.name}}"  for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'horarioin'%}
+              			<input type="text" class="form-control" placeholder="{{field.label}}" name="{{field.name}}"  for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'horario_reserout'%}
+              			<input type="text" class="form-control" placeholder="{{field.label}}" name="{{field.name}}" for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'horario_reserin'%}
+              			<input type="text" class="form-control" placeholder="{{field.label}}" name="{{field.name}}"  for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+
                   </div>
                 </div> 
-              {%endif%}
 
               {% endfor %}
                 
@@ -251,6 +273,12 @@
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
 
+	<script type="text/javascript">
+		function llenar_monto(info){
+		document.getElementById('monto').value = info;}
+		
+	</script>	
+	
 </body>
 
 </html>

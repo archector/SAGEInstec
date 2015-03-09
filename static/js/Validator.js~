@@ -1,5 +1,5 @@
 function validar_numero(){
-	var number = trim(document.getElementById("cardnumber").value);
+	var number = document.getElementById("cardnumber").value;
 	
 	if (number == ""){
 		mostrar();
@@ -50,7 +50,7 @@ function validar_cedula(){
 
 
 function validar_nombres(){
-	var nomb = document.getElementById("nombres").value;
+	var nomb = document.getElementById("nombres").value.trim();
 	
 	if (nomb == ""){
 		mostrar_e4();
@@ -235,8 +235,8 @@ function validar_todo(){
 		mostrar_e7();  		
 		return false;
 	}
-		
-	setValue();
+	disable();
+	mostrarConfirmacion();
 	return true;	
 }
 

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load l10n %}
 <!DOCTYPE html>
 <html lang="es"><head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -10,11 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/base.css'%}" rel="stylesheet">
+    <link href="{% static 'css/pago.css'%}" rel="stylesheet">
+    
     <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
     
    </head>
     
     <!-- Header -->
+ <body onload="ocultarError()">   
     <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
       <div class="container">
         <div class="navbar-header">
@@ -59,7 +63,7 @@
           
         <ul class="nav nav-stacked">
             <li>
-              <a href="reporteingresos">
+              <a href="#">
                 <i class="fa fa-money"></i>
                 Reportes de ingresos
               </a>
@@ -82,47 +86,23 @@
 <div class="col-sm-10">
         
       <!-- column 2 --> 
-       <h3><i class="fa fa-bus"></i> Estacionamientos</h3>  
+       <h3><i class="fa fa-bus"></i> Estacionamientos / Reporte de ingresos</h3>  
             
        <hr>
        
      <div class="row">
-            <!-- center left--> 
-          <!--/col-->
-         
-            <!--center-right-->
-          <!--/col-span-6-->
-     
-       <div class="col-md-8"> 
-      <table class="table table-striped">
-      {% if estacionamientos %}
 
-        <thead>
-          <tr><th></th><th>Dueño</th><th>Nombre</th><th>RIF</th></tr>
-        </thead>
-        <tbody>
-        {% for obj in estacionamientos %}
-          <tr><td>{{forloop.counter}}</td>
-          		<td>{{obj.Propietario}}</td>
-          		<td>{{obj.Nombre}}</td><td>{{obj.Rif}}</td>
-          		<td><a href="./{{obj.id}}"><i class="fa fa-search"></i></a></td></tr>
-        {% endfor %}
-        </tbody>
-        {% else %}
-       <h3>No hay estacionamientos</h3>
-      {% endif %}
-      </table>
-      <hr>              
-    </div><div class="col-md-4">
+     
+		<div class="col-md-5">
 
     
           <div class="panel panel-default">
             <div class="panel-heading">
               <div class="panel-title">
-                <i class="glyphicon glyphicon-wrench pull-right">
+                <i class="glyphicon glyphicon-signal pull-right">
                 </i>
                 <h4>
-                  Crear estacionamiento
+                  Reporte de ingresos
                 </h4>
               </div>
             </div>
@@ -130,13 +110,16 @@
 
       
               
-              <form action="." method="post" class="form form-vertical">
+              <form action="#" method="post" class="form form-vertical" osubmit="control_form()">
               {% csrf_token %}
               {% for field in form %}
                 <div class="control-group">
                   <div class="controls">
+                  	<h4>Introduzca el RIF de su estacionamiento</h4>
                     <input type="text" class="form-control" name="{{field.name}}" placeholder="{{field.label}}" for="id_{{field.name}}"><p>
                     {{ field.errors }}
+                    <div class="alert alert-danger" role="alert" id="error_ingresos" style="display:none"><b>Error:</b> No hay estacionamientos con el RIF dado </div>
+				        
                   </div>
                 </div> 
               {% endfor %}
@@ -146,7 +129,7 @@
                   </label>
                   <div class="controls">
                     <button type="submit" class="btn btn-primary">
-                      Crear estacionamiento
+                      Ver reporte
                     </button>
                   </div>
                 </div>
@@ -157,26 +140,97 @@
               
             </div>
             <!--/panel content-->
-          </div>
-          <!--/panel-->
-          
-          <!--/panel-->
-          
-        </div></div><!--/row-->
-    </div>
-        
-      </div>
-      <!--/row-->
-      <!-- /upper section -->
-      
-      <!-- lower section -->
-      <div class="row">
-      </div>
-      <!--/row-->
-      
+            
+
+          </div>      
     </div>
     <!--/container-->
-	
+    {% if est%}
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="panel-title">
+                <i class="fa fa-car pull-right">
+                </i>
+                <h4>
+                  Mis estacionamientos
+                </h4>
+              </div>
+            </div>
+            <div class="panel-body">
+    
+				    <table class="table table-striped" id="tabla_ingresos">
+				    	
+				        <thead>
+				          <tr><th></th><th><h4>Nombre</h4></th><th class=" pull-right"><h4>Ingreso por reservaciones</	h4></th></tr>
+				        </thead>
+				        <tbody>
+				        
+				        {% for obj in est %} 
+				        	
+				          <tr>
+					          <td>{{forloop.counter}}.</td>
+					          <td>{{obj.Nombre}}</td>
+					          <td class=" pull-right">{{obj.Ingresos|localize}} Bs</td>
+				          </tr>
+				          
+				          {% endfor %}
+				 		
+				        </tbody>
+				     
+				    	
+				    	
+				    	
+						  
+				      </table>
+				  </div>
+				  <hr>
+				  	<table class="table table-bordered tablaTotal">
+				<thead>
+				<tr>
+				<th class="tablaizq">TOTAL INGRESOS</th>
+				<th class="tabladerecha">{{total.sum}} Bs</th>
+				</tr>
+				</thead>
+		
+			</table>
+   	  
+        {%endif%}
+				  </div>
+     <tr>  
+ 		 	   
+    </div>
+	<input type="text" id="estado" style="display:none" value={{n}}>
+                     
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+    
+    <script type="text/javascript">
+		function mostrarIngresos(){
+		document.getElementById('tabla_ingresos').style.display = 'block';}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarError(){
+			document.getElementById('error_ingresos').style.display = 'block';
+			
+		}
+	</script>
+	<script type="text/javascript">
+		function ocultarError(){
+			document.getElementById('error_ingresos').style.display = 'none';
+			
+		}
+	</script>
+	
+	
+	   <script type="text/javascript">
+        window.onload = control_form;
+        function control_form(){
+            if (document.getElementById('estado').value == "1"){
+                document.getElementById('error_ingresos').style.display = 'block';
+                }
+            }
+        
+    </script>
 </body></html>

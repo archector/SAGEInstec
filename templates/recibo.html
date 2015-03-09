@@ -1,0 +1,248 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es"><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <meta charset="utf-8">
+    <title>
+      SAGE
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/base.css'%}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/ProgressBar.css'%}" rel="stylesheet">
+    <link href="{% static 'css/pago.css'%}" rel="stylesheet">
+	<link href="{% static 'css/recibo.css'%}" rel="stylesheet">
+   </head>
+   
+   
+
+    <!-- Header -->
+    <body><div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-toggle">
+            </span>
+          </button>
+          <div class="navbar-brand" href="#">
+            SAGE
+          </div>
+        </div>
+        <div class="navbar-collapse collapse">
+
+        </div>
+      </div>
+      <!-- /container -->
+    </div>
+    <!-- /Header -->
+
+    <!-- Main -->
+    <div class="container">
+
+      <!-- upper section -->
+      <div class="row">
+        <div class="col-sm-2">
+          <!-- left -->
+          <h3>
+            <i class="glyphicon glyphicon-briefcase">
+            </i>
+            Menú
+          </h3>
+          <hr>
+          
+          <ul class="nav nav-stacked">
+            <li>
+              <a href=".">
+                <i class="fa fa-bus"></i>
+                Estacionamientos
+              </a>
+               <a href="./reserva">
+	  						<span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a reservas
+					</a>
+            </li>
+          </ul>
+
+ <!--           <ul class="nav nav-stacked">
+            <li>
+              <a href="./hola">
+                <i class="fa fa-bus"></i>
+                blabla
+              </a>
+            </li>
+          </ul> -->
+
+
+          
+          <hr>
+          
+        </div>
+        <!-- /span-3 -->
+<div class="col-md-10">
+        
+      <!-- column 2 --> 
+   <h3><i class="fa fa-bus"></i> Estacionamientos / Reserva / Recibo de Pago</h3><hr>
+      <div class="row">
+      	<div class="col-md-4">
+ 	         <div class="panel panel-primary">
+	            <div class="panel-heading">
+	            	
+	                	<h3 class="titulo2">SAGE Recibo de Pago</h3>
+	                
+	            </div>
+	            <div class="panel-body">
+	                	<h4 class="titulo2"> <b>N°: </b> {{recibo.NumeroTransaccion}}</h4>
+	                	<hr class="titulo">
+	                	<h4 class="titulo2"><b>Fecha: </b> {{recibo.FechaPago}} </h4>
+	            </div>
+	            
+         	 </div>
+	   	 </div>
+	   	 <div class="col-md-5">
+ 	         <div class="panel panel-primary">
+	            <div class="panel-heading">
+	            	
+	                	<h3 class="titulo2">Estacionamiento</h3>
+	                
+	            </div>
+	            <div class="panel-body">
+	                	<h4 class="titulo2"> <b>RIF : </b> {{recibo.RifEstacionamiento}}</h4>
+	                	<hr class="titulo">
+	                	<h4 class="titulo2"><b>Nombre : </b> {{recibo.NombreEstacionamiento}} </h4>
+	            </div>
+	            
+         	 </div>
+	   	 </div>
+	   	 
+	 </div>
+	   	
+   	 <div class="row">
+      	<div class="col-md-9">
+ 	      <div class="panel panel-default">
+            <div class="panel-body">
+       			 
+		          <table class="table" id="tabla">
+		            <thead>
+		            	<tr>
+		                <th><i class="fa fa-user"></i> Datos del cliente</th>
+		                <th></th>
+		                
+		            	</tr>
+		            </thead>
+		            <tbody>
+		            
+		              <tr>
+		                
+		                <td class="tablaizq">Cédula</td>
+		                <td class="tabladerecha">{{recibo.Cedula}}</td>
+		                
+		              </tr>
+		              
+		              
+		              <tr>
+		                
+		                <td class="tablaizq">Nombre</td>
+		                <td class="tabladerecha">{{recibo.Nombre}}</td>
+		                
+		              </tr>
+		 
+		               <tr>
+		                
+		                <td class="tablaizq">Apellido</td>
+		                <td class="tabladerecha">{{recibo.Apellido}}</td>
+		                
+		              </tr>
+		            </tbody>
+		          </table>
+		 
+			          <table class="table" id="tabla">
+			            <thead>
+			            	<tr>
+			                <th><i class="fa fa-clock-o"></i> Horario de la reserva</th>
+			                <th></th>
+			                
+			            	</tr>
+			            </thead>
+			            <tbody>
+			            
+			              <tr>
+			                
+			                <td class="tablaizq">Entrada</td>
+			                <td class="tabladerecha">{{recibo.InicioReserva}}</td>
+			                
+			              </tr>
+			              
+			              
+			              <tr>
+			                
+			                <td class="tablaizq">Salida</td>
+			                <td class="tabladerecha">{{recibo.FinalReserva}}</td>
+			                
+			              </tr>
+			 
+			            </tbody>
+			          </table>
+			 
+			 
+						<table class="table" id="tabla">
+							<thead>
+							<tr>
+							<th><i class="fa fa-credit-card"></i> Datos de la Terjeta</th>
+							<th></th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							
+							  <tr>
+							
+							<td class="tablaizq">Número de tarjeta</td>
+							<td class="tabladerecha">{{recibo.NumeroTarjeta}}</td>
+							   
+							  </tr> 
+							
+							</tbody>
+						</table>
+						<table class="table tablaTotal2">
+							<thead>
+							<tr>
+							<th class="tablaizq">MONTO PAGADO</th>
+							
+							</thead>
+							<tbody>
+							
+							  <tr>
+							
+							<td class="tablaizq2"><b>{{recibo.Costo}} Bs</b></td>
+							
+							   
+							  </tr> 
+							  
+							</tbody>
+							
+						</table>
+   			 </div> <!--cerrando panel boddy--> 
+   		 </div>  <!--cerrando panel completo--> 
+   	 </div>
+ <div class="col-md-3">
+	   	 
+	      <button class="btn btn-primary" style="width: 210px" onClick="window.print()"><i class="glyphicon glyphicon-print"></i> Imprimir recibo</button>
+		       <hr>
+	   	 <a download="recibo.txt"  href="./recibo">
+	      <button class="btn btn-success" style="width: 210px"><i class="glyphicon glyphicon-floppy-disk"></i> Guardar recibo</button>        
+	  	    </a>   
+	   <hr>
+	  	  <button class="btn btn-danger" style="width: 210px" onClick="window.close()"><i class="glyphicon glyphicon-log-out"></i> Salir</button>        
+	   	  	
+   	 </div>
+		
+   	 </div>	    
+</div> 
+
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js'%}"></script>
+ 
+
+</body>
+</html>

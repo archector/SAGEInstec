@@ -1,0 +1,263 @@
+{% load staticfiles %}
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="es"><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <meta charset="utf-8">
+    <title>
+      SAGE
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/base.css'%}" rel="stylesheet">
+    <link href="{% static 'css/pago.css'%}" rel="stylesheet">
+    
+    <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    
+   </head>
+    
+    <!-- Header -->
+ <body onload="ocultarError()">   
+    <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-toggle">
+            </span>
+          </button>
+          <div class="navbar-brand" href="#">
+            SAGE
+          </div>
+        </div>
+        <div class="navbar-collapse collapse">
+          
+        </div>
+      </div>
+      <!-- /container -->
+    </div>
+    <!-- /Header -->
+    
+    <!-- Main -->
+    <div class="container">
+      
+      <!-- upper section -->
+      <div class="row">
+        <div class="col-sm-2">
+          <!-- left -->
+          <h3>
+            <i class="glyphicon glyphicon-briefcase">
+            </i>
+            Menú
+          </h3>
+          <hr>
+          
+          <ul class="nav nav-stacked">
+            <li>
+              <a href=".">
+                <i class="fa fa-bus"></i>
+                Estacionamientos
+              </a>
+            </li>
+          </ul>
+          
+        <ul class="nav nav-stacked">
+            <li>
+              <a href="reporteingresos">
+                <i class="fa fa-money"></i>
+                Reportes de ingresos
+              </a>
+            </li>
+          </ul>
+          
+          <ul class="nav nav-stacked">
+            <li>
+              <a href="#">
+                <i class="fa fa-users"></i>
+                Reporde de reservas
+              </a>
+            </li>
+          </ul>
+  
+          <hr>
+          
+        </div>
+        <!-- /span-3 -->
+<div class="col-sm-10">
+<div class="row">        
+      <!-- column 2 --> 
+       <h3><i class="fa fa-bus"></i> Estacionamientos / Reporte de reservas</h3>  
+            
+       <hr>
+       
+     <div class="row">
+
+     
+		<div class="col-md-5">
+
+    
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">
+                <i class="glyphicon glyphicon-signal pull-right">
+                </i>
+                <h4>
+                  Reporte de reservas
+                </h4>
+              </div>
+            </div>
+            <div class="panel-body">
+
+      
+              
+              <form action="#" method="post" class="form form-vertical" osubmit="control_form()">
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="control-group">
+                  <div class="controls">
+                  	<h4>Introduzca su cédula de identidad</h4>
+                    <input type="text" class="form-control" name="{{field.name}}" placeholder="{{field.label}}" for="id_{{field.name}}"><p>
+                    {{ field.errors }}
+                    <div class="alert alert-danger" role="alert" id="error_ingresos" style="display:none"><b>Lo sentimos. </b> Actualmente ud. no posee ninguna reservación en el sistema </div>
+				        
+                  </div>
+                </div> 
+              {% endfor %}
+                
+                <div class="control-group">
+                  <label>
+                  </label>
+                  <div class="controls">
+                    <button type="submit" class="btn btn-primary">
+                      Consultar
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>      
+    </div>
+    <div class="col-md-5">
+	    <div class="alert alert-success" role="alert" id="reservas_exito" style="display:none">
+	    	<h3>Hola<b> {{nombre}}</b>.</h3>
+	    		<br>
+	    		<h4> Actualmente tienes <b>{{num}}</b> reservaciones en el sistema.</h4>
+					
+				<hr>
+				<a href="#" style="color:#3C763D" onclick="ocultarMensaje()"><h><b> > Cerrar </b></h></a>	
+				<br>	
+				<a href="#" style="color:#3C763D"><h onclick="mostrarReservas()"><b> > Ver mis reservas </b></h></a> 
+		</div>
+	</div>			    
+    </div>
+    
+<div class="row	">
+    <!--/container-->
+    {% if recibo %}
+	 <div class="col-md-12">
+      <div class="panel panel-primary" id="mis_reservas" style="display:none">
+            <div class="panel-heading">
+              <div class="panel-title">
+                <a href="#"><i class="glyphicon glyphicon-remove-circle pull-right" onclick="ocultarReservas()"></i></a>
+                
+                <h4>
+                  Mis reservas
+                </h4>
+              </div>	
+	
+            </div>
+            <div class="panel-body">
+    
+				    <table class="table table-striped" id="tabla_ingresos">
+				    	
+				        <thead>
+				          <tr>
+				          	<th width="200px"><h4>	Fecha de pago</h4></th>
+				          	<th width="200px"><h4>	Fecha inico reserva</h4></th>
+				          	<th width="200px"><h4>	Fecha fin reserva</h4></th>
+				          	<th><h4>	Nombre del estacionamiento</h4></th>
+				          	<th><h4>	Teléfono del estacionamiento</h4></th>
+				          	</tr>
+				        </thead>
+				        <tbody>
+				        
+				        {% for obj in recibo %} 
+				        	
+				          <tr>
+					          <td>{{obj.FechaPago}}</td>
+					          <td>{{obj.InicioReserva}}</td>
+					          <td>{{obj.FinalReserva}}</td>
+					          <td>{{obj.NombreEstacionamiento}}</td>
+					          <td>{{obj.TelEstacionamiento}}</td>
+				          </tr>
+	
+				          {% endfor %}
+				 		  
+				        </tbody>
+				     
+				      </table>
+				  </div>
+				  
+   	  
+       		{%endif%}
+		  </div>
+    </div>
+	<input type="text" id="estado" style="display:none" value={{n}}>
+                     
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+    
+    <script type="text/javascript">
+		function mostrarIngresos(){
+		document.getElementById('tabla_ingresos').style.display = 'block';}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarError(){
+			document.getElementById('error_ingresos').style.display = 'block';
+			
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarReservas(){
+			document.getElementById('mis_reservas').style.display = 'block';
+			
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarReservas(){
+			document.getElementById('mis_reservas').style.display = 'none';
+			
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarError(){
+			document.getElementById('error_ingresos').style.display = 'none';
+			
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarMensaje(){
+			document.getElementById('reservas_exito').style.display = 'none';
+			
+		}
+	</script>
+	
+	
+	   <script type="text/javascript">
+        window.onload = control_form;
+        function control_form(){
+            if (document.getElementById('estado').value == "1"){
+                document.getElementById('error_ingresos').style.display = 'block';
+                }
+            if (document.getElementById('estado').value == "2"){
+                document.getElementById('reservas_exito').style.display = 'block';
+                }
+            }
+        
+    </script>
+</body></html>

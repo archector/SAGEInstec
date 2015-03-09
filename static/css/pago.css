@@ -1,8 +1,10 @@
 #boton_pago {
-  
+   width:180px;
+   height:40px;
    position:relative;
    margin-left:130px;   
-   
+   margin-bottom:10px;
+   margin-top:-50px;
 }
 
 .panel_p {
@@ -10,6 +12,15 @@
    position:relative;
    margin-left:50px;   
    margin-top:-450px;   
+  
+   
+}  
+
+#confirmar {
+   width:180px;
+   height:30px;
+   margin-left:112px;   
+   margin-top:10px;   
   
    
 }  
@@ -69,8 +80,8 @@
 .cvv {
   
    position:relative;
-   margin-left:0px;
-   margin-top:0px;   
+   margin-left:60px;
+   margin-top:-55px;   
    text-align:left;
 }
 
@@ -82,6 +93,16 @@
    margin-left:160px;
    margin-bottom:2px;
    margin-top:-26px;  
+}
+
+#cedula{
+   padding:0px;
+   width:100px;
+   height:8;
+   position:relative;
+   margin-left:50px;
+   margin-bottom:0px;
+   margin-top:-28px;  
 }
 
 .error_reserva{
@@ -142,13 +163,19 @@
    margin-top:5px;  
 }
 
+.titulo2{
+   
+   margin-bottom:0px;
+   margin-top:0px;  
+}
+
 .listo{
    
    position: relative;	
    width:200px;
    margin-bottom:15px;
    margin-top:15px;
-   margin-left:70px;
+   margin-left:150px;
    font-size:18px;  
 }
 
@@ -158,7 +185,7 @@
    width:200px;
    margin-bottom:15px;
    margin-top:-76px;
-   margin-left:320px;
+   margin-left:420px;
    font-size:18px;  
 }
 .tituloPago{
@@ -205,6 +232,15 @@ border:3px;
    
 }
 
+.tablaizq2 {
+border:3px;
+   width:250px;
+   background-color:  	#FCFCFC;
+color:#428BCA;
+ font-family: sans-serif;
+   font-size:24px;
+   
+}
 
 
 #tabla{
@@ -215,6 +251,14 @@ border:3px;
 }
 
 
+.btns{
+   margin-top:93px; 
+}
+
+
+
+
+
 .tablaTotal th{
    border:3px;
    
@@ -223,6 +267,15 @@ border:3px;
    font-size:20px;
 }
 
+.tablaTotal2 th{
+   border:3px;
+   background-color:#428BCA; 
+   color:white;
+width:250px;
+   border-bottom-width:3px;
+   border-top-width:3px;
+   font-size:20px;
+}
 
 
 .progress-button{
