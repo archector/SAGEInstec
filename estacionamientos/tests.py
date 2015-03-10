@@ -625,7 +625,167 @@ class SimpleFormTestCase(TestCase):
 								'final':None}
 		form = EstacionamientoReserva(data = form_data)
 		self.assertEqual(form.is_valid(), False)
+
+###################################################################
+# ESTACIONAMIENTO_RIF_FORM
+###################################################################
+	
+	#malicia
+	def test_Form_Campo_Vacio(self):
+		form_data = {}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), False)
 		
+	#malicia
+	def test_Form_1Caracter_Invalido(self):
+		form_data = {'rif':"A-29934878-3",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+
+	#malicia
+	def test_Form_Ultimo_Caracter_Invalido(self):
+		form_data = {'rif':"J-29934878-K",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#malicia
+	def test_Form_Caracteres_Invalidos(self):
+		form_data = {'rif':"J-29efd78-3",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+
+	#malicia
+	def test_Form_SinGuiones(self):
+		form_data = {'rif':"J299348783",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#malicia
+	def test_Form_Distinto_Sepador(self):
+		form_data = {'rif':"J.29934878.3",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	def test_Form_Distinta_Longitud(self):
+		form_data = {'rif':"J-299-39",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	def test_Form_Correcto(self):
+		form_data = {'rif':"J-29934878-3",
+					}
+		form = EstacionamientoRif(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+
+###################################################################
+# ESTACIONAMIENTO_CI_FORM
+###################################################################
+	
+	#malicia
+	def test_Form_Campo_Vacio_Ci(self):
+		form_data = {}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+		
+	#malicia
+	def test_Caracteres_Invalidos(self):
+		form_data = {'ci':"192940p0",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#malicia
+	def test_Form_Sepadores(self):
+		form_data = {'ci':"19.294.080",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Distinta_Longitud_1(self):
+		form_data = {'ci':"1",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Distinta_Longitud_2(self):
+		form_data = {'ci':"19",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Distinta_Longitud_3(self):
+		form_data = {'ci':"123",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Distinta_Longitud_4(self):
+		form_data = {'ci':"1234",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Longitud_Correcta_5(self):
+		form_data = {'ci':"12345",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#TDD
+	def test_Longitud_Correcta_6(self):
+		form_data = {'ci':"123456",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#TDD
+	def test_Longitud_Correcta_7(self):
+		form_data = {'ci':"1234567",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#TDD
+	def test_Longitud_Correcta_8(self):
+		form_data = {'ci':"12345678",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#TDD
+	def test_Longitud_Correcta_9(self):
+		form_data = {'ci':"123456789",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+	#TDD
+	def test_Longitud_Incorrecta_10(self):
+		form_data = {'ci':"1234567890",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+	
+	#TDD
+	def test_Form_Formato_Correcto(self):
+		form_data = {'ci':"19294080",
+					}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), True)
+	
+
+
 ###################################################################
 # ESTACIONAMIENTO_PAGOS_FORM
 ###################################################################
