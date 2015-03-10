@@ -65,6 +65,7 @@ class EstacionamientoExtendedForm(forms.Form):
 
     tarifa = forms.ModelChoiceField(queryset=Tarifa.objects.all())
     monto_tarifa = forms.CharField(required = True,validators = [tarifa_validator])
+    
     pico_inicio = forms.TimeField(required = False,label = 'Inicio Pico')
     pico_fin = forms.TimeField(required = False,label = 'Final Pico')
     monto_pico = forms.CharField(required = False,label = 'Monto Pico',validators = [tarifa_validator])

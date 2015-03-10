@@ -91,6 +91,11 @@ def estacionamiento_detail(request, _id):
                 estacion.Reservas_Inicio = reserva_in
                 estacion.Reservas_Cierre = reserva_out
                 estacion.NroPuesto = form.cleaned_data['puestos']
+                
+                if estacion.Tarifa.tipoTarifa == 'difHoras':
+                    estacion.monto_tarifa_pico = form.cleaned_data['monto_pico']
+                    estacion.Pico_Inicio = form.cleaned_data['pico_inicio']
+                    estacion.Pico_Final = form.cleaned_data['pico_fin']
 
                 estacion.save()
     else:
