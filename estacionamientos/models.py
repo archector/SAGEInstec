@@ -33,6 +33,9 @@ class Estacionamiento(models.Model):
 	Cierre = models.TimeField(blank = True, null = True)
 	Reservas_Inicio = models.TimeField(blank = True, null = True)
 	Reservas_Cierre = models.TimeField(blank = True, null = True)
+	Pico_Inicio = models.TimeField(blank = True, null = True)
+	Pico_Final = models.TimeField(blank = True, null = True)
+	monto_tarifa_pico = models.DecimalField(max_digits = 20, decimal_places=2,blank = True, null = True)
 	NroPuesto = models.IntegerField(blank = True, null = True)
 	Ingresos = models.DecimalField(max_digits=10, decimal_places=2,default = None, blank=True, null=True)
 	
@@ -113,7 +116,7 @@ class Estacionamiento(models.Model):
 		cobroPico = 0
 		hora_aux = hin
 		while minutos_a_pagar> 0:
-			if ((hora_aux.time() >= self.pico[0]) and (hora_aux.time() < self.pico[1])):
+			if ((hora_aux.time() >= self.Pico_Inicio) and (hora_aux.time() < self.Pico_Final)):
 				cobroPico = cobroPico + self.horaPico/60
 				minutos_a_pagar = minutos_a_pagar - 1
 				hora_aux = hora_aux + timedelta(0,60)
