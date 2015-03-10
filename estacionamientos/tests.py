@@ -1061,7 +1061,7 @@ class SimpleFormTestCase(TestCase):
 	def test_HorarioReservaValido(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
 		ReservaFin = datetime.datetime(añoNow,mesNow,diaNow,hour = 15, minute = 0, second = 0, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
@@ -1073,13 +1073,13 @@ class SimpleFormTestCase(TestCase):
 	def test_HorarioReservaInvalido_InicioReservacion_Mayor_FinalReservacion(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
 		ReservaFin = datetime.datetime(añoNow,mesNow,diaNow,hour = 12, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)	
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
-		self.assertEqual(x, (False, 'El tiempo de reserva debe ser al menos de 1 hora'))
+		self.assertEqual(x, (False, 'La fecha Inical de Reserva debe ser menor a la fecha Final de Reserva'))
 
 	# caso borde
 	def test_HorarioReservaInvalido_TiempoTotalMenor1h(self):
@@ -1123,7 +1123,7 @@ class SimpleFormTestCase(TestCase):
 
 	# borde
 	def test_ReservacionMayor7Dias(self):
-		ReservaInicio = datetime.datetime.now()
+		ReservaInicio = datetime.datetime.now()+ datetime.timedelta(days=1)
 		ReservaFin = ReservaInicio + timedelta(days=7,seconds=1)
 		HoraApertura = time(0,0)
 		HoraCierre = time(4,20)
@@ -1134,7 +1134,7 @@ class SimpleFormTestCase(TestCase):
 	def test_ReservacionSieteDiasExactos(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		CANT_MINUTOS_SIETE_DIAS=10080
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=7)
@@ -1147,7 +1147,7 @@ class SimpleFormTestCase(TestCase):
 	def test_ReservacionUnDiaExacto(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days = 1)
 		HoraApertura = time(0,0)
@@ -1159,7 +1159,7 @@ class SimpleFormTestCase(TestCase):
 	def test_ReservacionNula(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio
 		HoraApertura = time(4,20)
@@ -1171,7 +1171,7 @@ class SimpleFormTestCase(TestCase):
 	def test_ReservacionMuyGrande(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=100)
 		HoraApertura = time(4,20)
@@ -1183,7 +1183,7 @@ class SimpleFormTestCase(TestCase):
 	def test_ReservacionIntermediaEstacionamiento24h(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=3,seconds=1)
 		HoraApertura = time(0,0)
@@ -1195,7 +1195,7 @@ class SimpleFormTestCase(TestCase):
 	def test_ReservacionIntermediaEstacionamientoMenos24h(self):
 		añoNow = datetime.datetime.now().year
 		mesNow = datetime.datetime.now().month
-		diaNow = datetime.datetime.now().day
+		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
 		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=3,seconds=1)
 		HoraApertura = time(4,20)
