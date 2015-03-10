@@ -133,7 +133,7 @@
     </div>
     <div class="col-md-4">
        
-       <table class="table table-striped">
+       <table class="table table-striped" id="panel">
         <thead>
           
         </thead>
@@ -187,23 +187,22 @@
             <div class="panel-body">
 
               <form action="." method="post" class="form form-vertical">
+
+              
               {% csrf_token %}
               {% for field in form %}
               {%if field.name = 'tarifa'%}
               <hr>
               <h4>Esquema Tarifario</h4>
 				
-				<SELECT size="1" NAME="tarifa" style="width: 222px; height:35px" >Tarifa
+				<SELECT id="selectid" size="1" NAME="tarifa" style="width: 222px; height:35px" >Tarifa
 				    <OPTION VALUE="none" SELECTED>---
-				    <OPTION VALUE="minutos">Minutos
-				    <OPTION VALUE="horas">Horas
-				    <OPTION VALUE="horaFraccion">Hora y Fraccion
-				    <OPTION VALUE="difHoras">Diferenciado por Horas
-				</SELECT><br>
-			
-              
-              {%endif%}
-              
+				    <OPTION VALUE="minutos" onclick="ocultar()" onselect="ocultar()">Minutos
+				    <OPTION VALUE="horas" onclick="ocultar()" onselect="ocultar()">Horas
+				    <OPTION VALUE="horaFraccion" onclick="ocultar()" onselect="ocultar()">Hora y Fraccion
+				    <OPTION VALUE="difHoras" id="difHoras" onclick="mostrar()" onselect="mostrar()"><h >Diferenciado por Horas</h>
+				</SELECT>
+			  {%endif%}
               <br>
               
               	  <div class="control-group">
@@ -212,6 +211,19 @@
               			<input type="text" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
                     	{{ field.errors }}
                     {%endif%}
+          	        {%if field.name = 'pico_inicio'%}
+              			<input type="text" id="picoini" style="display:none" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'pico_fin'%}
+              			<input type="text" id="picofin" style="display:none" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    {%if field.name = 'monto_pico'%}
+              			<input type="text" id="montopico" style="display:none" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+                    	{{ field.errors }}
+                    {%endif%}
+                    
                     {%if field.name = 'monto_tarifa'%}
               			<input type="text" class="form-control" placeholder="{{field.label}}" id="monto" name="{{field.name}}" for="id_{{field.name}}"><p>
                     	{{ field.errors }}
@@ -237,6 +249,8 @@
                 </div> 
 
               {% endfor %}
+              
+
                 
                 <div class="control-group">
                   <label>
@@ -275,11 +289,25 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
 
 	<script type="text/javascript">
-		function llenar_monto(info){
-		document.getElementById('monto').value = info;}
-		
+		function mostrar(){
+			if(document.getElementById('selectid').value == "difHoras") {
+     			document.getElementById('picoini').style.display = 'block';
+     			document.getElementById('picofin').style.display = 'block';
+     			document.getElementById('montopico').style.display = 'block';
+			}
+     	}
+	</script>	
+	<script type="text/javascript">
+		function ocultar(){
+		if(document.getElementById('selectid').value != "difHoras") {
+     			document.getElementById('picoini').style.display = 'none';
+     			document.getElementById('picofin').style.display = 'none';
+     			document.getElementById('montopico').style.display = 'none';
+			}
+		}
 	</script>	
 	
+	
 </body>
-
+<h2 id="label" style="display:none">holaaaaaaaaaa</h2>
 </html>

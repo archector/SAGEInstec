@@ -72,6 +72,7 @@ def estacionamiento_detail(request, _id):
     if request.method == 'POST':
             # Leemos el formulario
             form = EstacionamientoExtendedForm(request.POST)
+            
             # Si el formulario
             if form.is_valid():
                 hora_in = form.cleaned_data['horarioin']
@@ -94,7 +95,7 @@ def estacionamiento_detail(request, _id):
                 estacion.save()
     else:
         form = EstacionamientoExtendedForm()
-
+      
     return render(request, 'estacionamiento.html', {'form': form, 'estacionamiento': estacion})
 
 
