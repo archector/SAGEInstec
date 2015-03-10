@@ -1,0 +1,62 @@
+#table-wrapper {
+  position:relative;
+  height:350px;
+}
+#table-scroll {
+  height:350px;
+  overflow:auto;  
+  margin-top:20px;
+}
+#table-wrapper table {
+  width:100%;
+    
+}
+#table-wrapper table * {
+  color:black;
+}
+#table-wrapper table thead th .text {
+  position:absolute;   
+  top:-20px;
+  z-index:2;
+  height:350px;
+  width:35%;
+  	
+}
+
+.campos1 { 
+  margin-left:40px;
+  position:relative;
+  
+  	
+}
+
+
+.campos2 { 
+  margin-left:10px;
+  position:relative;
+  
+  	
+}
+
+.campos3 { 
+  margin-left:70px;
+  position:relative;
+  
+  	
+}
+
+.campos4 { 
+  margin-left:20px;
+  position:relative;
+  
+  	
+}
+
+
+.campos5 { 
+  margin-left:1	0px;
+  position:relative;
+  
+  	
+}
+

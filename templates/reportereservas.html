@@ -12,8 +12,10 @@
     <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/base.css'%}" rel="stylesheet">
     <link href="{% static 'css/pago.css'%}" rel="stylesheet">
-    
     <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    
+    <link href="{% static 'css/pago.css'%}" rel="stylesheet">
+    <link href="{% static 'css/scrollbar.css'%}" rel="stylesheet">
     
    </head>
     
@@ -167,19 +169,33 @@
 	
             </div>
             <div class="panel-body">
-    
-				    <table class="table table-striped" id="tabla_ingresos">
+    			<div class="row">
+    				<div class="col-md-2 campos1">
+    					<b><h>Fecha pago</h>
+    				</div>
+    				<div class="col-md-2 campos2" >
+    					Fecha inico reserva
+    				</div>
+    				<div class="col-md-2 campos3" >
+    					Fecha fin reserva
+    				</div>
+    				<div class="col-md-2 campos4" align="center">
+    					Nombre del estacionamiento
+    				</div>
+    				<div class="col-md-2 campos5"  align="center">
+    					Teléfono del estacionamiento</b>
+    				</div>
+    			
+    			</div>
+    			
+				    <div id="table-wrapper">
+    				<div id="table-scroll">
+    					
+    			<table class="table table-striped" id="tabla_ingresos">
 				    	
-				        <thead>
-				          <tr>
-				          	<th width="200px"><h4>	Fecha de pago</h4></th>
-				          	<th width="200px"><h4>	Fecha inico reserva</h4></th>
-				          	<th width="200px"><h4>	Fecha fin reserva</h4></th>
-				          	<th><h4>	Nombre del estacionamiento</h4></th>
-				          	<th><h4>	Teléfono del estacionamiento</h4></th>
-				          	</tr>
-				        </thead>
-				        <tbody>
+
+				    
+				    	<tbody>			
 				        
 				        {% for obj in recibo %} 
 				        	
@@ -196,6 +212,8 @@
 				        </tbody>
 				     
 				      </table>
+				     </div>
+				     </div	>
 				  </div>
 				  
    	  
