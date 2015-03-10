@@ -117,11 +117,11 @@ class Estacionamiento(models.Model):
 		hora_aux = hin
 		while minutos_a_pagar> 0:
 			if ((hora_aux.time() >= self.Pico_Inicio) and (hora_aux.time() < self.Pico_Final)):
-				cobroPico = cobroPico + self.horaPico/60
+				cobroPico = cobroPico + self.monto_tarifa_pico/60
 				minutos_a_pagar = minutos_a_pagar - 1
 				hora_aux = hora_aux + timedelta(0,60)
 			else:
-				cobro = cobro + self.cobro_hora/60
+				cobro = cobro + self.monto_tarifa/60
 				minutos_a_pagar = minutos_a_pagar - 1
 				hora_aux = hora_aux + timedelta(0,60)
 	
