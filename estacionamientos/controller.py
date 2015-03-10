@@ -45,6 +45,8 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	
 	if (ReservaFin.replace(tzinfo=None)<FECHA_FIJA) or ReservaInicio.replace(tzinfo=None)<FECHA_FIJA:
 		return (False, 'La fecha de reserva no puede estar fuera del rango')
+	if (ReservaFin.replace(tzinfo=None) < ReservaInicio.replace(tzinfo=None)):
+		return (False, 'La fecha Inical de Reserva debe ser menor a la fecha Final de Reserva')
 	'''valida si la reserva sobrepasa los 7 dias desde la fecha fija'''
 	if (ReservaFin.replace(tzinfo=None)-FECHA_FIJA).total_seconds()/60 > CANT_MINUTOS_SIETE_DIAS:
 		return (False, 'La fecha de reserva no puede ser mayor a 7 dias')
