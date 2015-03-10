@@ -693,6 +693,12 @@ class SimpleFormTestCase(TestCase):
 		form = EstacionamientoCi(data = form_data)
 		self.assertEqual(form.is_valid(), False)
 		
+		#malicia
+	def test_Formato_Errado(self):
+		form_data = {'ci':"19-{}[]+?'()",}
+		form = EstacionamientoCi(data = form_data)
+		self.assertEqual(form.is_valid(), False)
+		
 	#malicia
 	def test_Caracteres_Invalidos(self):
 		form_data = {'ci':"192940p0",
