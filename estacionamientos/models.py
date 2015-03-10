@@ -4,6 +4,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.forms import ModelForm
 from decimal import Decimal
+from math import ceil, floor
+from datetime import datetime, timedelta, time
 
 class Tarifa(models.Model):
 	tipoTarifa = models.CharField(max_length = 50, blank = True,primary_key=True)
@@ -37,6 +39,93 @@ class Estacionamiento(models.Model):
 	
 	def __str__(self):			  # __unicode__ on Python 2
 		return self.Nombre
+	
+	def calcularCobro(self,hin,hout):
+		if self.Tarifa.tipoTarifa == 'minutos':
+			return self.esquemaTarifarioMinutos(hin,hout)
+		elif self.Tarifa.tipoTarifa == 'horas':
+			return self.esquemaTarifarioHoras(hin, hout)
+		elif self.Tarifa.tipoTarifa == 'horaFraccion':
+			return self.esquemaTarifarioHoraFraccion(hin, hout)
+		elif self.Tarifa.tipoTarifa == 'difHoras':
+			return self.esquemaTarifarioPagoDiferenciadoHora(hin, hout)
+
+
+	def esquemaTarifarioHoras(self,hin,hout):
+		#horain = hin.hour + hin.minute/60
+		#horaout = hout.hour + hout.minute/60
+		#horas_a_pagar = horaout - horain
+		horas_a_pagar= (hout - hin).total_seconds()/3600
+		horas_a_pagar = ceil(horas_a_pagar)
+		cobro = 0
+		while horas_a_pagar> 0:
+			cobro = cobro + self.monto_tarifa
+			horas_a_pagar = horas_a_pagar - 1
+		return cobro
+	
+	
+	def esquemaTarifarioMinutos(self,hin,hout):
+		horas_a_pagar = hout - hin
+		print(horas_a_pagar)
+		print((horas_a_pagar).days*24)
+		horas_a_pagar = (horas_a_pagar).days*24 + (horas_a_pagar.seconds/3600)
+		minutos_a_pagar = horas_a_pagar*60
+		cobro = 0
+		print (minutos_a_pagar)
+		while minutos_a_pagar> 0:
+			cobro = cobro + self.monto_tarifa/60
+			minutos_a_pagar = minutos_a_pagar - 1
+		cobro=("{:.2f}".format(cobro))
+		cobro = Decimal(cobro)
+		return cobro
+	
+	def esquemaTarifarioHoraFraccion(self, hin,hout):
+		horas_a_pagar = hout - hin
+		horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
+		horas_a_pagar = floor(horas_a_pagar)
+		#horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
+		if (hin.minute - hout.minute) == 0:
+			fraccion =0
+		elif (hin.minute < hout.minute):
+			fraccion = hout.minute - hin.minute
+		elif hin.minute > hout.minute:
+			fraccion = 60 - (hin.minute - hout.minute)
+			
+		cobro = 0
+		while horas_a_pagar > 0:
+			cobro = cobro + self.monto_tarifa
+			horas_a_pagar = horas_a_pagar - 1
+		if 0<fraccion <= 30:
+			cobro = cobro + self.monto_tarifa/2
+		if 30<fraccion<=59:
+			cobro = cobro + self.monto_tarifa
+		
+		cobro=("{:.2f}".format(cobro))
+		cobro = Decimal(cobro)	
+		return cobro
+	
+	def esquemaTarifarioPagoDiferenciadoHora(self,hin,hout):
+		horas_a_pagar = hout - hin
+		horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
+		minutos_a_pagar = horas_a_pagar*60
+		minutos_a_pagar = floor(minutos_a_pagar)
+		cobro = 0
+		cobroPico = 0
+		hora_aux = hin
+		while minutos_a_pagar> 0:
+			if ((hora_aux.time() >= self.pico[0]) and (hora_aux.time() < self.pico[1])):
+				cobroPico = cobroPico + self.horaPico/60
+				minutos_a_pagar = minutos_a_pagar - 1
+				hora_aux = hora_aux + timedelta(0,60)
+			else:
+				cobro = cobro + self.cobro_hora/60
+				minutos_a_pagar = minutos_a_pagar - 1
+				hora_aux = hora_aux + timedelta(0,60)
+	
+		cobro = cobro + cobroPico
+		cobro=("{:.2f}".format(cobro))
+		cobro = Decimal(cobro)
+		return cobro
 
 
 class ReservasModel(models.Model):

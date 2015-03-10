@@ -143,14 +143,7 @@ def estacionamiento_reserva(request, _id):
                 reserva = algoritmo_Marzullo(listaReserva, horaReserva, estacion.NroPuesto)
                 if reserva[0] :
                     listaReserva.append(horaReserva)
-                    if estacion.Tarifa.tipoTarifa == 'horas':
-                        cobro = esquemaTarifarioHoras(inicio_reserva, final_reserva, estacion.monto_tarifa)
-                        
-                    elif estacion.Tarifa.tipoTarifa == 'minutos':
-                        cobro = esquemaTarifarioMinutos(inicio_reserva, final_reserva, estacion.monto_tarifa)
-                    elif estacion.Tarifa.tipoTarifa == 'horaFraccion':
-                        cobro = esquemaTarifarioHoraFraccion(inicio_reserva, final_reserva, estacion.monto_tarifa)
-                        
+                    cobro = estacion.calcularCobro(inicio_reserva,final_reserva)
                     reservaFinal = ReservasModel(
                                         Estacionamiento = estacion,
                                         Puesto = reserva[1],
