@@ -39,24 +39,6 @@ class Estacionamiento(models.Model):
 		return self.Nombre
 
 
-# class ExtendedModel(models.Model):
-# 	Estacionamiento = models.ForeignKey(Estacionamiento, primary_key = True)
-
-# class EstacionamientoModelForm(EstacionamientoForm):
-# 	class Meta:
-# 		model = EstacionamientoModel
-# 		fields = ['propietario', 'nombre', 'direccion', 'telefono_1', 'telefono_2', 'telefono_3', 'email_1',
-# 				'email_2', 'rif', 'tarifa', 'horarioin', 'horariout', 'horario_resein', 'horario_reserout']
-
-# class Propietario(models.Model):
-	# nombre = models.CharField(max_length = 50, help_text = "Nombre Propio")
-
-# class EstadoEstacionamiento(models.Model):
-	#
-
-# class PuestosModel(models.Model):
-# 	estacionamiento = models.ForeignKey(ExtendedModel)
-
 class ReservasModel(models.Model):
 	
 	Estacionamiento = models.ForeignKey(Estacionamiento)
