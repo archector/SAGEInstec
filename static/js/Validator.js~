@@ -18,7 +18,54 @@ function validar_numero(){
 	return true;	
 }
 
+function validar_picos(){
+	var pico_ini = document.getElementById("picoini").value;
+	var pico_fin = document.getElementById("picofin").value;
+	var monto_pico = document.getElementById("montopico").value;
+	var monto_tarifa = document.getElementById("monto").value;
 	
+
+	if (monto_tarifa == ""){
+		mostrarE4();
+		return false;
+	
+	}
+	else if( !(/^\d+(?:\.\d+)?$/.test(monto_tarifa)) ) {
+		mostrarE4();
+	  	return false;
+	}
+	else if (pico_ini == ""){
+		mostrarE1();
+		return false;
+	
+	}
+	else if( !(/^\d{1,2}:\d{2}$/.test(pico_ini)) ) {
+		mostrarE1();
+	  	return false;
+	}
+	else if (pico_fin == ""){
+		mostrarE2();
+		return false;
+	
+	}
+	else if( !(/^\d{1,2}:\d{2}$/.test(pico_fin)) ) {
+		mostrarE2();
+	  	return false;
+	}
+	else if (monto_pico == ""){
+		mostrarE3();
+		return false;
+	
+	}
+	else if( !(/^\d+(?:\.\d+)?$/.test(monto_pico)) ) {
+		mostrarE3();
+	  	return false;
+	}
+	
+	
+
+	return true;	
+}
 
 function validar_cedula(){
 	var ci = document.getElementById("cedula").value;
@@ -35,7 +82,7 @@ function validar_cedula(){
 		return false;
 		
 	}
-	else if( !(/^\d{5,8}$/.test(ci)) ) {
+	else if( !(/^\d{5,9}$/.test(ci)) ) {
 		document.getElementById("cedula").select();
 	        document.getElementById("cedula").focus();			  	
 		mostrar_e6();

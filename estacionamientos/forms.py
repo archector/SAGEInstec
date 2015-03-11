@@ -68,7 +68,7 @@ class EstacionamientoExtendedForm(forms.Form):
     
     pico_inicio = forms.TimeField(required = False,label = 'Inicio Pico')
     pico_fin = forms.TimeField(required = False,label = 'Final Pico')
-    monto_pico = forms.CharField(required = False,label = 'Monto Pico',validators = [tarifa_validator])
+    monto_pico = forms.CharField(required = False,label = 'Monto en horas Pico',validators = [tarifa_validator])
 
 
 class EstacionamientoReserva(forms.Form):

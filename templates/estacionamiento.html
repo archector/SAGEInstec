@@ -223,21 +223,28 @@
                     	{{ field.errors }}
                     {%endif%}
           	        {%if field.name = 'pico_inicio'%}
-              			<input type="text" id="picoini" style="display:block" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+              			<input type="text" id="picoini" onclick="ocultarE1()"style="display:none" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
                     	{{ field.errors }}
+                    	<div class="alert alert-danger error" id="error1" role="alert" style="display: none"><strong> * Introduzca una hora válida</strong>
                     {%endif%}
                     {%if field.name = 'pico_fin'%}
-              			<input type="text" id="picofin" style="display:block" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+              			<input type="text" id="picofin" onclick="ocultarE2()" style="display:none" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
                     	{{ field.errors }}
+                    	<div class="alert alert-danger error" id="error2" role="alert" style="display: none"><strong> * Introduzca una hora válida</strong>
+                    	
                     {%endif%}
                     {%if field.name = 'monto_pico'%}
-              			<input type="text" id="montopico" style="display:block" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
+              			<input type="text" id="montopico" onclick="ocultarE3()" style="display:none" class="form-control" placeholder="{{field.label}}"name="{{field.name}}" for="id_{{field.name}}"><p>
                     	{{ field.errors }}
+                    	<div class="alert alert-danger error" id="error3" role="alert" style="display: none"><strong> * Introduzca un monto válido</strong>
+                    	
                     {%endif%}
                     
                     {%if field.name = 'monto_tarifa'%}
-              			<input type="text" class="form-control" placeholder="{{field.label}}" id="monto" name="{{field.name}}" for="id_{{field.name}}"><p>
+              			<input type="text" onclick="ocultarE4()" class="form-control" placeholder="{{field.label}}" id="monto" name="{{field.name}}" for="id_{{field.name}}"><p>
                     	{{ field.errors }}
+                    	<div class="alert alert-danger error" id="error4" role="alert" style="display: none"><strong> * Introduzca un monto válido</strong>
+                    	
                     {%endif%}
                     {%if field.name = 'horarioout'%}
               			<input type="text" class="form-control" placeholder="{{field.label}}" name="{{field.name}}"  for="id_{{field.name}}"><p>
@@ -261,13 +268,14 @@
 
               {% endfor %}
               
-
-                
+               
                 <div class="control-group">
                   <label>
                   </label>
                   <div class="controls">
-                    <button type="submit" class="btn btn-primary" style="width: 222px; height:35px">
+				<div class="alert alert-info" role="alert" id="validado" style="display: none"><b>Esquema Picos validado <i class="fa fa-check"></i></b></div>
+ 
+                    <button id="parametrizar" type="submit" class="btn btn-primary" style="width: 222px; height:35px">
                       Parametrizar Estacionamiento
                     </button>
                   </div>
@@ -275,29 +283,39 @@
                 
                 
               </form>
-              
-              
+              <div>
+
             </div>
 
             <!--/panel content-->
           </div>
           <!--/panel-->
-          
+                         
+              
           <!--/panel-->
           
         </div><!--/col-span-9-->
-    
+
+              </div>
+                 			
+    				
+                
   </div><!--/row-->
   <!-- /upper section -->
   
   <!-- lower section -->
   <!--/row-->
-
+  	
+    <button id="validapicos" class="btn btn-success" onclick="validar_picos();" style="width: 222px; height:35px; display:none">
+          Validar esquema Picos
+	</button>
+    
 </div><!--/container-->
 
 
     <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/Validator.js'%}"></script>  
 
 	<script type="text/javascript">
 		function mostrar(){
@@ -305,6 +323,9 @@
      			document.getElementById('picoini').style.display = 'block';
      			document.getElementById('picofin').style.display = 'block';
      			document.getElementById('montopico').style.display = 'block';
+     			document.getElementById('parametrizar').style.display = 'none';
+     			document.getElementById('validapicos').style.display = 'block';
+     			
 			}
      	}
 	</script>	
@@ -314,11 +335,77 @@
      			document.getElementById('picoini').style.display = 'none';
      			document.getElementById('picofin').style.display = 'none';
      			document.getElementById('montopico').style.display = 'none';
+     			document.getElementById('validapicos').style.display = 'none';
+     			document.getElementById('error1').style.display = 'none';
+     			document.getElementById('error2').style.display = 'none';
+     			document.getElementById('error3').style.display = 'none';
+     			document.getElementById('error4').style.display = 'none';
+     			document.getElementById('validado').style.display = 'none';
+		
+     			
 			}
 		}
 	</script>	
 	
+	<script type="text/javascript">
+		function mostrarE1(){
+		document.getElementById('error1').style.display = 'block';
+		}
+	</script>
 	
-</body>
-<h2 id="label" style="display:none">holaaaaaaaaaa</h2>
+	<script type="text/javascript">
+		function ocultarE1(){
+		document.getElementById('error1').style.display = 'none';
+		}
+	</script>
+	
+	
+	<script type="text/javascript">
+		function mostrarE2(){
+		document.getElementById('error2').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarE2(){
+		document.getElementById('error2').style.display = 'none';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarE3(){
+		document.getElementById('error3').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarE3(){
+		document.getElementById('error3').style.display = 'none';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarE4(){
+		document.getElementById('error4').style.display = 'block';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function ocultarE4(){
+		document.getElementById('error4').style.display = 'none';
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function mostrarParam(){
+		document.getElementById('parametrizar').style.display = 'block';
+		document.getElementById('validapicos').style.display = 'none';
+		document.getElementById('validado').style.display = 'block';
+		
+		}
+	</script>
+	
+	
+	
+</body>	
 </html>

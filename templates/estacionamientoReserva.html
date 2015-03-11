@@ -166,6 +166,19 @@
         <tr><td><b><i class="fa fa-dollar"></i></i> A pagar por hora:</b></td></tr>
         <tr><td>{{estacionamiento.monto_tarifa}} Bsf.</td></tr>
       {% endif %}
+        {% if estacionamiento.Tarifa %}
+        <tr><td><b><i class="fa fa-clock-o"></i></i> Inicio Horario Pico:</b></td></tr>
+        <tr><td>{{estacionamiento.Pico_Inicio}}</td></tr>
+      {% endif %}
+      {% if estacionamiento.Tarifa %}
+        <tr><td><b><i class="fa fa-clock-o"></i></i> Fin Horario Pico:</b></td></tr>
+        <tr><td>{{estacionamiento.Pico_Final}}</td></tr>
+      {% endif %}
+      {% if estacionamiento.Tarifa%}
+        <tr><td><b><i class="fa fa-money"></i></i> Monto a pagar por hora Horario Pico:</b></td></tr>
+        <tr><td>{{estacionamiento.monto_tarifa_pico}} BsF. </td></tr>
+      {% endif %}
+      
       
         </tbody>
       </table>
