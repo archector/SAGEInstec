@@ -53,8 +53,8 @@ class EstacionamientoExtendedForm(forms.Form):
     puestos = forms.IntegerField(min_value = 0, label = 'Número de Puestos')
 
     tarifa_validator = RegexValidator(
-                            regex = '^([0-9]+(\.[0-9]+)?)$',
-                            message = 'Sólo debe contener dígitos.'
+                            regex = '(^([0-9]+(\.[0-9]+)?))$',
+                            message = 'Debe contener dígitos.'
                         )
 
     horarioin = forms.TimeField(required = True, label = 'Horario Apertura')

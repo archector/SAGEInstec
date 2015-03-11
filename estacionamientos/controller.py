@@ -24,20 +24,32 @@ FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.no
 # [[(horaIn,horaOut),(horaIn,horaOut)],[],....]
 
 # chequeo de horarios de extended
-def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin):
+def HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin, PicoInicio, PicoFin):
 
 	if HoraInicio >= HoraFin:
 		return (False, 'El horario de apertura debe ser menor al horario de cierre')
 	if ReservaInicio >= ReservaFin:
 		return (False, 'El horario de inicio de reserva debe ser menor al horario de cierre')
 	if ReservaInicio < HoraInicio:
-		return (False, 'El horario de inicio de reserva debe mayor o igual al horario de apertura del estacionamiento')
+		return (False, 'El horario de inicio de reserva debe ser mayor o igual al horario de apertura del estacionamiento')
 	if ReservaInicio > HoraFin:
 		return (False, 'El horario de comienzo de reserva debe ser menor al horario de cierre del estacionamiento')
 	if ReservaFin < HoraInicio:
 		return (False, 'El horario de apertura de estacionamiento debe ser menor al horario de finalización de reservas')
 	if ReservaFin > HoraFin:
 		return (False, 'El horario de cierre de estacionamiento debe ser mayor o igual al horario de finalización de reservas')
+	if PicoInicio and PicoFin:
+		if PicoInicio < HoraInicio:
+			return (False, 'El horario de inicio del pico debe ser mayor o igual al horario de apertura del estacionamiento')
+		elif PicoInicio > HoraFin:
+			return (False, 'El horario de inicio del pico debe ser menor o igual al horario de cierre del estacionamiento')
+		elif PicoFin > HoraFin:
+			return (False, 'El horario de fin del pico debe ser menor o igual al horario de cierre del estacionamiento')
+		elif PicoFin < HoraInicio:
+			return (False, 'El horario de fin del pico debe ser mayor o igual al horario de apertura del estacionamiento')
+		elif PicoFin <= PicoInicio:
+			return (False, 'El horario de fin del pico debe ser mayor que el horario de inicio del pico')
+			
 	return (True, '')
 
 
@@ -63,58 +75,7 @@ def validarHorarioReserva(ReservaInicio, ReservaFin, HorarioApertura, HorarioCie
 	return (True, '')
 
 
-def esquemaTarifarioHoras(hin,hout,tarifa):
-	#horain = hin.hour + hin.minute/60
-	#horaout = hout.hour + hout.minute/60
-	#horas_a_pagar = horaout - horain
-	horas_a_pagar= (hout - hin).total_seconds()/CANT_SEGUNDOS_HORA
-	horas_a_pagar = ceil(horas_a_pagar)
-	cobro = 0
-	while horas_a_pagar> 0:
-		cobro = cobro + tarifa
-		horas_a_pagar = horas_a_pagar - 1
-	cobro=("{:.2f}".format(cobro))
-	cobro = Decimal(cobro)
-	return cobro
 
-
-def esquemaTarifarioMinutos(hin,hout,tarifa):
-	horas_a_pagar = hout - hin
-	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
-	minutos_a_pagar = horas_a_pagar*60
-	cobro = 0
-	while minutos_a_pagar> 0:
-		cobro = cobro + tarifa/60
-		minutos_a_pagar = minutos_a_pagar - 1
-	cobro=("{:.2f}".format(cobro))
-	cobro = Decimal(cobro)
-	return cobro
-
-def esquemaTarifarioHoraFraccion(hin,hout,tarifa):
-	horas_a_pagar = hout - hin
-	horas_a_pagar = (horas_a_pagar).days*24 + horas_a_pagar.seconds/3600
-	horas_a_pagar = floor(horas_a_pagar)
-	#horas_a_pagar = horas_a_pagar.days*24 + (horas_a_pagar.seconds)/3600
-	if (hin.minute - hout.minute) == 0:
-		fraccion =0
-	elif (hin.minute < hout.minute):
-		fraccion = hout.minute - hin.minute
-	elif hin.minute > hout.minute:
-		fraccion = 60 - (hin.minute - hout.minute)
-		horas_a_pagar= horas_a_pagar - 1
-		
-	cobro = 0
-	while horas_a_pagar > 0:
-		cobro = cobro + tarifa
-		horas_a_pagar = horas_a_pagar - 1
-	if 0<fraccion <= 30:
-		cobro = cobro + tarifa/2
-	if 30<fraccion<=59:
-		cobro = cobro + tarifa
-	
-	cobro=("{:.2f}".format(cobro))
-	cobro = Decimal(cobro)	
-	return cobro
 '''Algoritmo de Marzullo'''    
 def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	tabla = []

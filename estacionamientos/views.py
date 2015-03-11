@@ -47,7 +47,8 @@ def estacionamientos_all(request):
                         Telefono_3 = form.cleaned_data['telefono_3'],
                         Email_1 = form.cleaned_data['email_1'],
                         Email_2 = form.cleaned_data['email_2'],
-                        Ingresos = 0
+                        Ingresos = 0,
+                        monto_tarifa_pico = 0
                 )
                 obj.save()
                 # Recargamos los estacionamientos ya que acabamos de agregar
@@ -79,10 +80,15 @@ def estacionamiento_detail(request, _id):
                 hora_out = form.cleaned_data['horarioout']
                 reserva_in = form.cleaned_data['horario_reserin']
                 reserva_out = form.cleaned_data['horario_reserout']
+                ini_pico = form.cleaned_data['pico_inicio']
+                fin_pico = form.cleaned_data['pico_fin']
+                
+                mount = form.cleaned_data['monto_pico']
+                
 
-                m_validado = HorarioEstacionamiento(hora_in, hora_out, reserva_in, reserva_out)
+                m_validado = HorarioEstacionamiento(hora_in, hora_out, reserva_in, reserva_out,ini_pico,fin_pico)
                 if not m_validado[0]:
-                    return render(request, 'templateMensaje.html', {'color':'red', 'mensaje': m_validado[1]})
+                    return render(request, 'estacionamiento.html', {'color':'red', 'mensaje': m_validado[1]})
 
                 estacion.Tarifa = form.cleaned_data['tarifa']
                 estacion.monto_tarifa = form.cleaned_data['monto_tarifa']
@@ -93,9 +99,12 @@ def estacionamiento_detail(request, _id):
                 estacion.NroPuesto = form.cleaned_data['puestos']
                 
                 if estacion.Tarifa.tipoTarifa == 'difHoras':
-                    estacion.monto_tarifa_pico = form.cleaned_data['monto_pico']
-                    estacion.Pico_Inicio = form.cleaned_data['pico_inicio']
-                    estacion.Pico_Final = form.cleaned_data['pico_fin']
+                    
+                    estacion.Pico_Inicio = ini_pico
+                    estacion.Pico_Final = fin_pico
+                    estacion.monto_tarifa_pico = mount
+                    
+                    
 
                 estacion.save()
     else:

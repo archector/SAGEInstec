@@ -7,6 +7,7 @@ import unittest
 from estacionamientos.controller import *
 from estacionamientos.forms import *
 from estacionamientos.forms import *
+from estacionamientos.models import *
 
 
 ###################################################################
@@ -28,16 +29,16 @@ class SimpleTest(unittest.TestCase):
 	'''Caso de agregar una reservacion con el estacionamiento vacio'''    
 	def testAgregarConEstacionamientoVacio(self):
 		n = []
-		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
-		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
+		HoraInicio = datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(n,(HoraInicio,HoraFinal),10)[0])
 		
 	'''Caso de agregar una reservacion con el estacionamiento lleno'''    
 	def testAgregarUnoConEstacionamientoLleno(self):
 		n = []
 		i=0
-		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
-		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
+		HoraInicio = datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
 		while (i <10):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1   
@@ -45,18 +46,18 @@ class SimpleTest(unittest.TestCase):
 	
 	'''Prueba dos intervalos con la misma cantidad de puestos reservados'''
 	def testDosIntervalosMismaCantidadDePuestos(self):	
-		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
-		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
-		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
-		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
+		Hora1 = datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora2 = datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
+		Hora3 = datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
+		Hora4 = datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(((Hora1,Hora2),(Hora1,Hora4),(Hora3,Hora4)),(Hora3,Hora4),10)[0]) 
 		
 	'''Caso de llenar el estacionemiento'''    
 	def testEstacionemientoLleno(self):
 		n = []
 		i=0
-		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
-		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
+		HoraInicio = datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		HoraFinal = datetime(year = 2015, month = 2, day = 25,hour = 18, minute = 0, second = 0)
 		while (i <9):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1    
@@ -66,10 +67,10 @@ class SimpleTest(unittest.TestCase):
 	def testHorasCruzadas(self):
 		n = []
 		i=0
-		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
-		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 7, minute = 0, second = 0)
-		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
-		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
+		Hora1 = datetime(year = 2015, month = 2, day = 25,hour = 6, minute = 0, second = 0)
+		Hora2 = datetime(year = 2015, month = 2, day = 25,hour = 7, minute = 0, second = 0)
+		Hora3 = datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora4 = datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
 		while (i <9):	
 			n.append((Hora1,Hora2))
 			i=i+1 
@@ -87,8 +88,8 @@ class SimpleTest(unittest.TestCase):
 	def testMaximoDeReservasDeUnPuesto(self):
 		n = []
 		i=0
-		HoraInicio = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
-		HoraFinal = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
+		HoraInicio = datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		HoraFinal = datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
 		while (i <10):
 			n.append((HoraInicio,HoraFinal))
 			i=i+1  
@@ -108,23 +109,23 @@ class SimpleTest(unittest.TestCase):
 		
 	'''Prueba para Offset iguales y tipe opuestos'''
 	def testOffsetIgualesTypeOpuestos(self):
-		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
-		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
-		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
-		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 11, minute = 0, second = 0)
-		Hora5 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
-		Hora6 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 13, minute = 0, second = 0)
-		Hora7 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 14, minute = 0, second = 0)
-		Hora8 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 15, minute = 0, second = 0)
+		Hora1 = datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora2 = datetime(year = 2015, month = 2, day = 25,hour = 9, minute = 0, second = 0)
+		Hora3 = datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
+		Hora4 = datetime(year = 2015, month = 2, day = 25,hour = 11, minute = 0, second = 0)
+		Hora5 = datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
+		Hora6 = datetime(year = 2015, month = 2, day = 25,hour = 13, minute = 0, second = 0)
+		Hora7 = datetime(year = 2015, month = 2, day = 25,hour = 14, minute = 0, second = 0)
+		Hora8 = datetime(year = 2015, month = 2, day = 25,hour = 15, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(((Hora4,Hora8),(Hora1,Hora8),(Hora2,Hora4),(Hora3,Hora7),(Hora4,Hora7),(Hora2,Hora3),(Hora2,Hora6),(Hora5,Hora8),(Hora1,Hora4),(Hora7,Hora8)),(Hora7,Hora8),10)[0])
 	
 	'''Prueba Simple'''
 	def testPruebaSimple(self):
-		Hora1 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
-		Hora2 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
-		Hora3 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 11, minute = 0, second = 0)
-		Hora4 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
-		Hora5 = datetime.datetime(year = 2015, month = 2, day = 25,hour = 13, minute = 0, second = 0)
+		Hora1 = datetime(year = 2015, month = 2, day = 25,hour = 8, minute = 0, second = 0)
+		Hora2 = datetime(year = 2015, month = 2, day = 25,hour = 10, minute = 0, second = 0)
+		Hora3 = datetime(year = 2015, month = 2, day = 25,hour = 11, minute = 0, second = 0)
+		Hora4 = datetime(year = 2015, month = 2, day = 25,hour = 12, minute = 0, second = 0)
+		Hora5 = datetime(year = 2015, month = 2, day = 25,hour = 13, minute = 0, second = 0)
 		self.assertTrue(algoritmo_Marzullo(((Hora1,Hora4),(Hora3,Hora5),(Hora2,Hora4)),(Hora2,Hora4),10)[0]) 
 
 ###################################################################
@@ -337,8 +338,7 @@ class SimpleFormTestCase(TestCase):
 	# caso borde
 	#############################ACTUALIZADO#####################################
 	def test_EstacionamientoExtendedForm_TodosCamposBien(self):
-		tarifa = Tarifa(
-					tipoTarifa = 'wuu')
+		tarifa = Tarifa(tipoTarifa = 'wuu')
 		tarifa.save()
 		form_data = { 'puestos': 2,
 								'horarioin': time(6, 0),
@@ -479,7 +479,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 18, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (True, ''))
 
 	# malicia
@@ -488,7 +488,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 11, minute = 0, second = 0)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 18, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de apertura debe ser menor al horario de cierre'))
 
 	# caso borde
@@ -497,7 +497,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 12, minute = 0, second = 0)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 18, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de apertura debe ser menor al horario de cierre'))
 
 	# caso borde
@@ -506,7 +506,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 11, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de inicio de reserva debe ser menor al horario de cierre'))
 
 	# caso borde
@@ -515,7 +515,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 12, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de inicio de reserva debe ser menor al horario de cierre'))
 
 	# caso borde
@@ -524,7 +524,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 12, minute = 0, second = 1)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 12, minute = 0, second = 1)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (True, ''))
 
 	# caso borde
@@ -533,7 +533,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 23, minute = 59, second = 59)
 		ReservaInicio = time(hour = 12, minute = 0, second = 0)
 		ReservaFin = time(hour = 23, minute = 59, second = 59)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (True, ''))
 
 	# caso borde
@@ -542,7 +542,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 19, minute = 0, second = 0)
 		ReservaFin = time(hour = 20, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de comienzo de reserva debe ser menor al horario de cierre del estacionamiento'))
 
 	# caso borde
@@ -551,7 +551,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 19, minute = 0, second = 0)
 		ReservaFin = time(hour = 20, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de comienzo de reserva debe ser menor al horario de cierre del estacionamiento'))
 
 	# malicia
@@ -560,7 +560,7 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 17, minute = 0, second = 0)
 		ReservaFin = time(hour = 20, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
 		self.assertEqual(x, (False, 'El horario de cierre de estacionamiento debe ser mayor o igual al horario de finalización de reservas'))
 
 	# malicia
@@ -569,8 +569,8 @@ class SimpleFormTestCase(TestCase):
 		HoraFin = time(hour = 18, minute = 0, second = 0)
 		ReservaInicio = time(hour = 10, minute = 0, second = 0)
 		ReservaFin = time(hour = 11, minute = 0, second = 0)
-		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin)
-		self.assertEqual(x, (False, 'El horario de inicio de reserva debe mayor o igual al horario de apertura del estacionamiento'))
+		x = HorarioEstacionamiento(HoraInicio, HoraFin, ReservaInicio, ReservaFin,None,None)
+		self.assertEqual(x, (False, 'El horario de inicio de reserva debe ser mayor o igual al horario de apertura del estacionamiento'))
 
 
 
@@ -592,7 +592,7 @@ class SimpleFormTestCase(TestCase):
 
 	# normal
 	def test_EstacionamientoReserva_TodosCamposBien(self):
-		ini = datetime.datetime.now()
+		ini = datetime.now()
 		fin = ini + timedelta(days=+1)
 		form_data = {'inicio':ini, 'final':fin}
 		form = EstacionamientoReserva(data = form_data)
@@ -1225,11 +1225,11 @@ class SimpleFormTestCase(TestCase):
 
 	# normal
 	def test_HorarioReservaValido(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime.datetime(añoNow,mesNow,diaNow,hour = 15, minute = 0, second = 0, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(añoNow,mesNow,diaNow,hour = 15, minute = 0, second = 0, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1237,11 +1237,11 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_InicioReservacion_Mayor_FinalReservacion(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime.datetime(añoNow,mesNow,diaNow,hour = 12, minute = 59, second = 59, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(añoNow,mesNow,diaNow,hour = 12, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)	
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1249,8 +1249,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_TiempoTotalMenor1h(self):
-		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 13, minute = 59, second = 59, tzinfo = timezone.utc)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 13, minute = 59, second = 59, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1259,8 +1259,8 @@ class SimpleFormTestCase(TestCase):
 	# caso borde
 	#############################ACTUALIZADO#####################################
 	def test_HorarioReservaInvalido_ReservaFinal_Mayor_HorarioCierre(self):
-		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
-		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 19, minute = 0, second = 1, tzinfo = timezone.utc)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 13, minute = 0, second = 0, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 19, minute = 0, second = 1, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1268,8 +1268,8 @@ class SimpleFormTestCase(TestCase):
 
 	# caso borde
 	def test_HorarioReservaInvalido_ReservaInicial_Menor_HorarioApertura(self):
-		ReservaInicio = datetime.datetime(year = 2015, month = 2, day = 23, hour = 11, minute = 59, second = 59, tzinfo = timezone.utc)
-		ReservaFin = datetime.datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 1, tzinfo = timezone.utc)
+		ReservaInicio = datetime(year = 2015, month = 2, day = 23, hour = 11, minute = 59, second = 59, tzinfo = timezone.utc)
+		ReservaFin = datetime(year = 2015, month = 2, day = 23,hour = 15, minute = 0, second = 1, tzinfo = timezone.utc)
 		HoraApertura = time(hour = 12, minute = 0, second = 0)
 		HoraCierre = time(hour = 18, minute = 0, second = 0)
 		x = validarHorarioReserva(ReservaInicio, ReservaFin, HoraApertura, HoraCierre)
@@ -1277,7 +1277,7 @@ class SimpleFormTestCase(TestCase):
 
 	# malicia
 	def test_Reservacion_CamposVacios(self):
-		ini = datetime.datetime.now()
+		ini = datetime.now()
 		fin = ini + timedelta(days=+1)
 		form_data = {'inicio':ini, 'final':fin}
 		form = EstacionamientoReserva(data = form_data)
@@ -1289,7 +1289,7 @@ class SimpleFormTestCase(TestCase):
 
 	# borde
 	def test_ReservacionMayor7Dias(self):
-		ReservaInicio = datetime.datetime.now()+ datetime.timedelta(days=1)
+		ReservaInicio = datetime.now()+ timedelta(days=1)
 		ReservaFin = ReservaInicio + timedelta(days=7,seconds=1)
 		HoraApertura = time(0,0)
 		HoraCierre = time(4,20)
@@ -1298,11 +1298,11 @@ class SimpleFormTestCase(TestCase):
 
 	# borde
 	def test_ReservacionSieteDiasExactos(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
 		CANT_MINUTOS_SIETE_DIAS=10080
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=7)
 		HoraApertura = time(0,0)
 		HoraCierre = time(23,59)
@@ -1311,10 +1311,10 @@ class SimpleFormTestCase(TestCase):
 
 	# borde
 	def test_ReservacionUnDiaExacto(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days = 1)
 		HoraApertura = time(0,0)
 		HoraCierre = time(23,59)
@@ -1323,10 +1323,10 @@ class SimpleFormTestCase(TestCase):
 
 	# esquina
 	def test_ReservacionNula(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio
 		HoraApertura = time(4,20)
 		HoraCierre = time(16,20)
@@ -1335,10 +1335,10 @@ class SimpleFormTestCase(TestCase):
 
 	# esquina
 	def test_ReservacionMuyGrande(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=100)
 		HoraApertura = time(4,20)
 		HoraCierre = time(16,20)
@@ -1347,10 +1347,10 @@ class SimpleFormTestCase(TestCase):
 
 	# esquina
 	def test_ReservacionIntermediaEstacionamiento24h(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=3,seconds=1)
 		HoraApertura = time(0,0)
 		HoraCierre = time(0,0)
@@ -1359,10 +1359,10 @@ class SimpleFormTestCase(TestCase):
 
 	# esquina
 	def test_ReservacionIntermediaEstacionamientoMenos24h(self):
-		añoNow = datetime.datetime.now().year
-		mesNow = datetime.datetime.now().month
-		diaNow = (datetime.datetime.now()+ datetime.timedelta(days=1)).day
-		ReservaInicio = datetime.datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=1)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
 		ReservaFin = ReservaInicio + timedelta(days=3,seconds=1)
 		HoraApertura = time(4,20)
 		HoraCierre = time(16,20)
@@ -1375,105 +1375,444 @@ class SimpleFormTestCase(TestCase):
 #tarifarios que se ofrecen.
 
 	def test_esquemaTarifarioHoras_horaExacta(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,0)
-		tarifa = 2
-		x = esquemaTarifarioHoras(hin,hout,tarifa)
-		self.assertEqual(x, 2)
+		tarifa = Tarifa(
+					tipoTarifa = 'horas')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2015,3,11,11,0)
+		hout = datetime(2015,3,11,12,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, 1)
 	def test_esquemaTarifarioHoras_horaYfraccion_A(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,1)
-		tarifa = 2
-		x = esquemaTarifarioHoras(hin,hout,tarifa)
+		tarifa = Tarifa(
+					tipoTarifa = 'horas')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,1)
+		x = estacionamiento.calcularCobro(hin, hout)
 		self.assertEqual(x, 4)
+	
+	
 	def test_esquemaTarifarioHoras_horaYfraccion_B(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,59)
-		tarifa = 2
-		x = esquemaTarifarioHoras(hin,hout,tarifa)
+		tarifa = Tarifa(
+					tipoTarifa = 'horas')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout =datetime(2000,4,13,7,59)
+		x = estacionamiento.calcularCobro(hin, hout)
+
 		self.assertEqual(x, 4)
+	
 	def test_esquemaTarifarioHoras_mismaHora(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,6,0)
-		tarifa = 2
-		x = esquemaTarifarioHoras(hin,hout,tarifa)
-		self.assertEqual(x, 0)
-	def test_esquemaTarifarioMinutos_horaExacta(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,0)
-		tarifa = 2
-		x = esquemaTarifarioMinutos(hin,hout,tarifa)
-		self.assertEqual(x, 2)
-	def test_esquemaTarifarioMinutos_horaYfraccion_A(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,1)
-		tarifa = 2
-		x = esquemaTarifarioMinutos(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(2.033333333)))
-	def test_esquemaTarifarioMinutos_horaYfraccion_B(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,59)
-		tarifa = 2
-		x = esquemaTarifarioMinutos(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(3.97)))
-	def test_esquemaTarifarioMinutos_mismaHora(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,6,0)
-		tarifa = 2
-		x = esquemaTarifarioMinutos(hin,hout,tarifa)
-		self.assertEqual(x, 0)
-	def test_esquemaTarifarioHoraFraccion_horaExacta(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,0)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
-		self.assertEqual(x, 2)
-	def test_esquemaTarifarioHoraFraccion_horaYfraccion_MenorQueTreinta_A(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,1)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(3)))
-	def test_esquemaTarifarioHoraFraccion_HoraFraccion_MenorQueTreinta_B(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,29)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(3)))
-	def test_esquemaTarifarioHoraFraccion_HoraFraccion_IgualTreinta(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,30)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(3)))
-	def test_esquemaTarifarioHoraFraccion_horaYfraccion_MayorQueTreinta_A(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,31)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(4)))
-	def test_esquemaTarifarioHoraFraccion_HoraFraccion_MayorQueTreinta_B(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,59)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
-		self.assertEqual(x, Decimal("{:.2f}".format(4)))
-	def test_esquemaTarifarioHoraFraccion_mismaHora(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,6,0)
-		tarifa = 2
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		
+		tarifa = Tarifa(
+					tipoTarifa = 'horas')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,6,0)
+		x = estacionamiento.calcularCobro(hin, hout)
 		self.assertEqual(x, 0)
 		
-#Prueba para verificar que los costos se manejan con el tipo DECIMAL
-#Lo unico que se maneja de dinero hasta ahora, es el cobro de las reservas
-#y esto lo devuelve las funciones de los esquemas.
-#Se comprobara que el tipo que devuelve la funcion es una instancia de la clase
-#Decimal
+	
+	def test_esquemaTarifarioMinutos_horaExacta(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'minutos')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, 2)
+	
+	def test_esquemaTarifarioMinutos_horaYfraccion_A(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'minutos')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,1)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, Decimal("{:.2f}".format(2.033333333)))
+	
+	def test_esquemaTarifarioMinutos_horaYfraccion_B(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'minutos')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,59)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, Decimal("{:.2f}".format(3.97)))
+		
+	def test_esquemaTarifarioMinutos_mismaHora(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'minutos')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,6,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, 0)
+		
+	def test_esquemaTarifarioHoraFraccion_horaExacta(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, 2)
+		
+	def test_esquemaTarifarioHoraFraccion_horaYfraccion_MenorQueTreinta_A(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,1)
+		x = estacionamiento.calcularCobro(hin, hout)
+
+		self.assertEqual(x, Decimal("{:.2f}".format(3)))
+	def test_esquemaTarifarioHoraFraccion_HoraFraccion_MenorQueTreinta_B(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,29)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, Decimal("{:.2f}".format(3)))
+		
+	def test_esquemaTarifarioHoraFraccion_HoraFraccion_IgualTreinta(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,30)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, Decimal("{:.2f}".format(3)))
+		
+	def test_esquemaTarifarioHoraFraccion_horaYfraccion_MayorQueTreinta_A(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,31)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, Decimal("{:.2f}".format(4)))
+		
+	def test_esquemaTarifarioHoraFraccion_HoraFraccion_MayorQueTreinta_B(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,59)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, Decimal("{:.2f}".format(4)))
+		
+	def test_esquemaTarifarioHoraFraccion_mismaHora(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,6,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, 0)
+		
+		
+		
+		
+
+	def test_esquemaTarifarioDiferenciadoHora_horaExacta(self):#Frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'difHoras')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = time(13,0),
+										Pico_Final = time(14,0),
+										monto_tarifa_pico = 2)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, 1)
+	def test_esquemaTarifarioDiferenciadoHora_intervaloPico(self):#frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'difHoras')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = time(13,0),
+										Pico_Final = time(14,0),
+										monto_tarifa_pico = 2)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,13,0)
+		hout = datetime(2000,4,13,14,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, 2)
+	def test_esquemaTarifarioDiferenciadoHora_intervaloVallePico(self):#frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'difHoras')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = time(13,0),
+										Pico_Final = time(14,0),
+										monto_tarifa_pico = 2)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,12,30)
+		hout = datetime(2000,4,13,13,30)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, 1.5)
+	def test_esquemaTarifarioDiferenciadoHora_intervaloPicoValle(self):#frontera
+		tarifa = Tarifa(
+					tipoTarifa = 'difHoras')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = time(13,0),
+										Pico_Final = time(14,0),
+										monto_tarifa_pico = 2)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,13,30)
+		hout = datetime(2000,4,13,14,30)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x, Decimal(1.5))
+	
+	def test_esquemaTarifarioDiferenciadoHora_intervaloVallePicoB(self):#Esquina
+		tarifa = Tarifa(
+					tipoTarifa = 'difHoras')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = time(13,0),
+										Pico_Final = time(14,0),
+										monto_tarifa_pico = 2)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,12,0)
+		hout = datetime(2000,4,13,13,1)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x,Decimal("{:.2f}".format(1.03)))
+		
+	def test_esquemaTarifarioDiferenciadoHora_pruebaExhaustiva(self):#Esquina
+		tarifa = Tarifa(
+					tipoTarifa = 'difHoras')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 1,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = time(22,30),
+										Pico_Final = time(23,30),
+										monto_tarifa_pico = 2)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,22,0)
+		hout = datetime(2000,4,14,1,0)
+		x = estacionamiento.calcularCobro(hin, hout)
+		self.assertEqual(x,Decimal("{:.2f}".format(4)))
+	
+	#Prueba para verificar que los costos se manejan con el tipo DECIMAL
+	#Lo unico que se maneja de dinero hasta ahora, es el cobro de las reservas
+	#y esto lo devuelve las funciones de los esquemas.
+	#Se comprobara que el tipo que devuelve la funcion es una instancia de la clase
+	#Decimal
 	def test_Costo_es_Decimal(self):#Frontera
-		hin = datetime.datetime(2000,4,13,6,0)
-		hout = datetime.datetime(2000,4,13,7,25)
-		tarifa = 2.47
-		x = esquemaTarifarioHoraFraccion(hin,hout,tarifa)
+		tarifa = Tarifa(
+					tipoTarifa = 'horaFraccion')
+		tarifa.save()
+		estacionamiento = Estacionamiento(Tarifa = tarifa,
+										monto_tarifa = 2.47,
+										Apertura = time(0,0),
+										Cierre = time(23,59),
+										Reservas_Inicio = time(0,0),
+										Reservas_Cierre = time(23,59),
+										Pico_Inicio = None,
+										Pico_Final = None,
+										monto_tarifa_pico = None)
+		estacionamiento.save()		
+		hin = datetime(2000,4,13,6,0)
+		hout = datetime(2000,4,13,7,25)
+		x = estacionamiento.calcularCobro(hin, hout)
 		self.assertIsInstance(x, Decimal)
 
