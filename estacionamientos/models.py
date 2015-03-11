@@ -124,8 +124,6 @@ class Estacionamiento(models.Model):
 				cobro = cobro + self.monto_tarifa/60
 				minutos_a_pagar = minutos_a_pagar - 1
 				hora_aux = hora_aux + timedelta(0,60)
-		print(cobroPico)
-		print(cobro)
 		cobro = cobro + cobroPico
 		cobro=("{:.2f}".format(cobro))
 		cobro = Decimal(cobro)

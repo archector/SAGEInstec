@@ -30,7 +30,7 @@ def estacionamientos_all(request):
 
             # Parte de la entrega era limitar la cantidad maxima de
             # estacionamientos a 5
-            if len(estacionamientos) >= 5:
+            if len(estacionamientos) >= 15:
                     return render(request, 'templateMensaje.html',
                                   {'color':'red', 'mensaje':'No se pueden agregar más estacionamientos'})
 
@@ -103,6 +103,10 @@ def estacionamiento_detail(request, _id):
                     estacion.Pico_Inicio = ini_pico
                     estacion.Pico_Final = fin_pico
                     estacion.monto_tarifa_pico = mount
+                else:
+                    estacion.Pico_Inicio = None
+                    estacion.Pico_Final = None
+                    estacion.monto_tarifa_pico = None
                     
                     
 
