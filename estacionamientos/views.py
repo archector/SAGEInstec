@@ -102,7 +102,11 @@ def estacionamiento_detail(request, _id):
                     
                     estacion.Pico_Inicio = ini_pico
                     estacion.Pico_Final = fin_pico
-                    estacion.monto_tarifa_pico = mount
+                    if not mount:
+                        estacion.monto_tarifa_pico = None
+                    if mount:
+                        estacion.monto_tarifa_pico = mount
+                    
                 else:
                     estacion.Pico_Inicio = None
                     estacion.Pico_Final = None
