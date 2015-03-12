@@ -9,6 +9,7 @@ CANT_HORAS_SIETE_DIAS = 168
 CANT_SEGUNDOS_HORA = 3600
 #FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
 FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0) + datetime.timedelta(days=1)
+FECHA_FIJA2 = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0)
 
 
 
@@ -110,3 +111,6 @@ def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	#beststart = datetime.time(beststart)
 	#bestend = datetime.time(bestend)
 	return ( best < capacidad,best)
+
+
+		
