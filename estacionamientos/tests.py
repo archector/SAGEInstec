@@ -8,6 +8,7 @@ from estacionamientos.controller import *
 from estacionamientos.forms import *
 from estacionamientos.forms import *
 from estacionamientos.models import *
+from estacionamientos import controller
 
 
 ###################################################################
@@ -1790,6 +1791,7 @@ class SimpleFormTestCase(TestCase):
 		hin = datetime(2000,4,13,22,0)
 		hout = datetime(2000,4,14,1,0)
 		x = estacionamiento.calcularCobro(hin, hout)
+		print(x)
 		self.assertEqual(x,Decimal("{:.2f}".format(4)))
 	
 	#Prueba para verificar que los costos se manejan con el tipo DECIMAL
@@ -1815,4 +1817,93 @@ class SimpleFormTestCase(TestCase):
 		hout = datetime(2000,4,13,7,25)
 		x = estacionamiento.calcularCobro(hin, hout)
 		self.assertIsInstance(x, Decimal)
+
+
+	def test_tasa_es_Decimal(self):#Frontera
+		Apertura = time(0,0)
+		Cierre = time(23,59)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=0)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		lista = [(ReservaInicio,ReservaFin)]
+		x = controller.calculo_reporte_tasa (lista, Apertura, Cierre, 1)
+		self.assertIsInstance(x[0], Decimal)
+		
+	def test_tasa_dia_full(self):#Frontera
+		Apertura = time(0,0)
+		Cierre = time(23,59)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=0)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		lista = [(ReservaInicio,ReservaFin)]
+		x = controller.calculo_reporte_tasa (lista, Apertura, Cierre, 1)
+		self.assertEqual(x[0], Decimal("{:.2f}".format(100.0)))
+		
+	def test_tasa_dia_sin_reserva(self):#Frontera
+		Apertura = time(0,0)
+		Cierre = time(23,59)
+		x = controller.calculo_reporte_tasa ([], Apertura, Cierre, 1)
+		self.assertEqual(x[0], Decimal("{:.2f}".format(0.0)))
+		
+	def test_tasa_a_mitad_mas_de_un_puesto(self):#Frontera
+		Apertura = time(0,0)
+		Cierre = time(23,59)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=0)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		lista = [(ReservaInicio,ReservaFin)]
+		x = controller.calculo_reporte_tasa (lista, Apertura, Cierre, 2)
+		self.assertEqual(x[0], Decimal("{:.2f}".format(50.0)))
+		
+	def test_tasa_mas_de_un_puesto(self):#Frontera
+		Apertura = time(0,0)
+		Cierre = time(23,59)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=0)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		lista = [(ReservaInicio,ReservaFin)]
+		x = controller.calculo_reporte_tasa (lista, Apertura, Cierre, 3)
+		self.assertEqual(x[0], Decimal("{:.2f}".format(33.33)))
+		
+	def test_tasa_trabaja_menos_24_horas(self):#Frontera
+		Apertura = time(6,0)
+		Cierre = time(18,0)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=0)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		lista = [(ReservaInicio,ReservaFin)]
+		x = controller.calculo_reporte_tasa (lista, Apertura, Cierre, 2)
+		self.assertEqual(x[0], Decimal("{:.2f}".format(50.0)))
+		
+	def test_tasa_trabaja_menos_24_horas2(self):#Frontera
+		Apertura = time(6,0)
+		Cierre = time(18,0)
+		añoNow = datetime.now().year
+		mesNow = datetime.now().month
+		diaNow = (datetime.now()+ timedelta(days=0)).day
+		ReservaInicio = datetime(añoNow,mesNow,diaNow, hour = 0, minute = 0, tzinfo = timezone.utc)
+		ReservaFin = ReservaInicio + timedelta(days=7)
+		lista = [(ReservaInicio,ReservaFin)]
+		x = controller.calculo_reporte_tasa (lista, Apertura, Cierre, 4)
+		print(x)
+		self.assertEqual(x[0], Decimal("{:.2f}".format(25.0)))
+
+
+
+
+
+
+
+
+
 

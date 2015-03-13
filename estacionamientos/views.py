@@ -5,7 +5,8 @@ from django.db.models import Sum
 from django.shortcuts import render, redirect
 from decimal import Decimal
 from estacionamientos.controller import *
-from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm
+from estacionamientos.forms import EstacionamientoExtendedForm,TarifaForm,\
+    EstacionamientoNombre
 from estacionamientos.forms import EstacionamientoForm
 from estacionamientos.forms import EstacionamientoReserva
 from estacionamientos.forms import EstacionamientoPago
@@ -14,8 +15,11 @@ from estacionamientos.forms import EstacionamientoCi
 from estacionamientos.models import Estacionamiento, ReservasModel , RecibosModel
 from django.core.context_processors import request
 from django.template import Context
+import datetime
+import json
 
 listaReserva = []
+FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0)
 
 # Usamos esta vista para procesar todos los estacionamientos
 def estacionamientos_all(request):
@@ -284,6 +288,7 @@ def form_pago(request, _id):
 
 
 # Redirecciona los request de / a /estacionamientos
+
 def index(request):
     return redirect('/estacionamientos')
 
@@ -340,3 +345,78 @@ def reporte_reservas(request):
         form = EstacionamientoCi()
      
     return render(request, 'reportereservas.html',{'form':form})
+
+def reporte_tasas(request):
+    form = EstacionamientoNombre() 
+    n =0
+    
+    global listaReserva
+
+    if request.method == 'POST':
+            # Creamos un formulario con los datos que recibimos
+            form = EstacionamientoNombre(request.POST)
+            
+            # Si el formulario es valido, entonces creamos un objeto con
+            # el constructor del modelo
+            if form.is_valid():
+                # Recargamos los recibos ya que acabamos de agregar
+                
+                nomb = form.cleaned_data['nombre']
+                est = Estacionamiento.objects.filter(Nombre=nomb)
+                try:
+                    est2 = Estacionamiento.objects.get(Nombre=nomb)
+                except:
+                    return render(request, 'reportetasas.html',{'form':form,'nombre':nomb,'est':est,'n':1})
+                if (len(est) == 0):
+                    n=1
+                    
+                Puestos = ReservasModel.objects.filter(Estacionamiento = est).values_list('InicioReserva', 'FinalReserva')
+                Inic1 = FECHA_FIJA + datetime.timedelta(hours=est2.Apertura.hour) + datetime.timedelta(minutes=est2.Apertura.minute) + datetime.timedelta(seconds=est2.Apertura.second) + datetime.timedelta(days=1)
+                Fin1 = FECHA_FIJA + datetime.timedelta(hours=est2.Cierre.hour) + datetime.timedelta(minutes=est2.Cierre.minute) + datetime.timedelta(seconds=est2.Cierre.second) + datetime.timedelta(days=1)
+                if (Fin1 == Inic1):
+                    Fin1 = FECHA_FIJA + datetime.timedelta(days=1)
+                cap = (Fin1-Inic1).seconds * est2.NroPuesto
+                tasas = []
+                tasas.append(['Dia', 'Porcentaje'])
+                
+                for i in range (1,8):
+                    Inic = FECHA_FIJA + datetime.timedelta(hours=est2.Apertura.hour) + datetime.timedelta(minutes=est2.Apertura.minute) + datetime.timedelta(seconds=est2.Apertura.second) + datetime.timedelta(days=i)
+                    Fin = FECHA_FIJA + datetime.timedelta(hours=est2.Cierre.hour) + datetime.timedelta(minutes=est2.Cierre.minute) + datetime.timedelta(seconds=est2.Cierre.second) + datetime.timedelta(days=i)
+                    if (Fin == Inic):
+                        Fin = FECHA_FIJA + datetime.timedelta(days=1)
+                    tasa = 0
+                    
+                    for obj in Puestos:
+                        objI = obj[0].replace(tzinfo=None)
+                        objF = obj[1].replace(tzinfo=None)
+                        if (objI < Inic and objF < Fin and objF > Inic):
+                            t_reserva = (objF-Inic).seconds
+                            tasa = tasa + t_reserva
+                        elif (objI > Inic and objF < Fin and objI < Fin):
+                            t_reserva = (objF-objI).seconds
+                            tasa = tasa + t_reserva
+                        elif (objI > Inic and objF > Fin and objI < Fin):
+                            t_reserva = (Fin - objI).seconds
+                            tasa = tasa + t_reserva
+                        elif (objF >  Fin and objI < Inic):
+                            t_reserva = (Fin - Inic).seconds
+                            tasa = tasa + t_reserva
+                    tasa = tasa*100/cap
+                    tasas.append(['dia ' + str(i), tasa])
+                
+                        
+                
+                return render(request, 'reportetasas.html',{'form':form,'nombre':nomb,'est':est,'n':n, 'dataZ': json.dumps(tasas)})
+    # Si no es un POST es un GET, y mandamos un formulario vacio
+    else:
+        form = EstacionamientoNombre()
+     
+    return render(request, 'reportetasas.html',{'form':form})
+
+
+
+
+
+
+
+

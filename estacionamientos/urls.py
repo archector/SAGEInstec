@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^(?P<_id>\d+)/pagoconfirm$',views.pago_confirm, name = 'pago_confirm'),
     url(r'^reporteingresos$',views.reporte_ingresos, name = 'reporte_ingresos'),
     url(r'^reportereservas$',views.reporte_reservas, name = 'reporte_reservas'),
+    url(r'^reportetasas$',views.reporte_tasas, name = 'reporte_tasas'),
 )

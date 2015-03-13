@@ -9,6 +9,7 @@ CANT_HORAS_SIETE_DIAS = 168
 CANT_SEGUNDOS_HORA = 3600
 #FECHA_FIJA= datetime.datetime(2015,2,25,0,0).replace(tzinfo=None)
 FECHA_FIJA = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0) + datetime.timedelta(days=1)
+FECHA_FIJA2 = datetime.datetime(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day,0,0)
 
 
 
@@ -110,3 +111,57 @@ def algoritmo_Marzullo(intervalos,horaReserva,capacidad):
 	#beststart = datetime.time(beststart)
 	#bestend = datetime.time(bestend)
 	return ( best < capacidad,best)
+
+
+def calculo_reporte_tasa (intervalos, horaIni, horaFin, capacidad):
+	#Puestos = ReservasModel.objects.filter(Estacionamiento = est).values_list('InicioReserva', 'FinalReserva')
+	Inic1 = FECHA_FIJA2 + datetime.timedelta(hours=horaIni.hour) + datetime.timedelta(minutes=horaIni.minute) + datetime.timedelta(seconds=horaIni.second) + datetime.timedelta(days=1)
+	Fin1 = FECHA_FIJA2 + datetime.timedelta(hours=horaFin.hour) + datetime.timedelta(minutes=horaFin.minute) + datetime.timedelta(seconds=horaFin.second) + datetime.timedelta(days=1)
+	if (Fin1 == Inic1):
+		Fin1 = FECHA_FIJA2 + datetime.timedelta(days=1)
+	cap = (Fin1-Inic1).seconds * capacidad
+	tasas = []
+	
+	for i in range (1,8):
+		Inic = FECHA_FIJA2 + datetime.timedelta(hours=horaIni.hour) + datetime.timedelta(minutes=horaIni.minute) + datetime.timedelta(seconds=horaIni.second) + datetime.timedelta(days=i)
+		Fin = FECHA_FIJA2 + datetime.timedelta(hours=horaFin.hour) + datetime.timedelta(minutes=horaFin.minute) + datetime.timedelta(seconds=horaFin.second) + datetime.timedelta(days=i)
+		if (Fin == Inic):
+			Fin = FECHA_FIJA2 + datetime.timedelta(days=1)
+		tasa = 0
+		
+		for obj in intervalos:
+			objI = obj[0].replace(tzinfo=None)
+			objF = obj[1].replace(tzinfo=None)
+			if (objI < Inic and objF < Fin and objF > Inic):
+				t_reserva = (objF-Inic).seconds
+				tasa = tasa + t_reserva
+			elif (objI > Inic and objF < Fin and objI < Fin):
+				t_reserva = (objF-objI).seconds
+				tasa = tasa + t_reserva
+			elif (objI > Inic and objF > Fin and objI < Fin):
+				t_reserva = (Fin - objI).seconds
+				tasa = tasa + t_reserva
+			elif (objF >  Fin and objI < Inic):
+				t_reserva = (Fin - Inic).seconds
+				tasa = tasa + t_reserva
+		tasa = tasa*100/cap
+		tasa=("{:.2f}".format(tasa))
+		tasa = Decimal(tasa)
+		tasas.append(tasa)
+	return tasas
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
